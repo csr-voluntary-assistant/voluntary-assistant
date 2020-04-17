@@ -1,21 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Volutnariat.Framework.Identity;
 using Volutnariat.Models;
 
 namespace Volutnariat.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly Data.ApplicationDbContext applicationDbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(Data.ApplicationDbContext applicationDbContext)
         {
-            _logger = logger;
+            this.applicationDbContext = applicationDbContext;
         }
 
         public IActionResult Index()
@@ -25,6 +22,24 @@ namespace Volutnariat.Controllers
 
         public IActionResult Privacy()
         {
+            Identity identity = ControllerContext.GetIdentity();
+
+            Ong ong = new Ong();
+
+            ong.ID = Guid.NewGuid();
+            ong.Name = "Fundatia Comunitara Oradea";
+            ong.CreatedByID = identity.ID;
+            ong.OngStatus = OngStatus.Verified;
+
+
+            Doctor doctor = new Doctor();
+            doctor.OngID = ong.ID;
+
+            applicationDbContext.Ongs.Add(ong);
+            applicationDbContext.Doctors.Add(doctor);
+
+            applicationDbContext.SaveChanges();
+
             return View();
         }
 
