@@ -9,6 +9,7 @@ namespace Voluntariat.Models
         [Key]
         public Guid ID { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         public OngStatus OngStatus { get; set; }

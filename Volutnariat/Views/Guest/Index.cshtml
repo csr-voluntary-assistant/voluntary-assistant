@@ -1,7 +1,18 @@
-﻿
+﻿@using Voluntariat.Controllers
 @{
-    ViewData["Title"] = "Guest Index";
+    ViewData["Title"] = "Welcome";
 }
 
-<h1>Index</h1>
+<h4>You are a guest on this website. To continue, please choose one of the following:</h4>
+<hr />
 
+<span>Register as an Ong, click <a asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsOng)">here</a></span>
+<br />
+
+<span>Register as a Doctor, click <a asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsDoctor)">here</a></span>
+<br />
+
+<span>Register as a Beneficiary, click <a asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsBeneficiary)">here</a></span>
+<br />
+
+<span>Register as a Volunteer, click <a asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsVolunteer)">here</a></span>
