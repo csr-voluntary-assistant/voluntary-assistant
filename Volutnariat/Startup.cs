@@ -31,6 +31,7 @@ namespace Volutnariat
             services.AddControllersWithViews(options =>
             {
                 options.Filters.Add(new Framework.Identity.IdentityAuthorizationFilter());
+                options.Filters.Add(new Framework.GuestActionFilterAttribute());
             });
 
             services.AddRazorPages();

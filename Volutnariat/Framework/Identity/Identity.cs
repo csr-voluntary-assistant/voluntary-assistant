@@ -13,4 +13,14 @@ namespace Volutnariat.Framework.Identity
     {
         public const string IdentityKey = "Voluntariat_IdentityClaim_Key";
     }
+
+    public static class IdentityRole
+    {
+        public const string Admin = "Admin";
+
+
+
+
+        public const string Guest = "Guest";
+    }
 }

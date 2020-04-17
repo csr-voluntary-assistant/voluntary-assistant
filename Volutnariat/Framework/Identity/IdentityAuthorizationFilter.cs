@@ -14,9 +14,9 @@ namespace Volutnariat.Framework.Identity
                 ClaimsIdentity claimsIdentity = context.HttpContext.User.Identity as ClaimsIdentity;
 
                 Claim nameIdentifierClaim = claimsIdentity.Claims.Last(x => x.Type == ClaimTypes.NameIdentifier);
-                //Claim roleClaim = claimsIdentity.Claims.Last(x => x.Type == ClaimTypes.Role);
+                Claim roleClaim = claimsIdentity.Claims.LastOrDefault(x => x.Type == ClaimTypes.Role);
 
-                context.HttpContext.AddIdentity(new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), /*Role = roleClaim.Value */});
+                context.HttpContext.AddIdentity(new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), Role = roleClaim?.Value ?? IdentityRole.Guest });
             }
         }
     }
