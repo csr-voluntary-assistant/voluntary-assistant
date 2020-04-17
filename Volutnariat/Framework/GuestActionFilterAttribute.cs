@@ -13,7 +13,7 @@ namespace Volutnariat.Framework
 
             if (identity != null && identity.Role == IdentityRole.Guest && !(context.Controller is GuestController controller))
             {
-                context.Result = new RedirectToActionResult(nameof(GuestController.Index), nameof(GuestController).Substring(0, nameof(GuestController).Length - 10), null);
+                context.Result = new RedirectToActionResult(nameof(GuestController.Index), nameof(GuestController)[0..^10], null);
             }
         }
     }
