@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Volutnariat.Models;
+using Voluntariat.Models;
 
-namespace Volutnariat.Data
+namespace Voluntariat.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Volutnariat/Volutnariat.csproj", "Volutnariat/"]
-RUN dotnet restore "Volutnariat/Volutnariat.csproj"
+COPY ["Voluntariat/Voluntariat.csproj", "Voluntariat/"]
+RUN dotnet restore "Voluntariat/Voluntariat.csproj"
 COPY . .
-WORKDIR "/src/Volutnariat"
-RUN dotnet build "Volutnariat.csproj" -c Release -o /app/build
+WORKDIR "/src/Voluntariat"
+RUN dotnet build "Voluntariat.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Volutnariat.csproj" -c Release -o /app/publish
+RUN dotnet publish "Voluntariat.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Volutnariat.dll"]
+ENTRYPOINT ["dotnet", "Voluntariat.dll"]

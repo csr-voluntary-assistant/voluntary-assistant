@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace Volutnariat.Areas.Identity.Pages.Account.Manage
+namespace Voluntariat.Areas.Identity.Pages.Account.Manage
 {
     public class PersonalDataModel : PageModel
     {

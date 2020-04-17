@@ -3,9 +3,9 @@ using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
-using Volutnariat.Models;
+using Voluntariat.Models;
 
-namespace Volutnariat.Services
+namespace Voluntariat.Services
 {
     public class EmailSender : IEmailSender
     {

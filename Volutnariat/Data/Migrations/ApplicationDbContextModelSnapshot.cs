@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Volutnariat.Data;
+using Voluntariat.Data;
 
-namespace Volutnariat.Data.Migrations
+namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -219,7 +219,7 @@ namespace Volutnariat.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Volutnariat.Models.Doctor", b =>
+            modelBuilder.Entity("Voluntariat.Models.Doctor", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -235,7 +235,7 @@ namespace Volutnariat.Data.Migrations
                     b.ToTable("Doctors");
                 });
 
-            modelBuilder.Entity("Volutnariat.Models.Ong", b =>
+            modelBuilder.Entity("Voluntariat.Models.Ong", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -255,7 +255,7 @@ namespace Volutnariat.Data.Migrations
                     b.ToTable("Ongs");
                 });
 
-            modelBuilder.Entity("Volutnariat.Models.Volunteer", b =>
+            modelBuilder.Entity("Voluntariat.Models.Volunteer", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
@@ -328,18 +328,18 @@ namespace Volutnariat.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Volutnariat.Models.Doctor", b =>
+            modelBuilder.Entity("Voluntariat.Models.Doctor", b =>
                 {
-                    b.HasOne("Volutnariat.Models.Ong", null)
+                    b.HasOne("Voluntariat.Models.Ong", null)
                         .WithMany("Doctors")
                         .HasForeignKey("OngID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Volutnariat.Models.Volunteer", b =>
+            modelBuilder.Entity("Voluntariat.Models.Volunteer", b =>
                 {
-                    b.HasOne("Volutnariat.Models.Ong", "Ong")
+                    b.HasOne("Voluntariat.Models.Ong", "Ong")
                         .WithMany("Volunteers")
                         .HasForeignKey("OngID")
                         .OnDelete(DeleteBehavior.Cascade)

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Volutnariat.Controllers
+namespace Voluntariat.Controllers
 {
     public class GuestController : Controller
     {

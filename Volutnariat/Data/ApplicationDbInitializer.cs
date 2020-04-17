@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace Volutnariat.Data
+namespace Voluntariat.Data
 {
     public static class ApplicationDbInitializer
     {

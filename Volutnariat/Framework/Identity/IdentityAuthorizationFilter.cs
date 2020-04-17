@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 
-namespace Volutnariat.Framework.Identity
+namespace Voluntariat.Framework.Identity
 {
     public class IdentityAuthorizationFilter : IAuthorizationFilter
     {

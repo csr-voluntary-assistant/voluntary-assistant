@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Volutnariat.Framework.Identity
+namespace Voluntariat.Framework.Identity
 {
     public static class IdentityExtensions
     {

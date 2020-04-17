@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Volutnariat.Framework.Identity
+namespace Voluntariat.Framework.Identity
 {
     public class Identity
     {

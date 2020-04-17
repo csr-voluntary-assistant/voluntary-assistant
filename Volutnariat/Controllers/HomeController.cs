@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
-using Volutnariat.Framework.Identity;
-using Volutnariat.Models;
+using Voluntariat.Framework.Identity;
+using Voluntariat.Models;
 
-namespace Volutnariat.Controllers
+namespace Voluntariat.Controllers
 {
     public class HomeController : Controller
     {

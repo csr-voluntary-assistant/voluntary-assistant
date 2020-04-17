@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Volutnariat.Data.Migrations
+namespace Voluntariat.Data.Migrations
 {
     public partial class CreateIdentitySchema : Migration
     {

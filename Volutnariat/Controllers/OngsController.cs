@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Volutnariat.Data;
-using Volutnariat.Models;
+using Voluntariat.Data;
+using Voluntariat.Models;
 
-namespace Volutnariat.Controllers
+namespace Voluntariat.Controllers
 {
     public class OngsController : Controller
     {

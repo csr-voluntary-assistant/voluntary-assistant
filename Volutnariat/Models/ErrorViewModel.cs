@@ -1,6 +1,6 @@
 using System;
 
-namespace Volutnariat.Models
+namespace Voluntariat.Models
 {
     public class ErrorViewModel
     {

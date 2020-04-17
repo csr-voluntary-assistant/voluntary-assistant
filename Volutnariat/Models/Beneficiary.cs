@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Volutnariat.Models
+namespace Voluntariat.Models
 {
     public class Beneficiary
     {

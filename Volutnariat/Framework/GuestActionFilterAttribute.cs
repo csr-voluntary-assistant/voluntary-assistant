@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Volutnariat.Controllers;
-using Volutnariat.Framework.Identity;
+using Voluntariat.Controllers;
+using Voluntariat.Framework.Identity;
 
-namespace Volutnariat.Framework
+namespace Voluntariat.Framework
 {
     public class GuestActionFilterAttribute : ActionFilterAttribute
     {
