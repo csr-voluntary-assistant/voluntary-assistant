@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using SendGrid;
 using SendGrid.Helpers.Mail;
@@ -9,23 +10,24 @@ namespace Voluntariat.Services
 {
     public class EmailSender : IEmailSender
     {
-        public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor)
+        private readonly string _apiKey;
+        private readonly string _fromName;
+        private readonly string _fromEmail;
+
+        public EmailSender(IConfiguration configuration)
         {
-            Options = optionsAccessor.Value;
+            _apiKey = configuration["SendGridApiKey"];
+            _fromName = configuration["FromName"];
+            _fromEmail = configuration["FromEmail"];
         }
 
         public AuthMessageSenderOptions Options { get; }
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public async Task SendEmailAsync(string email, string subject, string message)
         {
-            return Execute(Options.SendGridKey, subject, htmlMessage, email);
-        }
-
-        public Task Execute(string apiKey, string subject, string message, string email)
-        {
-            var client = new SendGridClient(apiKey);
+            var client = new SendGridClient(_apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("Joe@contoso.com", "Joe Smith"),
+                From = new EmailAddress(_fromEmail, _fromName),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message
@@ -36,7 +38,7 @@ namespace Voluntariat.Services
             // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
             msg.SetClickTracking(false, false);
 
-            return client.SendEmailAsync(msg);
+            await client.SendEmailAsync(msg);
         }
     }
 }
