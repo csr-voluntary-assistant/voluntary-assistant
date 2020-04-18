@@ -47,7 +47,7 @@ namespace Voluntariat.Controllers
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind(nameof(RegisterVolunteerModel.Email))] RegisterVolunteerModel registerVolunteerModel)
@@ -56,15 +56,24 @@ namespace Voluntariat.Controllers
             {
                 IdentityUser identityUser = await userManager.FindByEmailAsync(registerVolunteerModel.Email);
 
-                if (identityUser == null)
+                if (identityUser == null || (await applicationDbContext.Volunteers.FindAsync(Guid.Parse(identityUser.Id))) == null)
                 {
                     Identity identity = ControllerContext.GetIdentity();
 
-                    identityUser = new IdentityUser { UserName = registerVolunteerModel.Email, Email = registerVolunteerModel.Email, EmailConfirmed = true };
+                    if (identityUser == null)
+                    {
+                        identityUser = new IdentityUser { UserName = registerVolunteerModel.Email, Email = registerVolunteerModel.Email, EmailConfirmed = true };
 
-                    await userManager.CreateAsync(identityUser, "Test.123");
+                        await userManager.CreateAsync(identityUser, "Test.123");
 
-                    await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+                    }
+                    else
+                    {
+                        await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
+
+                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+                    }
 
                     Volunteer volunteer = new Volunteer();
                     volunteer.ID = Guid.Parse(identityUser.Id);
@@ -88,7 +97,46 @@ namespace Voluntariat.Controllers
             return View(await applicationDbContext.Orders.ToListAsync());
         }
 
+        public async Task<IActionResult> Delete(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            Volunteer volunteer = await applicationDbContext.Volunteers.FirstOrDefaultAsync(m => m.ID == id);
+            volunteer.Name = (await applicationDbContext.Users.FindAsync(volunteer.ID.ToString())).Email;
+
+            return View(volunteer);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
+        {
+            Identity identity = ControllerContext.GetIdentity();
+
+            Volunteer volunteer = await applicationDbContext.Volunteers.FindAsync(id);
+
+            if (identity.ID == id)
+            {
+                ModelState.AddModelError(nameof(Volunteer.ID), "Can't delete yourself");
+
+                return View(volunteer);
+            }
+
+            IdentityUser identityUser = await applicationDbContext.Users.FindAsync(volunteer.ID.ToString());
+
+            await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+
+            await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
+
+            applicationDbContext.Volunteers.Remove(volunteer);
+
+            await applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
 
 
@@ -113,7 +161,7 @@ namespace Voluntariat.Controllers
             return View(volunteer);
         }
 
-        
+
 
         // GET: Volunteers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -166,34 +214,7 @@ namespace Voluntariat.Controllers
             return View(volunteer);
         }
 
-        // GET: Volunteers/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var volunteer = await applicationDbContext.Volunteers
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (volunteer == null)
-            {
-                return NotFound();
-            }
-
-            return View(volunteer);
-        }
-
-        // POST: Volunteers/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            var volunteer = await applicationDbContext.Volunteers.FindAsync(id);
-            applicationDbContext.Volunteers.Remove(volunteer);
-            await applicationDbContext.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
 
         private bool VolunteerExists(Guid id)
         {
