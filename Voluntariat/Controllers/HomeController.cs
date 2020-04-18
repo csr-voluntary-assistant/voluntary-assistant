@@ -28,7 +28,7 @@ namespace Voluntariat.Controllers
 
             ong.ID = Guid.NewGuid();
             ong.Name = "Fundatia Comunitara Oradea";
-            ong.CreatedByID = identity.ID;
+            ong.CreatedByID = Guid.NewGuid();
             ong.OngStatus = OngStatus.Verified;
 
 
