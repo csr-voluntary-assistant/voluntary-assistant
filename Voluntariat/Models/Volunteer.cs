@@ -1,5 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Voluntariat.Models
 {
@@ -13,5 +15,10 @@ namespace Voluntariat.Models
         public double Longitude { get; set; }
 
         public Guid OngID { get; set; }
+
+
+        [NotMapped]
+        [DisplayName("Nume voluntar")]
+        public string Name { get; set; }
     }
 }

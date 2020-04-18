@@ -7,6 +7,10 @@ namespace Voluntariat.Framework.Identity
         public Guid ID { get; set; }
 
         public string Role { get; set; }
+
+        public Guid OngID { get; set; }
+
+        public string OngName { get; set; }
     }
 
     public static class IdentityConstants

@@ -7,6 +7,13 @@ namespace Voluntariat.Framework.Identity
 {
     public class IdentityAuthorizationFilter : IAuthorizationFilter
     {
+        private readonly Data.ApplicationDbContext applicationDbContext;
+
+        public IdentityAuthorizationFilter(Data.ApplicationDbContext applicationDbContext)
+        {
+            this.applicationDbContext = applicationDbContext;
+        }
+
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             if (context.HttpContext.User.Identity.IsAuthenticated)
@@ -16,7 +23,23 @@ namespace Voluntariat.Framework.Identity
                 Claim nameIdentifierClaim = claimsIdentity.Claims.Last(x => x.Type == ClaimTypes.NameIdentifier);
                 Claim roleClaim = claimsIdentity.Claims.LastOrDefault(x => x.Type == ClaimTypes.Role);
 
-                context.HttpContext.AddIdentity(new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), Role = roleClaim?.Value ?? IdentityRole.Guest });
+                Identity identity = new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), Role = roleClaim?.Value ?? IdentityRole.Guest };
+
+                ApplyVolunteerData(identity);
+
+                context.HttpContext.AddIdentity(identity);
+            }
+        }
+
+        private void ApplyVolunteerData(Identity identity)
+        {
+            if (identity.Role == IdentityRole.Volunteer)
+            {
+                Models.Volunteer volunteer = applicationDbContext.Volunteers.Find(identity.ID);
+                Models.Ong ong = applicationDbContext.Ongs.Find(volunteer.OngID);
+
+                identity.OngID = volunteer.OngID;
+                identity.OngName = ong.Name;
             }
         }
     }

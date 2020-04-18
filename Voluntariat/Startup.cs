@@ -30,8 +30,10 @@ namespace Voluntariat
 
             services.AddControllersWithViews(options =>
             {
-                options.Filters.Add(new Framework.Identity.IdentityAuthorizationFilter());
-                options.Filters.Add(new Framework.GuestActionFilterAttribute());
+                options.Filters.Add<Framework.Identity.IdentityAuthorizationFilter>();
+
+                options.Filters.Add<Framework.GuestActionFilterAttribute>();
+                options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
             });
 
             services.AddRazorPages();
