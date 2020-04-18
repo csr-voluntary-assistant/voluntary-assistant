@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Voluntariat.Models
 {
@@ -17,9 +17,9 @@ namespace Voluntariat.Models
         public Guid CreatedByID { get; set; }
 
 
-        public virtual List<Volunteer> Volunteers { get; set; }
 
-        public virtual List<Doctor> Doctors { get; set; }
+        [NotMapped]
+        public string CreatedByName { get; set; }
     }
 
 

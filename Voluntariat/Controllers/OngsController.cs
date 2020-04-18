@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Voluntariat.Data;
@@ -21,53 +22,19 @@ namespace Voluntariat.Controllers
             this.userManager = userManager;
         }
 
-        // GET: Ongs
         public async Task<IActionResult> Index()
         {
-            return View(await applicationDbContext.Ongs.ToListAsync());
-        }
+            List<Ong> ongs = await applicationDbContext.Ongs.ToListAsync();
 
-        // GET: Ongs/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
+            foreach (Ong ong in ongs)
             {
-                return NotFound();
+                ong.CreatedByName = applicationDbContext.Users.Find(ong.CreatedByID.ToString()).Email;
             }
 
-            Ong ong = await applicationDbContext.Ongs.FirstOrDefaultAsync(m => m.ID == id);
-            if (ong == null)
-            {
-                return NotFound();
-            }
-
-            return View(ong);
+            return View(ongs);
         }
 
-        // GET: Ongs/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Ongs/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind(nameof(Ong.ID), nameof(Ong.Name), nameof(Ong.OngStatus), nameof(Ong.CreatedByID))] Ong ong)
-        {
-            if (ModelState.IsValid)
-            {
-                ong.ID = Guid.NewGuid();
-                applicationDbContext.Add(ong);
-                await applicationDbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(ong);
-        }
-
-        // GET: Ongs/Edit/5
+        [HttpGet]
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
