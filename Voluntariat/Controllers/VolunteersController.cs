@@ -42,37 +42,12 @@ namespace Voluntariat.Controllers
             return View(volunteers);
         }
 
-
-
-
-
-        // GET: Volunteers/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var volunteer = await applicationDbContext.Volunteers
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (volunteer == null)
-            {
-                return NotFound();
-            }
-
-            return View(volunteer);
-        }
-
-        // GET: Volunteers/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Volunteers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind(nameof(RegisterVolunteerModel.Email))] RegisterVolunteerModel registerVolunteerModel)
@@ -107,6 +82,38 @@ namespace Voluntariat.Controllers
 
             return View(registerVolunteerModel);
         }
+
+        public async Task<IActionResult> Orders()
+        {
+            return View(await applicationDbContext.Orders.ToListAsync());
+        }
+
+
+
+
+
+
+
+
+        // GET: Volunteers/Details/5
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var volunteer = await applicationDbContext.Volunteers
+                .FirstOrDefaultAsync(m => m.ID == id);
+            if (volunteer == null)
+            {
+                return NotFound();
+            }
+
+            return View(volunteer);
+        }
+
+        
 
         // GET: Volunteers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
