@@ -4,32 +4,39 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
+<h1>Details</h1>
 
-<h4>Ong</h4>
-<hr />
+<div>
+    <h4>Ong</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OngStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OngStatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedByID)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByID)
+        </dd>
+    </dl>
+</div>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="ID" />
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OngStatus" class="control-label"></label>
-                <select asp-for="OngStatus" class="form-control"></select>
-                <span asp-validation-for="OngStatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CreatedByID" class="control-label"></label>
-                <input asp-for="CreatedByID" class="form-control" />
-                <span asp-validation-for="CreatedByID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Verify" class="btn btn-primary" />
             </div>
         </form>
     </div>
@@ -38,4 +45,3 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-

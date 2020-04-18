@@ -9,8 +9,5 @@ namespace Voluntariat.Models
         public Guid ID { get; set; }
 
         public Guid OngID { get; set; }
-
-
-        public virtual Ong Ong { get; set; }
     }
 }
