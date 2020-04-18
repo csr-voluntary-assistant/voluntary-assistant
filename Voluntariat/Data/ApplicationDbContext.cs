@@ -13,6 +13,7 @@ namespace Voluntariat.Data
 
         public DbSet<Doctor> Doctors { get; set; }
 
+        public DbSet<Order> Orders { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
