@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,12 @@ namespace Voluntariat.Controllers
     {
         private readonly ApplicationDbContext applicationDbContext;
 
-        public VolunteersController(ApplicationDbContext applicationDbContext)
+        private readonly UserManager<IdentityUser> userManager;
+
+        public VolunteersController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
+            this.userManager = userManager;
         }
 
         public IActionResult Index()
@@ -71,16 +75,37 @@ namespace Voluntariat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Latitude,Longitude,OngID")] Volunteer volunteer)
+        public async Task<IActionResult> Create([Bind(nameof(RegisterVolunteerModel.Email))] RegisterVolunteerModel registerVolunteerModel)
         {
             if (ModelState.IsValid)
             {
-                volunteer.ID = Guid.NewGuid();
-                applicationDbContext.Add(volunteer);
-                await applicationDbContext.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                IdentityUser identityUser = await userManager.FindByEmailAsync(registerVolunteerModel.Email);
+
+                if (identityUser == null)
+                {
+                    Identity identity = ControllerContext.GetIdentity();
+
+                    identityUser = new IdentityUser { UserName = registerVolunteerModel.Email, Email = registerVolunteerModel.Email, EmailConfirmed = true };
+
+                    await userManager.CreateAsync(identityUser, "Test.123");
+
+                    await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+
+                    Volunteer volunteer = new Volunteer();
+                    volunteer.ID = Guid.Parse(identityUser.Id);
+                    volunteer.OngID = identity.OngID;
+
+                    applicationDbContext.Volunteers.Add(volunteer);
+
+                    await applicationDbContext.SaveChangesAsync();
+
+                    return RedirectToAction(nameof(Volunteers));
+                }
+
+                ModelState.AddModelError(nameof(RegisterVolunteerModel.Email), "Email duplicat");
             }
-            return View(volunteer);
+
+            return View(registerVolunteerModel);
         }
 
         // GET: Volunteers/Edit/5
