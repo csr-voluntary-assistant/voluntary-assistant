@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -10,17 +11,20 @@ namespace Voluntariat.Controllers
 {
     public class OngsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public OngsController(ApplicationDbContext context)
+        private readonly UserManager<IdentityUser> userManager;
+
+        public OngsController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
         {
-            _context = context;
+            this.applicationDbContext = applicationDbContext;
+            this.userManager = userManager;
         }
 
         // GET: Ongs
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Ongs.ToListAsync());
+            return View(await applicationDbContext.Ongs.ToListAsync());
         }
 
         // GET: Ongs/Details/5
@@ -31,8 +35,7 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            var ong = await _context.Ongs
-                .FirstOrDefaultAsync(m => m.ID == id);
+            Ong ong = await applicationDbContext.Ongs.FirstOrDefaultAsync(m => m.ID == id);
             if (ong == null)
             {
                 return NotFound();
@@ -57,8 +60,8 @@ namespace Voluntariat.Controllers
             if (ModelState.IsValid)
             {
                 ong.ID = Guid.NewGuid();
-                _context.Add(ong);
-                await _context.SaveChangesAsync();
+                applicationDbContext.Add(ong);
+                await applicationDbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(ong);
@@ -72,7 +75,7 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            var ong = await _context.Ongs.FindAsync(id);
+            Ong ong = await applicationDbContext.Ongs.FindAsync(id);
             if (ong == null)
             {
                 return NotFound();
@@ -85,34 +88,27 @@ namespace Voluntariat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind(nameof(Ong.ID), nameof(Ong.Name), nameof(Ong.OngStatus), nameof(Ong.CreatedByID))] Ong ong)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            if (id != ong.ID)
-            {
-                return NotFound();
-            }
+            Ong ong = applicationDbContext.Ongs.Find(id);
+            ong.OngStatus = OngStatus.Verified;
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(ong);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OngExists(ong.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(ong);
+            IdentityUser user = await userManager.FindByIdAsync(ong.CreatedByID.ToString());
+
+            await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
+
+            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.Volunteer);
+
+            Volunteer volunteer = new Volunteer();
+            volunteer.ID = ong.CreatedByID;
+            volunteer.OngID = ong.ID;
+
+
+            applicationDbContext.Volunteers.Add(volunteer);
+
+            await applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Ongs/Delete/5
@@ -123,8 +119,7 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            var ong = await _context.Ongs
-                .FirstOrDefaultAsync(m => m.ID == id);
+            Ong ong = await applicationDbContext.Ongs.FirstOrDefaultAsync(m => m.ID == id);
             if (ong == null)
             {
                 return NotFound();
@@ -138,15 +133,15 @@ namespace Voluntariat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var ong = await _context.Ongs.FindAsync(id);
-            _context.Ongs.Remove(ong);
-            await _context.SaveChangesAsync();
+            var ong = await applicationDbContext.Ongs.FindAsync(id);
+            applicationDbContext.Ongs.Remove(ong);
+            await applicationDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool OngExists(Guid id)
         {
-            return _context.Ongs.Any(e => e.ID == id);
+            return applicationDbContext.Ongs.Any(e => e.ID == id);
         }
     }
 }
