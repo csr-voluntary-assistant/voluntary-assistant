@@ -19,7 +19,12 @@ namespace Voluntariat.Controllers
             this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Volunteers()
         {
             Identity identity = ControllerContext.GetIdentity();
 
@@ -32,6 +37,10 @@ namespace Voluntariat.Controllers
 
             return View(volunteers);
         }
+
+
+
+
 
         // GET: Volunteers/Details/5
         public async Task<IActionResult> Details(Guid? id)
