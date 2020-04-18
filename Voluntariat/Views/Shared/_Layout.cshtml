@@ -68,6 +68,17 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsVolunteer)">Volunteer</a>
                             </li>
                         }
+
+                        @if (identity?.Role == IdentityRole.Volunteer)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Index)">Home</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Volunteers)">Voluntari</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
