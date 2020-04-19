@@ -26,14 +26,11 @@ namespace Voluntariat
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddSingleton<IEmailSender, EmailSender>();
-            var requireConfirmedAccount = bool.Parse(Configuration["RequireConfirmedAccount"]);
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = requireConfirmedAccount)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = bool.Parse(Configuration["RequireConfirmedAccount"]))
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-
 
             services.AddControllersWithViews(options =>
             {
@@ -41,9 +38,12 @@ namespace Voluntariat
 
                 options.Filters.Add<Framework.GuestActionFilterAttribute>();
                 options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
+                options.Filters.Add<Framework.DoctorActionFilterAttribute>();
             });
 
             services.AddRazorPages();
+
+            services.AddSingleton<IEmailSender, EmailSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

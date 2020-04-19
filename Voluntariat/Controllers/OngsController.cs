@@ -24,7 +24,7 @@ namespace Voluntariat.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<Ong> ongs = await applicationDbContext.Ongs.ToListAsync();
+            List<Ong> ongs = await applicationDbContext.Ongs.OrderBy(x => x.OngStatus).ToListAsync();
 
             foreach (Ong ong in ongs)
             {
