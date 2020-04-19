@@ -4,11 +4,9 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h3>Lista Ong-uri inregistrare sau in curs de inregistrare in platforma</h3>
+<br />
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -19,7 +17,7 @@
                 @Html.DisplayNameFor(model => model.OngStatus)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CreatedByID)
+                @Html.DisplayNameFor(model => model.CreatedByName)
             </th>
             <th></th>
         </tr>
