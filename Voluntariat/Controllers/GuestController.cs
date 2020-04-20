@@ -59,15 +59,15 @@ namespace Voluntariat.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterAsDoctor()
+        public IActionResult RegisterAsBeneficiary()
         {
             Identity identity = ControllerContext.GetIdentity();
 
-            Doctor doctor = applicationDbContext.Doctors.FirstOrDefault(x => x.Status == DoctorStatus.PendingVerification && x.ID == identity.ID);
+            Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.Status == BeneficiaryStatus.PendingVerification && x.ID == identity.ID);
 
-            if (doctor != null)
+            if (beneficiary != null)
             {
-                ViewBag.Doctor = doctor;
+                ViewBag.Beneficiary = beneficiary;
 
                 return View(null);
             }
@@ -78,31 +78,26 @@ namespace Voluntariat.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsDoctor(Guid id)
+        public async Task<IActionResult> RegisterAsBeneficiary(Guid id)
         {
             Identity identity = ControllerContext.GetIdentity();
 
-            Doctor doctor = new Doctor();
-            doctor.ID = identity.ID;
-            doctor.OngID = identity.OngID;
-            doctor.Status = DoctorStatus.PendingVerification;
+            Beneficiary beneficiary = new Beneficiary();
+            beneficiary.ID = identity.ID;
+            beneficiary.OngID = identity.OngID;
+            beneficiary.Status = BeneficiaryStatus.PendingVerification;
 
             IdentityUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());
 
             await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
 
-            await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Doctor);
+            await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Beneficiary);
 
-            applicationDbContext.Doctors.Add(doctor);
+            applicationDbContext.Beneficiaries.Add(beneficiary);
 
             await applicationDbContext.SaveChangesAsync();
 
-            return RedirectToAction(nameof(RegisterAsDoctor));
-        }
-
-        public IActionResult RegisterAsBeneficiary()
-        {
-            return View();
+            return RedirectToAction(nameof(RegisterAsBeneficiary));
         }
 
         public IActionResult RegisterAsVolunteer()

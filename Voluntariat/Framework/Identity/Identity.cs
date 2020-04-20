@@ -24,8 +24,6 @@ namespace Voluntariat.Framework.Identity
 
         public const string Volunteer = "Volunteer";
 
-        public const string Doctor = "Doctor";
-
         public const string Beneficiary = "Beneficiary";
 
         public const string Guest = "Guest";

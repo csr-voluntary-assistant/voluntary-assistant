@@ -10,8 +10,6 @@ namespace Voluntariat.Models
 
         public Guid OngID { get; set; }
 
-        public Guid DoctorID { get; set; }
-
         public Guid BeneficiaryID { get; set; }
 
         public string Description { get; set; }
@@ -21,17 +19,12 @@ namespace Voluntariat.Models
 
         public Guid? VolunteerID { get; set; }
 
-        public Guid? CaretakerID { get; set; }
-
 
         public DateTime CreationDate { get; set; }
 
         public DateTime? CompletionDate { get; set; }
 
 
-
-        [NotMapped]
-        public string DoctorName { get; set; }
 
         [NotMapped]
         [DisplayName("Beneficiar")]
@@ -44,10 +37,6 @@ namespace Voluntariat.Models
         [NotMapped]
         [DisplayName("Voluntar")]
         public string VolunteerName { get; set; }
-
-        [NotMapped]
-        [DisplayName("Ingrijitor")]
-        public string CaretakerName { get; set; }
     }
 
 

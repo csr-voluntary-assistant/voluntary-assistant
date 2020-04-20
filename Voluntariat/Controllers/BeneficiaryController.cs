@@ -2,7 +2,7 @@
 
 namespace Voluntariat.Controllers
 {
-    public class DoctorController : Controller
+    public class BeneficiaryController : Controller
     {
         public IActionResult Index()
         {
