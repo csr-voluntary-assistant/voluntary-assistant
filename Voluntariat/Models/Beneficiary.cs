@@ -3,17 +3,17 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Voluntariat.Models
 {
-    public class Doctor
+    public class Beneficiary
     {
         [Key]
         public Guid ID { get; set; }
 
         public Guid OngID { get; set; }
 
-        public DoctorStatus Status { get; set; }
+        public BeneficiaryStatus Status { get; set; }
     }
 
-    public enum DoctorStatus
+    public enum BeneficiaryStatus
     {
         PendingVerification = 0,
         Verified = 1

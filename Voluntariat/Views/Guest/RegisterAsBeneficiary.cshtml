@@ -1,7 +1,60 @@
-﻿
+﻿@using Voluntariat.Controllers
+
+@model IEnumerable<Voluntariat.Models.Ong>
+
 @{
     ViewData["Title"] = "Register as a Beneficiary";
 }
 
-<h4>Register as a Beneficiary</h4>
-<hr />
+<h1>Register as a Beneficiary</h1>
+
+@if (ViewBag.Beneficiary == null)
+{
+    <h4>As a beneficiary you need to register in an ONG. Pick one from the list.</h4>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        <form asp-action="@nameof(GuestController.RegisterAsBeneficiary)">
+                            <input type="hidden" name="ID" value="@item.ID" />
+                            <button type="submit">Apply</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div>
+        <h4>Te-ai inregistrat! Urmeaza ca un admin sa te confirme!</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                <span>Status:</span>
+            </dt>
+            <dd class="col-sm-10">
+                <span>@ViewBag.Doctor.Status</span>
+            </dd>
+        </dl>
+    </div>
+}
+
+<div>
+    <a asp-action="@nameof(GuestController.Index)">Back to List</a>
+</div>
