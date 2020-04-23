@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using Voluntariat.Data;
 using Voluntariat.Services;
 
@@ -43,7 +44,12 @@ namespace Voluntariat
 
             services.AddRazorPages();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<IEmailSender, EmailSender>();            
+            services.AddHttpClient<TwilioVerifyClient>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.authy.com/");
+                client.DefaultRequestHeaders.Add("X-Authy-API-Key", Configuration["Twillio:Authy:ApiKey"]);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
