@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Twilio.Rest.Verify.V2.Service;
-using Voluntariat.Models;
 using Voluntariat.Services;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
@@ -17,15 +12,16 @@ namespace Voluntariat.Areas.Identity.Pages.Account
     [Authorize]
     public class ConfirmPhoneModel : PageModel
     {
-        private readonly TwilioVerifySettings _settings;
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly TwilioVerifyClient twilioVerifyClient;
 
-        public ConfirmPhoneModel(UserManager<IdentityUser> userManager, IOptions<TwilioVerifySettings> settings)
+        public ConfirmPhoneModel(UserManager<IdentityUser> userManager, TwilioVerifyClient twilioVerifyClient)
         {
             _userManager = userManager;
-            _settings = settings.Value;
+            this.twilioVerifyClient = twilioVerifyClient;
         }
 
+        public int CountryCode { get; set; }
         public string PhoneNumber { get; set; }
 
         [BindProperty, Required, Display(Name = "Code")]
@@ -48,12 +44,9 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             try
             {
-                var verification = await VerificationCheckResource.CreateAsync(
-                    to: PhoneNumber,
-                    code: VerificationCode,
-                    pathServiceSid: _settings.VerificationServiceSID
-                );
-                if (verification.Status == "approved")
+                var response = await twilioVerifyClient.CheckVerificationCode(CountryCode, PhoneNumber, VerificationCode);
+                
+                if (response.Success)
                 {
                     var identityUser = await _userManager.GetUserAsync(User);
                     identityUser.PhoneNumberConfirmed = true;
@@ -70,7 +63,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError("", $"There was an error confirming the verification code: {verification.Status}");
+                    ModelState.AddModelError("", $"There was an error confirming the verification code: {response.Message}");
                 }
             }
             catch (Exception)
@@ -89,7 +82,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             {
                 throw new Exception($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            PhoneNumber = user.PhoneNumber;
+
+            var phone = user.PhoneNumber.Split(";");
+            PhoneNumber = phone[1];
+            CountryCode = int.Parse(phone[0]);
         }
     }
 }
