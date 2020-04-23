@@ -9,5 +9,13 @@ namespace Voluntariat.Models
         public Guid ID { get; set; }
 
         public Guid OngID { get; set; }
+
+        public BeneficiaryStatus Status { get; set; }
+    }
+
+    public enum BeneficiaryStatus
+    {
+        PendingVerification = 0,
+        Verified = 1
     }
 }
