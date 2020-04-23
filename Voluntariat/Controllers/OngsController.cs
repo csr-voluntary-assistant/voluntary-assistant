@@ -14,9 +14,9 @@ namespace Voluntariat.Controllers
     {
         private readonly ApplicationDbContext applicationDbContext;
 
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public OngsController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
+        public OngsController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
@@ -60,7 +60,7 @@ namespace Voluntariat.Controllers
             Ong ong = applicationDbContext.Ongs.Find(id);
             ong.OngStatus = OngStatus.Verified;
 
-            IdentityUser user = await userManager.FindByIdAsync(ong.CreatedByID.ToString());
+            ApplicationUser user = await userManager.FindByIdAsync(ong.CreatedByID.ToString());
 
             await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
 

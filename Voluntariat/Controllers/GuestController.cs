@@ -13,9 +13,9 @@ namespace Voluntariat.Controllers
     {
         private readonly Data.ApplicationDbContext applicationDbContext;
 
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public GuestController(Data.ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
+        public GuestController(Data.ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
@@ -87,7 +87,7 @@ namespace Voluntariat.Controllers
             beneficiary.OngID = identity.OngID;
             beneficiary.Status = BeneficiaryStatus.PendingVerification;
 
-            IdentityUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());
+            ApplicationUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());
 
             await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
 

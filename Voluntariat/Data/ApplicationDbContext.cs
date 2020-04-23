@@ -5,7 +5,7 @@ using Voluntariat.Models;
 
 namespace Voluntariat.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Ong> Ongs { get; set; }
 

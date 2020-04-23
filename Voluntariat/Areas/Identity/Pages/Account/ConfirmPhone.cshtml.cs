@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Voluntariat.Models;
 using Voluntariat.Services;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
@@ -12,10 +13,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
     [Authorize]
     public class ConfirmPhoneModel : PageModel
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly TwilioVerifyClient twilioVerifyClient;
 
-        public ConfirmPhoneModel(UserManager<IdentityUser> userManager, TwilioVerifyClient twilioVerifyClient)
+        public ConfirmPhoneModel(UserManager<ApplicationUser> userManager, TwilioVerifyClient twilioVerifyClient)
         {
             _userManager = userManager;
             this.twilioVerifyClient = twilioVerifyClient;

@@ -15,9 +15,9 @@ namespace Voluntariat.Controllers
     {
         private readonly ApplicationDbContext applicationDbContext;
 
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
-        public VolunteersController(ApplicationDbContext applicationDbContext, UserManager<IdentityUser> userManager)
+        public VolunteersController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
@@ -54,7 +54,7 @@ namespace Voluntariat.Controllers
         {
             if (ModelState.IsValid)
             {
-                IdentityUser identityUser = await userManager.FindByEmailAsync(registerVolunteerModel.Email);
+                ApplicationUser identityUser = await userManager.FindByEmailAsync(registerVolunteerModel.Email);
 
                 if (identityUser == null || (await applicationDbContext.Volunteers.FindAsync(Guid.Parse(identityUser.Id))) == null)
                 {
@@ -62,7 +62,7 @@ namespace Voluntariat.Controllers
 
                     if (identityUser == null)
                     {
-                        identityUser = new IdentityUser { UserName = registerVolunteerModel.Email, Email = registerVolunteerModel.Email, EmailConfirmed = true };
+                        identityUser = new ApplicationUser { UserName = registerVolunteerModel.Email, Email = registerVolunteerModel.Email, EmailConfirmed = true };
 
                         await userManager.CreateAsync(identityUser, "Test.123");
 
@@ -125,7 +125,7 @@ namespace Voluntariat.Controllers
                 return View(volunteer);
             }
 
-            IdentityUser identityUser = await applicationDbContext.Users.FindAsync(volunteer.ID.ToString());
+            ApplicationUser identityUser = await applicationDbContext.Users.FindAsync(volunteer.ID.ToString());
 
             await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
 
