@@ -22,7 +22,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             this.twilioVerifyClient = twilioVerifyClient;
         }
 
-        public int CountryCode { get; set; }
+        public int DialingCode { get; set; }
         public string PhoneNumber { get; set; }
 
         [BindProperty, Required, Display(Name = "Code")]
@@ -45,7 +45,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             try
             {
-                var response = await twilioVerifyClient.CheckVerificationCode(CountryCode, PhoneNumber, VerificationCode);
+                var response = await twilioVerifyClient.CheckVerificationCode(DialingCode, PhoneNumber, VerificationCode);
                 
                 if (response.Success)
                 {
@@ -84,9 +84,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                 throw new Exception($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
-            var phone = user.PhoneNumber.Split(";");
-            PhoneNumber = phone[1];
-            CountryCode = int.Parse(phone[0]);
+            PhoneNumber = user.PhoneNumber;
+            DialingCode = user.DialingCode;
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         }
 
         public string PhoneNumber { get; set; }
-        public int CountryCode { get; private set; }
+        public int DialingCode { get; private set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -36,7 +36,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             try
             {
-                var response = await verifyClient.StartVerification(CountryCode, PhoneNumber);                
+                var response = await verifyClient.StartVerification(DialingCode, PhoneNumber);                
 
                 if (response.Success)
                 {
@@ -61,10 +61,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             {
                 throw new Exception($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            var phone = user.PhoneNumber.Split(";");
-            PhoneNumber = phone[1];
-            CountryCode = int.Parse(phone[0]);
-            
+            PhoneNumber = user.PhoneNumber;
+            DialingCode = user.DialingCode;            
         }
     }
 }
