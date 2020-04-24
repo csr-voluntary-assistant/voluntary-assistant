@@ -12,8 +12,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            @Html.HiddenFor(model => model.RegistrationRole)
-            <input asp-for="Input.RegistrationRole" type="hidden" >@Model.RegistrationRole</input>
+            <input asp-for="Input.RegistrationRole" type="hidden" value="@Model.RegistrationRole" />
 
             <h4>Create a new account.</h4>
             <hr />
