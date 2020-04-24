@@ -99,7 +99,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, DialingCode = Input.DialingCode, Address = Input.Address, Longitude = Input.Longitude, Latitude = Input.Latitude };
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, DialingCode = Input.DialingCode, Address = Input.Address, Longitude = Input.Longitude, Latitude = Input.Latitude, RegistrationRole = (RegistrationRole)Input.RegistrationRole };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
