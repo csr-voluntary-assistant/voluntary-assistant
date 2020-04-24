@@ -10,12 +10,9 @@ namespace Voluntariat.Models
         [Key]
         public Guid ID { get; set; }
 
-        public double Latitude { get; set; }
-
-        public double Longitude { get; set; }
-
         public Guid OngID { get; set; }
 
+        public int? RangeInMeters { get; set; }
 
         [NotMapped]
         [DisplayName("Nume voluntar")]

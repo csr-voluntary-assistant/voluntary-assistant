@@ -42,6 +42,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
+        public int RegistrationRole { get; set; }
+
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         public class InputModel
@@ -80,11 +82,14 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             [HiddenInput]
             public double Latitude { get; set; } = 0;
+
+            public int RegistrationRole { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(RegistrationRole registrationRole, string returnUrl = null)
         {
             ReturnUrl = returnUrl;
+            RegistrationRole = (int)registrationRole;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 

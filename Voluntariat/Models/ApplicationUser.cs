@@ -19,5 +19,13 @@ namespace Voluntariat.Models
 
         [PersonalData]
         public string Address { get; set; }
+
+        public RegistrationRole RegistrationRole { get; set; }
+    }
+
+    public enum RegistrationRole
+    {
+        NGOAdmin = 1,
+        Volunteer = 2
     }
 }
