@@ -9,6 +9,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
@@ -53,6 +54,22 @@
             </div>
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
+
+        <form method="post" enctype="multipart/form-data">
+            <br>
+            <div class="upload-border">
+                <input class="col-md-9" type="file" name="files" multiple />
+                <button type="submit" class="btn btn-primary" asp-page-handler="Upload">Upload</button>
+            </div>
+        </form>
+
+        @if (ViewBag.Message != null)
+        {
+            <div class="alert alert-success" style="margin-top:20px">
+                @ViewBag.Message
+            </div>
+        }
+
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
@@ -101,6 +118,12 @@
         });
     });
 </script>
+
+<style>
+    .upload-border {
+        border: solid 1px #005cbf;
+    }
+</style>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
