@@ -149,7 +149,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account.Manage
         {
             return string.Format(
                 AuthenticatorUriFormat,
-                _urlEncoder.Encode("Voluntariat"),
+                _urlEncoder.Encode("Volunteero"),
                 _urlEncoder.Encode(email),
                 unformattedKey);
         }
