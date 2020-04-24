@@ -1,18 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Text.Encodings.Web;
+using System.Threading.Tasks;
 using Voluntariat.Models;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
@@ -45,6 +46,9 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         public int RegistrationRole { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
+
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public class InputModel
         {
@@ -134,6 +138,30 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        {
+            long size = files.Sum(f => f.Length);
+            List<string> filePaths = new List<string>();
+
+            foreach (var formFile in files)
+            {
+                if (formFile.Length > 0)
+                {
+                    var filePath = Path.GetTempFileName();
+                    filePaths.Add(filePath);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await formFile.CopyToAsync(stream);
+                    }
+                }
+            }
+
+            StatusMessage = "Files successfully uploaded";
+
+            return RedirectToPage();
         }
     }
 }
