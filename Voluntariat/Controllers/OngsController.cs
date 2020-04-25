@@ -64,12 +64,11 @@ namespace Voluntariat.Controllers
 
             await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
 
-            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.Volunteer);
+            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.NGOAdmin);
 
             Volunteer volunteer = new Volunteer();
             volunteer.ID = ong.CreatedByID;
             volunteer.OngID = ong.ID;
-
 
             applicationDbContext.Volunteers.Add(volunteer);
 

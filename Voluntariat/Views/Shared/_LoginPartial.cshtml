@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Voluntariat.Models
+@using Voluntariat.Areas.Identity.Pages.Account
+
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
@@ -21,10 +23,10 @@
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-registrationRole="@RegistrationRole.NGOAdmin">Register as NGO</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-registerAs="@nameof(RegisterAs.NGO)">Register as NGO</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-registrationRole="@RegistrationRole.Volunteer">Register as Volunteer</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register" asp-route-registerAs="@nameof(RegisterAs.Volunteer)">Register as Volunteer</a>
         </li>
 
         <li class="nav-item">

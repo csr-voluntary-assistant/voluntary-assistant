@@ -20,7 +20,9 @@ namespace Voluntariat.Framework.Identity
 
     public static class IdentityRole
     {
-        public const string Admin = "Admin";
+        public const string Admin = "Admin"; // TODO - Security - Rename to PlatformAdmin
+
+        public const string NGOAdmin = "NGOAdmin";
 
         public const string Volunteer = "Volunteer";
 
