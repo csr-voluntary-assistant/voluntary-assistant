@@ -28,16 +28,15 @@ namespace Voluntariat.Models
         public string OtherTransportationMethod { get; set; }
     }
 
-
     public enum TransportationMethod
     {
-        None = 1,
-        Bicycle = 2,
-        Walk = 3,
-        Car = 4,
-        PublicTransportation = 5,
-        Scooter = 6,
-        Motorbike = 7,
-        Other = 8
+        None = 0,
+        Bicycle = 1,
+        Walk = 2,
+        Car = 3,
+        PublicTransportation = 4,
+        Scooter = 5,
+        Motorbike = 6,
+        Other = 7
     }
 }

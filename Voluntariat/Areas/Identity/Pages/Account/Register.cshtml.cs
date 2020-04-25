@@ -104,9 +104,9 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             [Display(Name = "Transportation Method")]
             [Required]
-            public TransportationMethod TransportationMethod { get; set; } = TransportationMethod.None;
+            public TransportationMethod TransportationMethod { get; set; }
 
-            [Display(Name = "Other...")]
+            [Display(Name = "Other")]
             public string OtherTransportationMethod { get; set; }
         }
 
@@ -123,7 +123,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                ApplicationUser user = new ApplicationUser
                 {
                     UserName = Input.Email,
                     Email = Input.Email,
@@ -137,7 +137,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     TransportationMethod = Input.TransportationMethod,
                     OtherTransportationMethod = Input.OtherTransportationMethod
                 };
-                var result = await userManager.CreateAsync(user, Input.Password);
+
+                IdentityResult result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account with password.");
