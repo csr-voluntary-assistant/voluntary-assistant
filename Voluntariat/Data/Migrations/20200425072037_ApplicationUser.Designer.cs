@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntariat.Data;
 
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425072037_ApplicationUser")]
+    partial class ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,13 +54,6 @@ namespace Voluntariat.Data.Migrations
                             ConcurrencyStamp = "471befb4-f2ec-434f-a195-b3963a502715",
                             Name = "Admin",
                             NormalizedName = "Admin"
-                        },
-                        new
-                        {
-                            Id = "691190d2-05e1-4dcc-a8bc-a378dc518e29",
-                            ConcurrencyStamp = "614b9ffd-8694-4610-bbf0-8c4fe82b6799",
-                            Name = "NGOAdmin",
-                            NormalizedName = "NGOAdmin"
                         },
                         new
                         {
@@ -195,8 +190,8 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ActionLimit")
-                        .HasColumnType("decimal(16,2)");
+                    b.Property<double>("ActionLimit")
+                        .HasColumnType("float");
 
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
@@ -250,6 +245,9 @@ namespace Voluntariat.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int>("RegistrationRole")
+                        .HasColumnType("int");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -302,24 +300,12 @@ namespace Voluntariat.Data.Migrations
                     b.Property<Guid>("CreatedByID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("HeadquartersAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdentificationNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OngStatus")
                         .HasColumnType("int");
-
-                    b.Property<string>("Website")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
