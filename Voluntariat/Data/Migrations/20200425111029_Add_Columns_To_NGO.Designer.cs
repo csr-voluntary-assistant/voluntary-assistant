@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntariat.Data;
 
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425111029_Add_Columns_To_NGO")]
+    partial class Add_Columns_To_NGO
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -212,9 +214,6 @@ namespace Voluntariat.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("HasDriverLicence")
-                        .HasColumnType("bit");
-
                     b.Property<double>("Latitude")
                         .HasColumnType("float");
 
@@ -235,9 +234,6 @@ namespace Voluntariat.Data.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
-                    b.Property<string>("OtherTransportationMethod")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
@@ -247,14 +243,8 @@ namespace Voluntariat.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("RangeInKm")
-                        .HasColumnType("decimal(16,2)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("TransportationMethod")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -367,7 +357,7 @@ namespace Voluntariat.Data.Migrations
                     b.Property<Guid>("OngID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("VolunteerStatus")
+                    b.Property<int?>("RangeInMeters")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
