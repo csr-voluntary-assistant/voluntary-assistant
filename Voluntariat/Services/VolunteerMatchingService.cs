@@ -7,39 +7,39 @@ namespace Voluntariat.Services
 {
     public interface IVolunteerMatchingService
     {
-        bool IsInRange(Volunteer volunteer, ApplicationUser beneficiary);
+        bool IsInRange(ApplicationUser volunteer, ApplicationUser beneficiary);
 
-        IEnumerable<Volunteer> GetVolunteersInRange(IQueryable<Volunteer> volunteers, ApplicationUser beneficiary, int radiusInMeters);
+        IEnumerable<ApplicationUser> GetVolunteersInRange(IQueryable<ApplicationUser> volunteers, ApplicationUser beneficiary, int radiusInKm);
 
-        List<ApplicationUser> GetBeneficiariesInRange(List<ApplicationUser> beneficiaries, Volunteer volunteer, int radiusInMeters);
+        List<ApplicationUser> GetBeneficiariesInRange(List<ApplicationUser> beneficiaries, ApplicationUser volunteer, int radiusInKm);
     }
 
     public class VolunteerMatchingService : IVolunteerMatchingService
     {
-        public bool IsInRange(Volunteer volunteer, ApplicationUser beneficiary)
+        public bool IsInRange(ApplicationUser volunteer, ApplicationUser beneficiary)
         {
-            Coordinate volunteerCoordinates = new Coordinate(volunteer.User.Latitude, volunteer.User.Longitude);
+            Coordinate volunteerCoordinates = new Coordinate(volunteer.Latitude, volunteer.Longitude);
             Coordinate beneficiaryCoordinates = new Coordinate(beneficiary.Latitude, beneficiary.Longitude);
 
-            double distance = GeoCalculator.GetDistance(volunteerCoordinates, beneficiaryCoordinates, 15, DistanceUnit.Meters);
+            double distance = GeoCalculator.GetDistance(volunteerCoordinates, beneficiaryCoordinates, 15, DistanceUnit.Kilometers);
 
-            return distance <= volunteer.RangeInMeters.Value;
+            return distance <= (double)volunteer.RangeInKm;
         }
 
-        public IEnumerable<Volunteer> GetVolunteersInRange(IQueryable<Volunteer> volunteers, ApplicationUser beneficiary, int radiusInMeters)
+        public IEnumerable<ApplicationUser> GetVolunteersInRange(IQueryable<ApplicationUser> volunteers, ApplicationUser beneficiary, int radiusInKm)
         {
-            CoordinateBoundaries boundaries = new CoordinateBoundaries(beneficiary.Latitude, beneficiary.Longitude, radiusInMeters, DistanceUnit.Meters);
+            CoordinateBoundaries boundaries = new CoordinateBoundaries(beneficiary.Latitude, beneficiary.Longitude, radiusInKm, DistanceUnit.Kilometers);
 
             return volunteers
-               .Where(x => x.User.Latitude >= boundaries.MinLatitude && x.User.Latitude <= boundaries.MaxLatitude)
-               .Where(x => x.User.Longitude >= boundaries.MinLongitude && x.User.Longitude <= boundaries.MaxLongitude)
+               .Where(v => v.Latitude >= boundaries.MinLatitude && v.Latitude <= boundaries.MaxLatitude)
+               .Where(v => v.Longitude >= boundaries.MinLongitude && v.Longitude <= boundaries.MaxLongitude)
                .AsEnumerable()
                .Where(v => IsInRange(v, beneficiary));
         }
 
-        public List<ApplicationUser> GetBeneficiariesInRange(List<ApplicationUser> beneficiaries, Volunteer volunteer, int radiusInMeters)
+        public List<ApplicationUser> GetBeneficiariesInRange(List<ApplicationUser> beneficiaries, ApplicationUser volunteer, int radiusInKm)
         {
-            CoordinateBoundaries boundaries = new CoordinateBoundaries(volunteer.User.Latitude, volunteer.User.Longitude, radiusInMeters, DistanceUnit.Meters);
+            CoordinateBoundaries boundaries = new CoordinateBoundaries(volunteer.Latitude, volunteer.Longitude, radiusInKm, DistanceUnit.Meters);
 
             return beneficiaries
                .Where(b => b.Latitude >= boundaries.MinLatitude && b.Latitude <= boundaries.MaxLatitude)

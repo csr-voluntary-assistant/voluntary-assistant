@@ -9,7 +9,7 @@ namespace Voluntariat.Data.Repositories
 {
     public interface IVolunteerRepository
     {
-        IQueryable<Volunteer> GetVolunteers();
+        IQueryable<ApplicationUser> GetVolunteers();
     }
 
     public class VolunteerRepository : IVolunteerRepository
@@ -21,9 +21,9 @@ namespace Voluntariat.Data.Repositories
             _applicationDbContext = applicationDbContext;
         }
 
-        public IQueryable<Volunteer> GetVolunteers() 
+        public IQueryable<ApplicationUser> GetVolunteers() 
         {
-            return _applicationDbContext.Volunteers.Include(v => v.User).AsQueryable<Volunteer>();
+            return _applicationDbContext.Users.AsQueryable<ApplicationUser>();
         }
     }
 }

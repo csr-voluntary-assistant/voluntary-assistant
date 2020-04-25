@@ -9,7 +9,7 @@ namespace Voluntariat.Services
 {
     public interface IVolunteerService 
     {
-        List<Volunteer> GetVolunteersInRangeForBeneficiary(ApplicationUser beneficiary, int radiusInMeters);
+        List<ApplicationUser> GetVolunteersInRangeForBeneficiary(ApplicationUser beneficiary, int radiusInKm);
     }
 
     public class VolunteerService : IVolunteerService
@@ -23,10 +23,10 @@ namespace Voluntariat.Services
             _volunteerMatchingService = volunteerMatchingService;
         }
 
-        public List<Volunteer> GetVolunteersInRangeForBeneficiary(ApplicationUser beneficiary, int radiusInMeters) 
+        public List<ApplicationUser> GetVolunteersInRangeForBeneficiary(ApplicationUser beneficiary, int radiusInKm) 
         {
-            IQueryable<Volunteer> volunteers = _volunteerRepository.GetVolunteers();
-            return _volunteerMatchingService.GetVolunteersInRange(volunteers, beneficiary, radiusInMeters).ToList();
+            IQueryable<ApplicationUser> volunteers = _volunteerRepository.GetVolunteers();
+            return _volunteerMatchingService.GetVolunteersInRange(volunteers, beneficiary, radiusInKm).ToList();
         }
     }
 }

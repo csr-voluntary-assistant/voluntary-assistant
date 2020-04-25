@@ -44,10 +44,10 @@ namespace Voluntariat.Controllers
             //    applicationDbContext.SaveChanges();
             //}
 
-            //TestVolunteersInRange();
+            TestVolunteersInRange();
             //TestVolunteersInRangeUsingDB();
 
-            TestBeneficiaresInRange();
+            //TestBeneficiaresInRange();
 
             return View();
         }
@@ -255,42 +255,32 @@ namespace Voluntariat.Controllers
             user1.Latitude = 47.032416;
             user1.Longitude = 21.950669;
             user1.UserName = "v1";
-
-            Volunteer volunteer1 = new Volunteer();
-            volunteer1.RangeInMeters = 8000;
-            volunteer1.User = user1;
+            user1.RangeInKm = 8; //8000;
 
             ApplicationUser user2 = new ApplicationUser();
             user2.Latitude = 47.035795;  //47.035795, 21.945959
             user2.Longitude = 21.945959;
             user2.UserName = "v2";
-
-
-            Volunteer volunteer2 = new Volunteer();
-            volunteer2.RangeInMeters = 15000;
-            volunteer2.User = user2;
+            user2.RangeInKm = 15; //15000;
 
             ApplicationUser user3 = new ApplicationUser();
             user3.Latitude = 47.111343;  //47.111343, 21.892237
             user3.Longitude = 21.892237;
             user3.UserName = "v3";
+            user3.RangeInKm = 8; //8000;
 
-            Volunteer volunteer3 = new Volunteer();
-            volunteer3.RangeInMeters = 8000;
-            volunteer3.User = user3;
+            List<ApplicationUser> volunteers = new List<ApplicationUser>();
+            volunteers.Add(user1);
+            volunteers.Add(user2);
+            volunteers.Add(user3);
 
-            List<Volunteer> volunteers = new List<Volunteer>();
-            volunteers.Add(volunteer1);
-            volunteers.Add(volunteer2);
-            volunteers.Add(volunteer3);
+            IQueryable<ApplicationUser> qV = volunteers.AsQueryable<ApplicationUser>();
 
-            IQueryable<Volunteer> qV = volunteers.AsQueryable<Volunteer>();
+            var result = _volunteerMatchingService.GetVolunteersInRange(qV, beneficiary, 8).ToList(); //8000
 
-            var result = _volunteerMatchingService.GetVolunteersInRange(qV, beneficiary, 8000).ToList();
-
-            var resultVolunteer1 = _volunteerMatchingService.IsInRange(volunteer1, beneficiary);
-            var resultVolunteer2 = _volunteerMatchingService.IsInRange(volunteer2, beneficiary);
-            var resultVolunteer3 = _volunteerMatchingService.IsInRange(volunteer3, beneficiary);
+            var resultVolunteer1 = _volunteerMatchingService.IsInRange(user1, beneficiary);
+            var resultVolunteer2 = _volunteerMatchingService.IsInRange(user2, beneficiary);
+            var resultVolunteer3 = _volunteerMatchingService.IsInRange(user3, beneficiary);
 
         }
 
@@ -321,8 +311,8 @@ namespace Voluntariat.Controllers
             beneficiares.Add(beneficiary2);
 
             string userId = userManager.GetUserId(User);
-            Volunteer currentVolunteer = applicationDbContext.Volunteers.Include(v => v.User).FirstOrDefault(v => v.UserId == userId);
-            var result = _volunteerMatchingService.GetBeneficiariesInRange(beneficiares, currentVolunteer, 8000);
+            ApplicationUser currentVolunteer = applicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
+            var result = _volunteerMatchingService.GetBeneficiariesInRange(beneficiares, currentVolunteer, 8); //8000
         }
     }
 }
