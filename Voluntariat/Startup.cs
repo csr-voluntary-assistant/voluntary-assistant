@@ -50,6 +50,7 @@ namespace Voluntariat
             services.AddScoped<IVolunteerMatchingService, VolunteerMatchingService>();
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<IVolunteerService, VolunteerService>();
+            services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
 
             services.AddHttpClient<TwilioVerifyClient>(client =>
             {
