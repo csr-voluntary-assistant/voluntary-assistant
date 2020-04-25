@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using Voluntariat.Data;
 using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
+using Microsoft.AspNetCore.Identity;
+using Voluntariat.Services;
 
 namespace Voluntariat.Controllers
 {
@@ -17,14 +19,36 @@ namespace Voluntariat.Controllers
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        public VolunteersController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
+        private readonly IVolunteerMatchingService _volunteerMatchingService;
+
+        private readonly IVolunteerService _volunteerService;
+
+        public VolunteersController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager, IVolunteerMatchingService volunteerMatchingService, IVolunteerService volunteerService)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
+            _volunteerMatchingService = volunteerMatchingService;
+            _volunteerService = volunteerService;
         }
 
         public IActionResult Index()
         {
+
+            //string userId = userManager.GetUserId(User);
+            //Volunteer volunteer = applicationDbContext.Volunteers.Include(v => v.User).FirstOrDefault(v => v.UserId == userId);
+
+            //if (volunteer == null)
+            //{
+            //    volunteer.UserId = userId;
+
+            //    applicationDbContext.SaveChanges();
+            //}
+
+            TestVolunteersInRange();
+            //TestVolunteersInRangeUsingDB();
+
+            //TestBeneficiaresInRange();
+
             return View();
         }
 
@@ -219,6 +243,76 @@ namespace Voluntariat.Controllers
         private bool VolunteerExists(Guid id)
         {
             return applicationDbContext.Volunteers.Any(e => e.ID == id);
+        }
+
+        private void TestVolunteersInRange()
+        {
+            ApplicationUser beneficiary = new ApplicationUser();
+            beneficiary.Latitude = 47.034654; //47.034654, 21.946378
+            beneficiary.Longitude = 21.946378;
+
+            ApplicationUser user1 = new ApplicationUser();
+            user1.Latitude = 47.032416;
+            user1.Longitude = 21.950669;
+            user1.UserName = "v1";
+            user1.RangeInKm = 8; //8000;
+
+            ApplicationUser user2 = new ApplicationUser();
+            user2.Latitude = 47.035795;  //47.035795, 21.945959
+            user2.Longitude = 21.945959;
+            user2.UserName = "v2";
+            user2.RangeInKm = 15; //15000;
+
+            ApplicationUser user3 = new ApplicationUser();
+            user3.Latitude = 47.111343;  //47.111343, 21.892237
+            user3.Longitude = 21.892237;
+            user3.UserName = "v3";
+            user3.RangeInKm = 8; //8000;
+
+            List<ApplicationUser> volunteers = new List<ApplicationUser>();
+            volunteers.Add(user1);
+            volunteers.Add(user2);
+            volunteers.Add(user3);
+
+            IQueryable<ApplicationUser> qV = volunteers.AsQueryable<ApplicationUser>();
+
+            var result = _volunteerMatchingService.GetVolunteersInRange(qV, beneficiary, 8).ToList(); //8000
+
+            var resultVolunteer1 = _volunteerMatchingService.IsInRange(user1, beneficiary);
+            var resultVolunteer2 = _volunteerMatchingService.IsInRange(user2, beneficiary);
+            var resultVolunteer3 = _volunteerMatchingService.IsInRange(user3, beneficiary);
+
+        }
+
+        private void TestVolunteersInRangeUsingDB() 
+        {
+            ApplicationUser beneficiary = new ApplicationUser();
+            beneficiary.Latitude = 47.034654; //47.034654, 21.946378
+            beneficiary.Longitude = 21.946378;
+
+            var result = _volunteerService.GetVolunteersInRangeForBeneficiary(beneficiary, 8000);
+        }
+
+        private void TestBeneficiaresInRange() 
+        {
+            ApplicationUser beneficiary1 = new ApplicationUser();
+            beneficiary1.Latitude = 47.034654; //47.034654, 21.946378
+            beneficiary1.Longitude = 21.946378;
+            beneficiary1.UserName = "b1";
+
+
+            ApplicationUser beneficiary2 = new ApplicationUser();
+            beneficiary2.Latitude = 47.109624; //47.109624, 21.895375
+            beneficiary2.Longitude = 21.895375;
+            beneficiary2.UserName = "b2";
+
+            List<ApplicationUser> beneficiares = new List<ApplicationUser>();
+            beneficiares.Add(beneficiary1);
+            beneficiares.Add(beneficiary2);
+
+            string userId = userManager.GetUserId(User);
+            ApplicationUser currentVolunteer = applicationDbContext.Users.FirstOrDefault(u => u.Id == userId);
+            var result = _volunteerMatchingService.GetBeneficiariesInRange(beneficiares, currentVolunteer, 8); //8000
         }
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using Voluntariat.Data;
+using Voluntariat.Data.Repositories;
 using Voluntariat.Models;
 using Voluntariat.Services;
 
@@ -46,7 +47,11 @@ namespace Voluntariat
             services.AddRazorPages();
 
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IVolunteerMatchingService, VolunteerMatchingService>();
+            services.AddScoped<IVolunteerRepository, VolunteerRepository>();
+            services.AddScoped<IVolunteerService, VolunteerService>();
             services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
+
             services.AddHttpClient<TwilioVerifyClient>(client =>
             {
                 client.BaseAddress = new Uri("https://api.authy.com/");
