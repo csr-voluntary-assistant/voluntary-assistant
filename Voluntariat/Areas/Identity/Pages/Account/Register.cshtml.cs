@@ -94,6 +94,20 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             public double Latitude { get; set; } = 0;
 
             public RegisterAs RegisterAs { get; set; }
+
+            [Display(Name = "Action limit (km)")]
+            [DisplayFormat(DataFormatString = "{0:[C]}", ApplyFormatInEditMode = true)]
+            public decimal ActionLimit { get; set; }
+
+            [Display(Name = "Driver licence")]
+            public bool HasDriverLicence { get; set; }
+
+            [Display(Name = "Transportation Method")]
+            [Required]
+            public TransportationMethod TransportationMethod { get; set; } = TransportationMethod.None;
+
+            [Display(Name = "Other...")]
+            public string OtherTransportationMethod { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -109,10 +123,21 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, DialingCode = Input.DialingCode, Address = Input.Address, Longitude = Input.Longitude, Latitude = Input.Latitude };
-
-                IdentityResult result = await userManager.CreateAsync(user, Input.Password);
-
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    PhoneNumber = Input.PhoneNumber,
+                    DialingCode = Input.DialingCode,
+                    Address = Input.Address,
+                    Longitude = Input.Longitude,
+                    Latitude = Input.Latitude,
+                    ActionLimit = Input.ActionLimit,
+                    HasDriverLicence = Input.HasDriverLicence,
+                    TransportationMethod = Input.TransportationMethod,
+                    OtherTransportationMethod = Input.OtherTransportationMethod
+                };
+                var result = await userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account with password.");
