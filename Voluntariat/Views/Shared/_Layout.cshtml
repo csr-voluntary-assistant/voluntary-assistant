@@ -47,6 +47,13 @@
                             </li>
                         }
 
+                        @if (identity?.Role == IdentityRole.Admin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)">Categories</a>
+                            </li>
+                        }
+
                         @if (identity?.Role == IdentityRole.Guest)
                         {
                             <li class="nav-item">
