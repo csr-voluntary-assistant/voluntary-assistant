@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using Voluntariat.Models;
 
 namespace Voluntariat.Data
@@ -14,6 +15,8 @@ namespace Voluntariat.Data
         public DbSet<Beneficiary> Beneficiaries { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<BeneficiaryCategory> BeneficiaryCategories { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
@@ -29,6 +32,11 @@ namespace Voluntariat.Data
             builder.Entity<IdentityRole>().HasData(new IdentityRole() { Id = "731570ea-7c31-462f-bc9c-bcaafba892a1", Name = Framework.Identity.IdentityRole.Volunteer, NormalizedName = Framework.Identity.IdentityRole.Volunteer, ConcurrencyStamp = "471befb4-f2ec-434f-a195-b3963a502717" });
             builder.Entity<IdentityRole>().HasData(new IdentityRole() { Id = "b9aedc08-76f8-4017-9156-27180e377dca", Name = Framework.Identity.IdentityRole.Beneficiary, NormalizedName = Framework.Identity.IdentityRole.Beneficiary, ConcurrencyStamp = "471befb4-f2ec-434f-a195-b3963a502719" });
             builder.Entity<IdentityRole>().HasData(new IdentityRole() { Id = "bd0d075f-663a-445f-8902-b555a09b1d2d", Name = Framework.Identity.IdentityRole.Guest, NormalizedName = Framework.Identity.IdentityRole.Guest, ConcurrencyStamp = "471befb4-f2ec-434f-a195-b3963a502716" });
+
+            builder.Entity<BeneficiaryCategory>().HasData(new BeneficiaryCategory() { ID = new Guid("4817ee60-a647-400f-bf3a-265fe184fe81"), Description = "Seniori 65+" });
+            builder.Entity<BeneficiaryCategory>().HasData(new BeneficiaryCategory() { ID = new Guid("b6619b80-4fb7-48a8-8a2e-9383afbdff93"), Description = "Persoane cu dizabilitați" });
+            builder.Entity<BeneficiaryCategory>().HasData(new BeneficiaryCategory() { ID = new Guid("887e9957-4f9b-4b13-878d-643c5040c19e"), Description = "Persoane autoizolate" });
+            builder.Entity<BeneficiaryCategory>().HasData(new BeneficiaryCategory() { ID = new Guid("b285dbbc-6696-4dbd-80ff-795c83c13c42"), Description = "Cazuri sociale" });
         }
     }
 }
