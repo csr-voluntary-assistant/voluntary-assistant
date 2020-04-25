@@ -22,10 +22,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<RegisterModel> _logger;
-        private readonly IEmailSender _emailSender;
+        private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly ILogger<RegisterModel> logger;
+        private readonly IEmailSender emailSender;
 
         private readonly Data.ApplicationDbContext applicationDbContext;
 
@@ -36,10 +36,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             IEmailSender emailSender,
             Data.ApplicationDbContext applicationDbContext)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-            _emailSender = emailSender;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
+            this.logger = logger;
+            this.emailSender = emailSender;
 
             this.applicationDbContext = applicationDbContext;
         }
@@ -49,7 +49,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
         public string ReturnUrl { get; set; }
 
-        public string RegistrationRole { get; set; }
+        public RegisterAs RegisterAs { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
@@ -93,31 +93,31 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             [HiddenInput]
             public double Latitude { get; set; } = 0;
 
-            public string RegistrationRole { get; set; }
+            public RegisterAs RegisterAs { get; set; }
         }
 
-        public async Task OnGetAsync(string registrationRole, string returnUrl = null)
+        public async Task OnGetAsync(string registerAs, string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            RegistrationRole = registrationRole;
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            RegisterAs = Enum.Parse<RegisterAs>(registerAs);
+            ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, DialingCode = Input.DialingCode, Address = Input.Address, Longitude = Input.Longitude, Latitude = Input.Latitude };
 
-                IdentityResult result = await _userManager.CreateAsync(user, Input.Password);
+                IdentityResult result = await userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    logger.LogInformation("User created a new account with password.");
 
-                    if (Input.RegistrationRole == Framework.Identity.IdentityRole.NGOAdmin)
+                    if (Input.RegisterAs == RegisterAs.NGO)
                     {
                         Ong ong = new Ong();
                         ong.ID = Guid.NewGuid();
@@ -127,14 +127,18 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
                         applicationDbContext.Add(ong);
                     }
-                    else if (Input.RegistrationRole == Framework.Identity.IdentityRole.Volunteer)
+                    else if (Input.RegisterAs == RegisterAs.Volunteer)
                     {
                         // vine Dia si adauga partea pentru Voluntar
+                    }
+                    else if (Input.RegisterAs == RegisterAs.Beneficiary)
+                    {
+                        // pentru inregistrarea de Beneficiar
                     }
 
                     await applicationDbContext.SaveChangesAsync();
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -142,16 +146,16 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = user.Id, code = code },
                         protocol: Request.Scheme);
 
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
+                    if (userManager.Options.SignIn.RequireConfirmedAccount)
                     {
-                        await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
+                        await emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                         return RedirectToPage("RegisterConfirmation", new { email = Input.Email, DisplayConfirmAccountLink = false });
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+                        await signInManager.SignInAsync(user, isPersistent: false);
                         return LocalRedirect(returnUrl);
                     }
                 }
@@ -188,5 +192,12 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             return RedirectToPage();
         }
+    }
+
+    public enum RegisterAs
+    {
+        NGO = 0,
+        Volunteer = 1,
+        Beneficiary = 2
     }
 }
