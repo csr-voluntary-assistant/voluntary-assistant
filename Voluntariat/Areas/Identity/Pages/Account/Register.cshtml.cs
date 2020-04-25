@@ -94,6 +94,9 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             public double Latitude { get; set; } = 0;
 
             public RegisterAs RegisterAs { get; set; }
+
+
+            public NGORegistrationModel NGORegistrationModel { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -123,7 +126,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         ong.ID = Guid.NewGuid();
                         ong.CreatedByID = Guid.Parse(user.Id);
                         ong.OngStatus = OngStatus.PendingVerification;
-                        ong.Name = $"Ong by {user.Email}";
+
+                        ong.IdentificationNumber = Input.NGORegistrationModel.IdentificationNumber;
+                        ong.Name = Input.NGORegistrationModel.Name;
+                        ong.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
+                        ong.Website = Input.NGORegistrationModel.Website;
 
                         applicationDbContext.Add(ong);
                     }
@@ -192,6 +199,26 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             return RedirectToPage();
         }
+    }
+
+
+    public class NGORegistrationModel
+    {
+        [Required]
+        [Display(Name = "NGO name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Headquarters address")]
+        public string HeadquartersAddress { get; set; } // sediul social
+
+        [Required]
+        [Display(Name = "Identification number")]
+        public string IdentificationNumber { get; set; } // CUI
+
+        [Required]
+        [Display(Name = nameof(Website))]
+        public string Website { get; set; }
     }
 
     public enum RegisterAs
