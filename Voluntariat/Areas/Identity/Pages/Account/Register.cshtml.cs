@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,6 +54,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        public List<SelectListItem> AvailableNGOs { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -97,17 +100,19 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             [Display(Name = "Action limit (km)")]
             [DisplayFormat(DataFormatString = "{0:[C]}", ApplyFormatInEditMode = true)]
-            public decimal ActionLimit { get; set; }
+            public decimal RangeInKm { get; set; }
 
             [Display(Name = "Driver licence")]
             public bool HasDriverLicence { get; set; }
 
-            [Display(Name = "Transportation Method")]
+            [Display(Name = "Transportation method")]
             [Required]
             public TransportationMethod TransportationMethod { get; set; }
 
             [Display(Name = "Other")]
             public string OtherTransportationMethod { get; set; }
+
+            public Guid ONGId { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -115,6 +120,17 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             RegisterAs = Enum.Parse<RegisterAs>(registerAs);
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (RegisterAs == RegisterAs.Volunteer)
+            {
+                AvailableNGOs = applicationDbContext.Ongs.Select(o =>
+                                                                new SelectListItem
+                                                                {
+                                                                    Value = o.ID.ToString(),
+                                                                    Text = o.Name
+                                                                })
+                                                    .ToList();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -132,10 +148,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     Address = Input.Address,
                     Longitude = Input.Longitude,
                     Latitude = Input.Latitude,
-                    ActionLimit = Input.ActionLimit,
                     HasDriverLicence = Input.HasDriverLicence,
                     TransportationMethod = Input.TransportationMethod,
-                    OtherTransportationMethod = Input.OtherTransportationMethod
+                    OtherTransportationMethod = Input.OtherTransportationMethod,
+                    RangeInKm = Input.RangeInKm
                 };
 
                 IdentityResult result = await userManager.CreateAsync(user, Input.Password);
@@ -155,7 +171,13 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     }
                     else if (Input.RegisterAs == RegisterAs.Volunteer)
                     {
-                        // vine Dia si adauga partea pentru Voluntar
+                        Volunteer volunteer = new Volunteer();
+                        volunteer.ID = Guid.NewGuid();
+                        volunteer.OngID = Input.ONGId;
+                        volunteer.Name = user.Email;
+                        volunteer.VolunteerStatus = VolunteerStatus.PendingVerification;
+
+                        applicationDbContext.Add(volunteer);
                     }
                     else if (Input.RegisterAs == RegisterAs.Beneficiary)
                     {

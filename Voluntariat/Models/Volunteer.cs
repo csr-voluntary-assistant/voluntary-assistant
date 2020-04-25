@@ -12,10 +12,16 @@ namespace Voluntariat.Models
 
         public Guid OngID { get; set; }
 
-        public int? RangeInMeters { get; set; }
-
         [NotMapped]
         [DisplayName("Nume voluntar")]
         public string Name { get; set; }
+
+        public VolunteerStatus VolunteerStatus { get; set; }
+    }
+
+    public enum VolunteerStatus
+    {
+        PendingVerification = 0,
+        Verified = 1
     }
 }
