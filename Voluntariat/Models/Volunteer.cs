@@ -17,9 +17,5 @@ namespace Voluntariat.Models
         [NotMapped]
         [DisplayName("Nume voluntar")]
         public string Name { get; set; }
-
-        [ForeignKey("AspNetUsers")]
-        public string UserId { get; set; }
-        public ApplicationUser User { get; set; }
     }
 }

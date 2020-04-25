@@ -346,12 +346,7 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int?>("RangeInMeters")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("ID");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Volunteers");
                 });
@@ -405,13 +400,6 @@ namespace Voluntariat.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Voluntariat.Models.Volunteer", b =>
-                {
-                    b.HasOne("Voluntariat.Models.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }
