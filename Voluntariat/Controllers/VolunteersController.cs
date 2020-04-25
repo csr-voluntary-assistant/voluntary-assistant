@@ -138,11 +138,6 @@ namespace Voluntariat.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-
-
-
-
         // GET: Volunteers/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -160,8 +155,6 @@ namespace Voluntariat.Controllers
 
             return View(volunteer);
         }
-
-
 
         // GET: Volunteers/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
@@ -213,8 +206,6 @@ namespace Voluntariat.Controllers
             }
             return View(volunteer);
         }
-
-
 
         private bool VolunteerExists(Guid id)
         {
