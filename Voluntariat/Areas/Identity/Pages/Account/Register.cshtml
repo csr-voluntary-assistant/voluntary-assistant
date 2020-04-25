@@ -1,6 +1,7 @@
 ﻿@page
 @model RegisterModel
 @using Microsoft.Extensions.Configuration
+@using Voluntariat.Models
 @inject IConfiguration Configuration
 @{
     ViewData["Title"] = "Register";
@@ -47,29 +48,87 @@
                 <div class="form-group col-md-12">
                     <label asp-for="Input.Address"></label>
                     <input asp-for="Input.Address" type="text" id="places_text" class="form-control" placeholder="Enter a location" />
-                    <input asp-for="Input.Latitude" type="hidden" id="places_lat" class="form-control" />
-                    <input asp-for="Input.Longitude" type="hidden" id="places_lng" class="form-control" />
+                    <input asp-for="Input.Latitude" id="places_lat" class="form-control" />
+                    <input asp-for="Input.Longitude" id="places_lng" class="form-control" />
                 </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.RangeInKm"></label>
+                    <input asp-for="Input.RangeInKm" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Input.RangeInKm" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.HasDriverLicence"></label>
+                    <input asp-for="Input.HasDriverLicence" class="form-control" />
+                    <span asp-validation-for="Input.HasDriverLicence" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.TransportationMethod"></label>
+                    <select asp-for="Input.TransportationMethod" asp-items="Html.GetEnumSelectList<TransportationMethod>()" class="col-md-12 form-control" onclick="DisplayHiddenSection()">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span asp-validation-for="Input.TransportationMethod" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12" id="other-transportation" hidden>
+                    <label asp-for="Input.OtherTransportationMethod"></label>
+                    <input asp-for="Input.OtherTransportationMethod" class="form-control" />
+                    <span asp-validation-for="Input.OtherTransportationMethod" class="text-danger"></span>
+                </div>
+
+                @if (Model.RegisterAs == RegisterAs.Volunteer)
+                {
+                    <div class="form-group col-md-12">
+                        <label asp-for="Input.ONGId">ONG List</label>
+                        <select asp-for="Input.ONGId" asp-items="Model.AvailableNGOs" class="col-md-12 form-control">
+                            <option value="">-- Select --</option>
+                        </select>
+                    </div>
+                }
                 <br />
             </div>
+
+            @if (Model.RegisterAs == RegisterAs.NGO)
+            {
+                <h5>NGO's details:</h5>
+                <hr />
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.Name"></label>
+                    <input asp-for="Input.NGORegistrationModel.Name" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.IdentificationNumber"></label>
+                    <input asp-for="Input.NGORegistrationModel.IdentificationNumber" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.IdentificationNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.HeadquartersAddress"></label>
+                    <input asp-for="Input.NGORegistrationModel.HeadquartersAddress" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.HeadquartersAddress" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.Website"></label>
+                    <input asp-for="Input.NGORegistrationModel.Website" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.Website" class="text-danger"></span>
+                </div>
+            }
+
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
 
-        <form method="post" enctype="multipart/form-data">
-            <br>
-            <div class="upload-border">
-                <input class="col-md-9" type="file" name="files" multiple />
-                <button type="submit" class="btn btn-primary" asp-page-handler="Upload">Upload</button>
-            </div>
-        </form>
-
-        @if (ViewBag.Message != null)
+        @if (Model.RegisterAs == RegisterAs.NGO)
         {
-            <div class="alert alert-success" style="margin-top:20px">
-                @ViewBag.Message
-            </div>
+            <form method="post" enctype="multipart/form-data">
+                <br>
+                <div class="upload-border">
+                    <input class="col-md-9" type="file" name="files" multiple />
+                    <button type="submit" class="btn btn-primary" asp-page-handler="Upload">Upload</button>
+                </div>
+            </form>
         }
-
     </div>
     <div class="col-md-6 col-md-offset-2">
         <section>
@@ -104,6 +163,7 @@
 </div>
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apikey&libraries=places"></script>
+
 <script type="text/javascript">
     google.maps.event.addDomListener(window, 'load', function () {
         var places = new google.maps.places.Autocomplete(document.getElementById('places_text'));
@@ -117,6 +177,16 @@
             $('#places_lng').val(longitude);
         });
     });
+
+    function DisplayHiddenSection() {
+        var selection = $("#Input_TransportationMethod :selected").text();
+
+        if (selection == '@TransportationMethod.Other.ToString()') {
+            $("#other-transportation").attr('hidden', false);
+        } else {
+            $("#other-transportation").attr('hidden', true);
+        }
+    }
 </script>
 
 <style>

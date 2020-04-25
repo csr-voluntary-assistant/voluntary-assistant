@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntariat.Data;
 
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425110558_Change_ActionLimit_type_to_decimal")]
+    partial class Change_ActionLimit_type_to_decimal
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,6 +197,9 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<decimal>("ActionLimit")
+                        .HasColumnType("decimal(16,2)");
+
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
@@ -246,9 +251,6 @@ namespace Voluntariat.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<decimal>("RangeInKm")
-                        .HasColumnType("decimal(16,2)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -302,24 +304,12 @@ namespace Voluntariat.Data.Migrations
                     b.Property<Guid>("CreatedByID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("HeadquartersAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdentificationNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OngStatus")
                         .HasColumnType("int");
-
-                    b.Property<string>("Website")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
@@ -367,7 +357,7 @@ namespace Voluntariat.Data.Migrations
                     b.Property<Guid>("OngID")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("VolunteerStatus")
+                    b.Property<int?>("RangeInMeters")
                         .HasColumnType("int");
 
                     b.HasKey("ID");

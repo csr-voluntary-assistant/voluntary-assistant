@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using System;
@@ -53,6 +54,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
+        public List<SelectListItem> AvailableNGOs { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -94,6 +97,25 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             public double Latitude { get; set; } = 0;
 
             public RegisterAs RegisterAs { get; set; }
+
+            [Display(Name = "Action limit (km)")]
+            [DisplayFormat(DataFormatString = "{0:[C]}", ApplyFormatInEditMode = true)]
+            public decimal RangeInKm { get; set; }
+
+            [Display(Name = "Driver licence")]
+            public bool HasDriverLicence { get; set; }
+
+            [Display(Name = "Transportation method")]
+            [Required]
+            public TransportationMethod TransportationMethod { get; set; }
+
+            [Display(Name = "Other")]
+            public string OtherTransportationMethod { get; set; }
+
+            public Guid ONGId { get; set; }
+
+
+            public NGORegistrationModel NGORegistrationModel { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -101,6 +123,17 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
             RegisterAs = Enum.Parse<RegisterAs>(registerAs);
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            if (RegisterAs == RegisterAs.Volunteer)
+            {
+                AvailableNGOs = applicationDbContext.Ongs.Select(o =>
+                                                                new SelectListItem
+                                                                {
+                                                                    Value = o.ID.ToString(),
+                                                                    Text = o.Name
+                                                                })
+                                                    .ToList();
+            }
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
@@ -109,10 +142,22 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                ApplicationUser user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, PhoneNumber = Input.PhoneNumber, DialingCode = Input.DialingCode, Address = Input.Address, Longitude = Input.Longitude, Latitude = Input.Latitude };
+                ApplicationUser user = new ApplicationUser
+                {
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    PhoneNumber = Input.PhoneNumber,
+                    DialingCode = Input.DialingCode,
+                    Address = Input.Address,
+                    Longitude = Input.Longitude,
+                    Latitude = Input.Latitude,
+                    HasDriverLicence = Input.HasDriverLicence,
+                    TransportationMethod = Input.TransportationMethod,
+                    OtherTransportationMethod = Input.OtherTransportationMethod,
+                    RangeInKm = Input.RangeInKm
+                };
 
                 IdentityResult result = await userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
                     logger.LogInformation("User created a new account with password.");
@@ -123,13 +168,23 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         ong.ID = Guid.NewGuid();
                         ong.CreatedByID = Guid.Parse(user.Id);
                         ong.OngStatus = OngStatus.PendingVerification;
-                        ong.Name = $"Ong by {user.Email}";
+
+                        ong.IdentificationNumber = Input.NGORegistrationModel.IdentificationNumber;
+                        ong.Name = Input.NGORegistrationModel.Name;
+                        ong.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
+                        ong.Website = Input.NGORegistrationModel.Website;
 
                         applicationDbContext.Add(ong);
                     }
                     else if (Input.RegisterAs == RegisterAs.Volunteer)
                     {
-                        // vine Dia si adauga partea pentru Voluntar
+                        Volunteer volunteer = new Volunteer();
+                        volunteer.ID = Guid.NewGuid();
+                        volunteer.OngID = Input.ONGId;
+                        volunteer.Name = user.Email;
+                        volunteer.VolunteerStatus = VolunteerStatus.PendingVerification;
+
+                        applicationDbContext.Add(volunteer);
                     }
                     else if (Input.RegisterAs == RegisterAs.Beneficiary)
                     {
@@ -192,6 +247,26 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
             return RedirectToPage();
         }
+    }
+
+
+    public class NGORegistrationModel
+    {
+        [Required]
+        [Display(Name = "NGO name")]
+        public string Name { get; set; }
+
+        [Required]
+        [Display(Name = "Headquarters address")]
+        public string HeadquartersAddress { get; set; } // sediul social
+
+        [Required]
+        [Display(Name = "Identification number")]
+        public string IdentificationNumber { get; set; } // CUI
+
+        [Required]
+        [Display(Name = nameof(Website))]
+        public string Website { get; set; }
     }
 
     public enum RegisterAs
