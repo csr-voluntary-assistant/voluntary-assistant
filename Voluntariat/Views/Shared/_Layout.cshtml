@@ -66,7 +66,7 @@
                             </li>
                         }
 
-                        @if (identity?.Role == IdentityRole.Volunteer)
+                        @if (identity?.Role == IdentityRole.Volunteer || identity?.Role == IdentityRole.NGOAdmin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Index)">Home</a>

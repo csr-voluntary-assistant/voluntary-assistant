@@ -33,7 +33,7 @@ namespace Voluntariat.Framework.Identity
 
         private void ApplyVolunteerData(Identity identity)
         {
-            if (identity.Role == IdentityRole.Volunteer)
+            if (identity.Role == IdentityRole.Volunteer || identity.Role == IdentityRole.NGOAdmin)
             {
                 Models.Volunteer volunteer = applicationDbContext.Volunteers.Find(identity.ID);
                 Models.Ong ong = applicationDbContext.Ongs.Find(volunteer.OngID);
