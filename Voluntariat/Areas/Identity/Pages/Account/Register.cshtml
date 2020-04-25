@@ -79,6 +79,37 @@
                 }
                 <br />
             </div>
+
+            @if (Model.RegisterAs == RegisterAs.NGO)
+            {
+                <h5>NGO's details:</h5>
+                <hr />
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.Name"></label>
+                    <input asp-for="Input.NGORegistrationModel.Name" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.IdentificationNumber"></label>
+                    <input asp-for="Input.NGORegistrationModel.IdentificationNumber" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.IdentificationNumber" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.HeadquartersAddress"></label>
+                    <input asp-for="Input.NGORegistrationModel.HeadquartersAddress" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.HeadquartersAddress" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.Website"></label>
+                    <input asp-for="Input.NGORegistrationModel.Website" class="form-control" />
+                    <span asp-validation-for="Input.NGORegistrationModel.Website" class="text-danger"></span>
+                </div>
+            }
+
             <button type="submit" class="btn btn-primary">Register</button>
         </form>
 
