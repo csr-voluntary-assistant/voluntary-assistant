@@ -10,13 +10,15 @@ namespace Voluntariat.Models
         [Key]
         public Guid ID { get; set; }
 
-        public Guid OngID { get; set; }
+        public Guid? OngID { get; set; }
 
         [NotMapped]
         [DisplayName("Nume voluntar")]
         public string Name { get; set; }
 
         public VolunteerStatus VolunteerStatus { get; set; }
+
+        public bool ActivateNotificationsFromOtherOngs { get; set; }
     }
 
     public enum VolunteerStatus

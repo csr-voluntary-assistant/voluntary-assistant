@@ -36,10 +36,14 @@ namespace Voluntariat.Framework.Identity
             if (identity.Role == IdentityRole.Volunteer || identity.Role == IdentityRole.NGOAdmin)
             {
                 Models.Volunteer volunteer = applicationDbContext.Volunteers.Find(identity.ID);
-                Models.Ong ong = applicationDbContext.Ongs.Find(volunteer.OngID);
 
-                identity.OngID = volunteer.OngID;
-                identity.OngName = ong.Name;
+                if (volunteer.OngID.HasValue)
+                {
+                    Models.Ong ong = applicationDbContext.Ongs.Find(volunteer.OngID);
+
+                    identity.OngID = volunteer.OngID.Value;
+                    identity.OngName = ong.Name;
+                }
             }
         }
     }
