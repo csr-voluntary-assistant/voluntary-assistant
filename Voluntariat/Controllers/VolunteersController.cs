@@ -25,6 +25,13 @@ namespace Voluntariat.Controllers
 
         public IActionResult Index()
         {
+            //Volunteer volunteer = applicationDbContext.Volunteers.First();
+
+            //if (volunteer != null) 
+            //{ 
+            //    volunteer.UserId = 
+            //}
+
             return View();
         }
 
