@@ -45,7 +45,8 @@ namespace Voluntariat
 
             services.AddRazorPages();
 
-            services.AddSingleton<IEmailSender, EmailSender>();            
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
             services.AddHttpClient<TwilioVerifyClient>(client =>
             {
                 client.BaseAddress = new Uri("https://api.authy.com/");
