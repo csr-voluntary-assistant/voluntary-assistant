@@ -195,9 +195,6 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("ActionLimit")
-                        .HasColumnType("decimal(16,2)");
-
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 

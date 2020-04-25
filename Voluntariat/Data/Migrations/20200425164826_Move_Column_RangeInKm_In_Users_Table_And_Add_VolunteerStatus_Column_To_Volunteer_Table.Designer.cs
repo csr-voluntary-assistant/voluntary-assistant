@@ -10,8 +10,8 @@ using Voluntariat.Data;
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200425134923_Rename_RangeInMeters")]
-    partial class Rename_RangeInMeters
+    [Migration("20200425164826_Move_Column_RangeInKm_In_Users_Table_And_Add_VolunteerStatus_Column_To_Volunteer_Table")]
+    partial class Move_Column_RangeInKm_In_Users_Table_And_Add_VolunteerStatus_Column_To_Volunteer_Table
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -304,12 +304,24 @@ namespace Voluntariat.Data.Migrations
                     b.Property<Guid>("CreatedByID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("HeadquartersAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("IdentificationNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("OngStatus")
                         .HasColumnType("int");
+
+                    b.Property<string>("Website")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID");
 
