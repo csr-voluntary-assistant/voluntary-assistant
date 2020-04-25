@@ -30,7 +30,6 @@ namespace Voluntariat.Models
         public string CreatedByName { get; set; }
     }
 
-
     public enum OngStatus
     {
         PendingVerification = 0,
