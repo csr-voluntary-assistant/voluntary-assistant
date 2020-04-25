@@ -82,6 +82,11 @@
                             <option value="">-- Select --</option>
                         </select>
                     </div>
+                    <div class="form-group col-md-6">
+                        <label asp-for="Input.ActivateNotificationsFromOtherOngs"></label>
+                        <input asp-for="Input.ActivateNotificationsFromOtherOngs" class="form-control" />
+                        <span asp-validation-for="Input.ActivateNotificationsFromOtherOngs" class="text-danger"></span>
+                    </div>
                 }
                 <br />
             </div>

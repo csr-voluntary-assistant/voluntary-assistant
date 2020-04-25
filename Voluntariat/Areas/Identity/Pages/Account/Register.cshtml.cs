@@ -112,10 +112,12 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             [Display(Name = "Other")]
             public string OtherTransportationMethod { get; set; }
 
-            public Guid ONGId { get; set; }
-
+            public Guid? ONGId { get; set; }
 
             public NGORegistrationModel NGORegistrationModel { get; set; }
+
+            [Display(Name = "Activate notifications from other ongs")]
+            public bool ActivateNotificationsFromOtherOngs { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -179,10 +181,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     else if (Input.RegisterAs == RegisterAs.Volunteer)
                     {
                         Volunteer volunteer = new Volunteer();
-                        volunteer.ID = Guid.NewGuid();
+                        volunteer.ID = Guid.Parse(user.Id);
                         volunteer.OngID = Input.ONGId;
                         volunteer.Name = user.Email;
                         volunteer.VolunteerStatus = VolunteerStatus.PendingVerification;
+                        volunteer.ActivateNotificationsFromOtherOngs = Input.ActivateNotificationsFromOtherOngs;
 
                         applicationDbContext.Add(volunteer);
                     }
