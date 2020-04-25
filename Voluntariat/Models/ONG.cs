@@ -16,12 +16,9 @@ namespace Voluntariat.Models
 
         public Guid CreatedByID { get; set; }
 
-
-
         [NotMapped]
         public string CreatedByName { get; set; }
     }
-
 
     public enum OngStatus
     {

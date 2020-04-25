@@ -18,7 +18,7 @@ namespace Voluntariat.Models
         public string Address { get; set; }
 
         [Column(TypeName = "decimal(16,2)")]
-        public decimal ActionLimit { get; set; }
+        public decimal RangeInKm { get; set; }
 
         [PersonalData]
         public bool HasDriverLicence { get; set; }

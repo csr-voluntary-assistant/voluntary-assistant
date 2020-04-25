@@ -51,30 +51,36 @@
                     <input asp-for="Input.Latitude" id="places_lat" class="form-control" />
                     <input asp-for="Input.Longitude" id="places_lng" class="form-control" />
                 </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.RangeInKm"></label>
+                    <input asp-for="Input.RangeInKm" class="form-control" placeholder="0.00" />
+                    <span asp-validation-for="Input.RangeInKm" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="Input.HasDriverLicence"></label>
+                    <input asp-for="Input.HasDriverLicence" class="form-control" />
+                    <span asp-validation-for="Input.HasDriverLicence" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12">
+                    <label asp-for="Input.TransportationMethod"></label>
+                    <select asp-for="Input.TransportationMethod" asp-items="Html.GetEnumSelectList<TransportationMethod>()" class="col-md-12 form-control" onclick="DisplayHiddenSection()">
+                        <option value="">-- Select --</option>
+                    </select>
+                    <span asp-validation-for="Input.TransportationMethod" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-12" id="other-transportation" hidden>
+                    <label asp-for="Input.OtherTransportationMethod"></label>
+                    <input asp-for="Input.OtherTransportationMethod" class="form-control" />
+                    <span asp-validation-for="Input.OtherTransportationMethod" class="text-danger"></span>
+                </div>
 
                 @if (Model.RegisterAs == RegisterAs.Volunteer)
                 {
-                    <div class="form-group col-md-6">
-                        <label asp-for="Input.ActionLimit"></label>
-                        <input asp-for="Input.ActionLimit" class="form-control" placeholder="0.00" />
-                        <span asp-validation-for="Input.ActionLimit" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Input.HasDriverLicence"></label>
-                        <input asp-for="Input.HasDriverLicence" class="form-control" />
-                        <span asp-validation-for="Input.HasDriverLicence" class="text-danger"></span>
-                    </div>
                     <div class="form-group col-md-12">
-                        <label asp-for="Input.TransportationMethod"></label>
-                        <select asp-for="Input.TransportationMethod" asp-items="Html.GetEnumSelectList<TransportationMethod>()" class="col-md-12 form-control" onclick="DisplayHiddenSection()">
+                        <label asp-for="Input.ONGId">ONG List</label>
+                        <select asp-for="Input.ONGId" asp-items="Model.ONGList" class="col-md-12 form-control">
                             <option value="">-- Select --</option>
                         </select>
-                        <span asp-validation-for="Input.TransportationMethod" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-12" id="other-transportation" hidden>
-                        <label asp-for="Input.OtherTransportationMethod"></label>
-                        <input asp-for="Input.OtherTransportationMethod" class="form-control" />
-                        <span asp-validation-for="Input.OtherTransportationMethod" class="text-danger"></span>
                     </div>
                 }
                 <br />
