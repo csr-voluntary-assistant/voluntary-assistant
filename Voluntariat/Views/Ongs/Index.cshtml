@@ -39,10 +39,17 @@
                     @Html.DisplayFor(modelItem => item.CreatedByName)
                 </td>
                 <td>
-                    @if (identity != null && identity.Role == IdentityRole.Admin && item.OngStatus == OngStatus.PendingVerification)
+                    @if (identity != null && identity.Role == IdentityRole.Admin)
                     {
-                        <a asp-action="Edit" asp-route-id="@item.ID">Verify</a> <span>|</span>
-                        <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        if (item.OngStatus == OngStatus.PendingVerification)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">Verify</a> <span>|</span>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">View</a> <span></span>
+                        }
                     }
                 </td>
             </tr>

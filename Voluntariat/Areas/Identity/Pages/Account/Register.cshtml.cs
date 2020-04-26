@@ -172,6 +172,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         ong.IdentificationNumber = Input.NGORegistrationModel.IdentificationNumber;
                         ong.Name = Input.NGORegistrationModel.Name;
                         ong.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
+                        ong.HeadquartersAddressLatitude = Input.NGORegistrationModel.HeadquartersAddressLatitude;
+                        ong.HeadquartersAddressLongitude = Input.NGORegistrationModel.HeadquartersAddressLongitude;
+                        ong.HeadquartersEmail = Input.NGORegistrationModel.HeadquartersEmail;
+                        ong.HeadquartersPhoneNumber = Input.NGORegistrationModel.HeadquartersPhoneNumber;
+                        ong.DialingCode = Input.NGORegistrationModel.DialingCode;
                         ong.Website = Input.NGORegistrationModel.Website;
 
                         ong.CategoryID = Input.NGORegistrationModel.CategoryID;
@@ -294,7 +299,6 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         }
     }
 
-
     public class NGORegistrationModel
     {
         [Required]
@@ -302,8 +306,26 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         public string Name { get; set; }
 
         [Required]
+        [Display(Name = "Country code")]
+        public int DialingCode { get; set; }
+
+        [Required]
+        [Display(Name = "Headquarters phone number")]
+        public string HeadquartersPhoneNumber { get; set; }
+
+        [Required]
+        [Display(Name = "Headquarters email")]
+        public string HeadquartersEmail { get; set; }
+
+        [Required]
         [Display(Name = "Headquarters address")]
         public string HeadquartersAddress { get; set; } // sediul social
+
+        [HiddenInput]
+        public double HeadquartersAddressLatitude { get; set; }
+
+        [HiddenInput]
+        public double HeadquartersAddressLongitude { get; set; }
 
         [Required]
         [Display(Name = "Identification number")]

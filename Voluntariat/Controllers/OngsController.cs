@@ -52,6 +52,11 @@ namespace Voluntariat.Controllers
             {
                 return NotFound();
             }
+
+            ong.CreatedByName = applicationDbContext.Users.Find(ong.CreatedByID.ToString()).Email;
+            ViewBag.CategoryName = applicationDbContext.Categories.FirstOrDefault(c => c.ID == ong.CategoryID)?.Name;
+            ViewBag.ServiceName = applicationDbContext.Services.FirstOrDefault(s => s.ID == ong.ServiceID)?.Name;
+
             return View(ong);
         }
 
@@ -68,7 +73,6 @@ namespace Voluntariat.Controllers
             ApplicationUser user = await userManager.FindByIdAsync(ong.CreatedByID.ToString());
 
             await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
-
             await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.NGOAdmin);
 
             Volunteer volunteer = new Volunteer();
