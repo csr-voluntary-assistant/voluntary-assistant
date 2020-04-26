@@ -17,11 +17,14 @@ namespace Voluntariat.Models
         public string Name { get; set; }
 
         public VolunteerStatus VolunteerStatus { get; set; }
+
+        public string Email { get; set; }
+        public DateTime? UnaffiliationTime { get; set; }
     }
 
     public enum VolunteerStatus
     {
         PendingVerification = 0,
-        Verified = 1
+        Verified = 1,
     }
 }
