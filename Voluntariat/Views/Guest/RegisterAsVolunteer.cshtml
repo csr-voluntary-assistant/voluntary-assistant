@@ -1,7 +1,41 @@
-﻿
+﻿@using Voluntariat.Controllers
+
+@model Voluntariat.Models.Volunteer
+
 @{
     ViewData["Title"] = "Register as a Volunteer";
 }
 
 <h4>Register as a Volunteer</h4>
 <hr />
+
+@if (ViewBag.OtherPendingApplication)
+{
+    <p>You have other pending registration. Nothing to see here!</p>
+}
+else
+{
+    <div>
+        <h4>Volunteer</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VolunteerStatus)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.VolunteerStatus)
+            </dd>
+        </dl>
+    </div>
+
+}
+<div>
+    <a asp-action="@nameof(GuestController.Index)">Back to List</a>
+</div>
