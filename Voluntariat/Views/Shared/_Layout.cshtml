@@ -15,8 +15,8 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white box-shadow navbar-design">
+            <div class="container-fluid">
                 @if (identity != null && !string.IsNullOrWhiteSpace(identity.OngName))
                 {
                     <a class="navbar-brand" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">@nameof(Voluntariat) - @identity.OngName</a>
@@ -35,15 +35,11 @@
                         @if (identity == null || identity.Role == IdentityRole.Admin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">Home</a>
+                                <a class="nav-link nav-item-link-design" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">Ongs</a>
+                                <a class="nav-link nav-item-link-design" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">NGO<span class="text-lowercase">s</span></a>
                             </li>
                         }
 
@@ -85,16 +81,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        @*<div class="container">*@
             &copy; 2020 - @nameof(Voluntariat) - <a asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
-        </div>
+        @*</div>*@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
