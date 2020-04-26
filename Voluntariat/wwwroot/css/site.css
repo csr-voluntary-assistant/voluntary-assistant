@@ -263,3 +263,25 @@ body {
 .logo-header {
     padding: 0;
 }
+
+
+/* Contact page */
+
+.contact-page-container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+.contact-map {
+    margin: 30px 0;
+}
+
+.contact-map-col {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.contact-map-iframe {
+    width: 100%;
+}
