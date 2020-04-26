@@ -69,6 +69,7 @@ namespace Voluntariat.Controllers
             Volunteer volunteer = new Volunteer();
             volunteer.ID = ong.CreatedByID;
             volunteer.OngID = ong.ID;
+            volunteer.VolunteerStatus = VolunteerStatus.Verified;
 
             applicationDbContext.Volunteers.Add(volunteer);
 
