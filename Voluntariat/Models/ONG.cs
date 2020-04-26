@@ -31,9 +31,10 @@ namespace Voluntariat.Models
         [Required]
         public Guid ServiceID { get; set; }
 
-
         [NotMapped]
         public string CreatedByName { get; set; }
+
+        public string FileIDs { get; set; }
     }
 
     public enum OngStatus
