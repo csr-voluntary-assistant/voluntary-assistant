@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Voluntariat.Data;
 using Voluntariat.Models;
@@ -9,16 +11,23 @@ namespace Voluntariat.Controllers
 {
     public class ServiceController : Controller
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
         public ServiceController(ApplicationDbContext applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(ServiceStatus? status)
         {
-            return View(await _applicationDbContext.Services.ToListAsync());
+            IQueryable<Service> queryServices = applicationDbContext.Services;
+
+            if (status.HasValue)
+                queryServices = queryServices.Where(x => x.ServiceStatus == status);
+
+            List<Service> services = await queryServices.OrderBy(x => x.ServiceStatus).ToListAsync();
+
+            return View(services);
         }
 
         // GET: Orders/Create
@@ -41,8 +50,9 @@ namespace Voluntariat.Controllers
                 service.ServiceStatus = ServiceStatus.Approved;
                 service.CreatedOn = DateTime.Now;
 
-                _applicationDbContext.Add(service);
-                await _applicationDbContext.SaveChangesAsync();
+                applicationDbContext.Add(service);
+                await applicationDbContext.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
@@ -57,7 +67,7 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            Service service = await _applicationDbContext.Services.FirstOrDefaultAsync(c => c.ID == id);
+            Service service = await applicationDbContext.Services.FirstOrDefaultAsync(c => c.ID == id);
             if (service == null)
             {
                 return NotFound();
@@ -71,9 +81,9 @@ namespace Voluntariat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            Service service = await _applicationDbContext.Services.FindAsync(id);
-            _applicationDbContext.Services.Remove(service);
-            await _applicationDbContext.SaveChangesAsync();
+            Service service = await applicationDbContext.Services.FindAsync(id);
+            applicationDbContext.Services.Remove(service);
+            await applicationDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
