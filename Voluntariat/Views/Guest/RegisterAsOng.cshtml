@@ -6,49 +6,69 @@
     ViewData["Title"] = "Register as Ong";
 }
 
-@if (Model == null || !ViewData.ModelState.IsValid)
+@if (ViewBag.OtherPendingApplication)
 {
     <h4>Register as an Ong</h4>
     <hr />
 
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="@nameof(GuestController.RegisterAsOng)">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Name" class="control-label"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="@nameof(GuestController.RegisterAsOng)" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
-    </div>
+    <p>You have other pending registration. Nothing to see here!</p>
 }
 else
 {
-    <div>
-        <h4>Ong</h4>
-        <hr />
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Name)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.Name)
-            </dd>
 
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => model.OngStatus)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => model.OngStatus)
-            </dd>
-        </dl>
-    </div>
+    @if (Model == null || !ViewData.ModelState.IsValid)
+    {
+        <h4>Register as an Ong</h4>
+        <hr />
+
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="@nameof(GuestController.RegisterAsOng)">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="@nameof(GuestController.RegisterAsOng)" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h4>Ong</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.OngStatus)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.OngStatus)
+                </dd>
+            </dl>
+        </div>
+
+        <p>Please wait while your application is being review. As soon as that is done by the Platform Admin, you'll be able to login as a NGO Admin!</p>
+
+        <p>During this time please prepare mentally for doing a lot of social good as many adventures await you!</p>
+
+
+        <p>For testing purposes we are providing here the Platform Admin account so that you can validate your NGO.</p>
+        <p>username: a@a.a</p>
+        <p>password: Test.123</p>
+    }
 }
 
 <div>
