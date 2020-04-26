@@ -19,11 +19,13 @@ namespace Voluntariat.Models
         public VolunteerStatus VolunteerStatus { get; set; }
 
         public bool ActivateNotificationsFromOtherOngs { get; set; }
+
+        public DateTime? UnaffiliationStartTime { get; set; }
     }
 
     public enum VolunteerStatus
     {
         PendingVerification = 0,
-        Verified = 1
+        Verified = 1,
     }
 }

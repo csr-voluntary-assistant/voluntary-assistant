@@ -1,15 +1,28 @@
-﻿@model IEnumerable<Voluntariat.Models.Volunteer>
+﻿@using Voluntariat.Framework.Identity
+@using Voluntariat.Controllers
+
+@model IEnumerable<Voluntariat.Models.Volunteer>
+
+@{
+    Identity identity = Context.GetIdentity();
+}
 
 <h1>Lista voluntari</h1>
 
 <p>
-    <a asp-action="Create">Invita un voluntar</a>
+    @if (identity != null && identity.Role == IdentityRole.NGOAdmin)
+    {
+        <a asp-action="Create">Invita un voluntar</a>
+    }
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolunteerStatus)
             </th>
             <th></th>
         </tr>
@@ -22,7 +35,19 @@
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                    @Html.DisplayFor(modelItem => item.VolunteerStatus)
+                </td>
+                <td>
+                    @if (identity != null && identity.Role == IdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.PendingVerification)
+                    {
+                        <a asp-action="@nameof(VolunteersController.Verify)" asp-route-id="@item.ID">Verify</a> <span>|</span>
+                        <a asp-action="@nameof(VolunteersController.Delete)" asp-route-id="@item.ID">Delete</a>
+                    }
+
+                    @if (identity != null && identity.Role == IdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.Verified)
+                    {
+                        <a asp-action="@nameof(VolunteersController.Delete)" asp-route-id="@item.ID">Delete</a>
+                    }
                 </td>
             </tr>
         }

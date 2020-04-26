@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntariat.Data;
 
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425210217_Add_Service_Table")]
+    partial class Add_Service_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,6 +304,9 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int>("AddedBy")
                         .HasColumnType("int");
 
+                    b.Property<int>("BeneficiariesCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("CategoryStatus")
                         .HasColumnType("int");
 
@@ -312,51 +317,22 @@ namespace Voluntariat.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NGOsCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolunteersCount")
+                        .HasColumnType("int");
+
                     b.HasKey("ID");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("4817ee60-a647-400f-bf3a-265fe184fe81"),
-                            AddedBy = 0,
-                            CategoryStatus = 1,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Seniori 65+",
-                            Name = "Seniori 65+"
-                        },
-                        new
-                        {
-                            ID = new Guid("b6619b80-4fb7-48a8-8a2e-9383afbdff93"),
-                            AddedBy = 0,
-                            CategoryStatus = 1,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Persoane cu dizabilitați",
-                            Name = "Persoane cu dizabilitați"
-                        },
-                        new
-                        {
-                            ID = new Guid("887e9957-4f9b-4b13-878d-643c5040c19e"),
-                            AddedBy = 0,
-                            CategoryStatus = 1,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Persoane autoizolate",
-                            Name = "Persoane autoizolate"
-                        },
-                        new
-                        {
-                            ID = new Guid("b285dbbc-6696-4dbd-80ff-795c83c13c42"),
-                            AddedBy = 0,
-                            CategoryStatus = 1,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Cazuri sociale",
-                            Name = "Cazuri sociale"
-                        });
                 });
 
             modelBuilder.Entity("Voluntariat.Models.Ong", b =>
@@ -433,6 +409,9 @@ namespace Voluntariat.Data.Migrations
                     b.Property<int>("AddedBy")
                         .HasColumnType("int");
 
+                    b.Property<int>("BeneficiariesCount")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
@@ -440,45 +419,25 @@ namespace Voluntariat.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NGOsCount")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProjectsCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("ServiceStatus")
+                        .HasColumnType("int");
+
+                    b.Property<int>("VolunteersCount")
                         .HasColumnType("int");
 
                     b.HasKey("ID");
 
                     b.ToTable("Services");
-
-                    b.HasData(
-                        new
-                        {
-                            ID = new Guid("1261ee94-293e-4a4d-99f6-5e4f42451093"),
-                            AddedBy = 0,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Hrana si stricta necesitate",
-                            Name = "Hrana si stricta necesitate",
-                            ServiceStatus = 1
-                        },
-                        new
-                        {
-                            ID = new Guid("b7fca1ba-0899-41f0-950a-9bfe2673c931"),
-                            AddedBy = 0,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Medicamente",
-                            Name = "Medicamente",
-                            ServiceStatus = 1
-                        },
-                        new
-                        {
-                            ID = new Guid("e71af559-176d-43ff-821e-760290d62dd6"),
-                            AddedBy = 0,
-                            CreatedOn = new DateTime(2020, 4, 26, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Description = "Plata facturi",
-                            Name = "Plata facturi",
-                            ServiceStatus = 1
-                        });
                 });
 
             modelBuilder.Entity("Voluntariat.Models.Volunteer", b =>
@@ -492,9 +451,6 @@ namespace Voluntariat.Data.Migrations
 
                     b.Property<Guid?>("OngID")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("UnaffiliationStartTime")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("VolunteerStatus")
                         .HasColumnType("int");

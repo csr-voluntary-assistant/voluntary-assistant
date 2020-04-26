@@ -186,6 +186,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         volunteer.Name = user.Email;
                         volunteer.VolunteerStatus = VolunteerStatus.PendingVerification;
                         volunteer.ActivateNotificationsFromOtherOngs = Input.ActivateNotificationsFromOtherOngs;
+                        if (!volunteer.OngID.HasValue)
+                            volunteer.UnaffiliationStartTime = DateTime.UtcNow;
 
                         applicationDbContext.Add(volunteer);
                     }

@@ -74,6 +74,15 @@ body {
 }
 
 
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.max-width-100 {
+    max-width: 100%;
+}
+
+
 /* Landing page  */
 
 .navbar-design {

@@ -1,0 +1,80 @@
+﻿@model Voluntariat.Models.AdminMetricsModel
+@{
+    ViewData["Title"] = "Home";
+}
+
+<div>
+    <div class="row margin-top-25">
+        <div class="col-4 card-block">
+            <img src="~/res/ngos.png" class="max-width-100" />
+            <h4 class="card-title">NGOs</h4>
+            <a href="" class="btn btn-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveOngs)</span>
+            </a>
+            <a href="" class="btn btn-primary">
+                Pending
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingOngs)</span>
+            </a>
+        </div>
+
+        <div class="col-4 card-block">
+            <img src="~/res/categories.png" class="max-width-100" />
+            <h4 class="card-title">Categories</h4>
+            <a href="" class="btn btn-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveCategories)</span>
+            </a>
+            <a href="" class="btn btn-primary">
+                Pending
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingCategories)</span>
+            </a>
+        </div>
+
+        <div class="col-4 card-block">
+            <img src="~/res/services.png" class="max-width-100" />
+            <h4 class="card-title">Services</h4>
+            <a href="" class="btn btn-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveServices)</span>
+            </a>
+            <a href="" class="btn btn-primary">
+                Pending
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingServices)</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="row margin-top-25">
+        <div class="col-4 card-block">
+            <img src="~/res/volunteers.png" class="max-width-100" />
+            <h4 class="card-title">Volunteers</h4>
+            <a href="" class="btn btn-light btn-outline-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveVolunteers)</span>
+            </a>
+            <a href="" class="btn btn-light btn-outline-primary">
+                Unaffiliated
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfUnaffiliatedVolunteer)</span>
+            </a>
+        </div>
+
+        <div class="col-4 card-block">
+            <img src="~/res/projects.png" class="max-width-100" />
+            <h4 class="card-title">Projects</h4>
+            <a href="" class="btn btn-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveProjects)</span>
+            </a>
+        </div>
+
+        <div class="col-4 card-block">
+            <img src="~/res/beneficiaries.png" class="max-width-100" />
+            <h4 class="card-title">Beneficiaries</h4>
+            <button class="btn btn-light btn-outline-primary">
+                Active
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveBeneficaries)</span>
+            </button>
+        </div>
+    </div>
+</div>

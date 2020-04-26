@@ -69,6 +69,7 @@ namespace Voluntariat.Controllers
             Volunteer volunteer = new Volunteer();
             volunteer.ID = ong.CreatedByID;
             volunteer.OngID = ong.ID;
+            volunteer.VolunteerStatus = VolunteerStatus.Verified;
 
             applicationDbContext.Volunteers.Add(volunteer);
 
@@ -101,6 +102,17 @@ namespace Voluntariat.Controllers
         {
             var ong = await applicationDbContext.Ongs.FindAsync(id);
             applicationDbContext.Ongs.Remove(ong);
+
+            // unaffiliate volunteers after ong is deleted
+            var volunteers = await applicationDbContext.Volunteers.Where(v => v.OngID.HasValue && v.OngID.Value == id).ToListAsync();
+            foreach (var volunteer in volunteers)
+            {
+                volunteer.OngID = null;
+                volunteer.UnaffiliationStartTime = DateTime.UtcNow;
+
+                applicationDbContext.Volunteers.Update(volunteer);
+            }
+
             await applicationDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }

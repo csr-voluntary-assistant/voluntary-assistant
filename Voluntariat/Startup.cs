@@ -42,6 +42,7 @@ namespace Voluntariat
                 options.Filters.Add<Framework.GuestActionFilterAttribute>();
                 options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
                 options.Filters.Add<Framework.BeneficiaryActionFilterAttribute>();
+                options.Filters.Add<Framework.AdminActionFilterAttribute>();
             });
 
             services.AddRazorPages();
@@ -51,6 +52,8 @@ namespace Voluntariat
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<IVolunteerService, VolunteerService>();
             services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
+            services.AddScoped<IScheduledTask, ScheduledTask>();
+            services.AddScoped<ITaskScheduler, TaskScheduler>();
 
             services.AddHttpClient<TwilioVerifyClient>(client =>
             {
@@ -75,6 +78,8 @@ namespace Voluntariat
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            StartScheduleTasks(app);
 
             ApplicationDbInitializer.SeedUsers(userManager);
 
@@ -104,6 +109,15 @@ namespace Voluntariat
                 {
                     applicationDbContext.Database.Migrate();
                 }
+            }
+        }
+
+        private void StartScheduleTasks(IApplicationBuilder app)
+        {
+            using (IServiceScope serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var service = serviceScope.ServiceProvider.GetService<ITaskScheduler>();
+                service.RunBackgoundTasks();
             }
         }
     }
