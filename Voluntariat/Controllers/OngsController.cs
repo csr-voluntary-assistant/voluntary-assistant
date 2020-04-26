@@ -22,9 +22,14 @@ namespace Voluntariat.Controllers
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(OngStatus? status)
         {
-            List<Ong> ongs = await applicationDbContext.Ongs.OrderBy(x => x.OngStatus).ToListAsync();
+            IQueryable<Ong> queryNGOs = applicationDbContext.Ongs;
+
+            if (status.HasValue)
+                queryNGOs = queryNGOs.Where(x => x.OngStatus == status);
+
+            List<Ong> ongs = await queryNGOs.OrderBy(x => x.OngStatus).ToListAsync();
 
             foreach (Ong ong in ongs)
             {

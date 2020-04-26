@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Voluntariat.Data;
 using Voluntariat.Models;
@@ -9,16 +11,23 @@ namespace Voluntariat.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
         public CategoryController(ApplicationDbContext applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(CategoryStatus? status)
         {
-            return View(await _applicationDbContext.Categories.ToListAsync());
+            IQueryable<Category> queryCategories = applicationDbContext.Categories;
+
+            if (status.HasValue)
+                queryCategories = queryCategories.Where(x => x.CategoryStatus == status);
+
+            List<Category> services = await queryCategories.OrderBy(x => x.CategoryStatus).ToListAsync();
+
+            return View(services);
         }
 
         // GET: Orders/Create
@@ -41,8 +50,8 @@ namespace Voluntariat.Controllers
                 category.CategoryStatus = CategoryStatus.Approved;
                 category.CreatedOn = DateTime.Now;
 
-                _applicationDbContext.Add(category);
-                await _applicationDbContext.SaveChangesAsync();
+                applicationDbContext.Add(category);
+                await applicationDbContext.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -57,7 +66,7 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            Category category = await _applicationDbContext.Categories.FirstOrDefaultAsync(c => c.ID == id);
+            Category category = await applicationDbContext.Categories.FirstOrDefaultAsync(c => c.ID == id);
             if (category == null)
             {
                 return NotFound();
@@ -71,9 +80,9 @@ namespace Voluntariat.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            Category category = await _applicationDbContext.Categories.FindAsync(id);
-            _applicationDbContext.Categories.Remove(category);
-            await _applicationDbContext.SaveChangesAsync();
+            Category category = await applicationDbContext.Categories.FindAsync(id);
+            applicationDbContext.Categories.Remove(category);
+            await applicationDbContext.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
     }
