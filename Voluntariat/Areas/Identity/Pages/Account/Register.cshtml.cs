@@ -95,10 +95,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             public string Address { get; set; }
 
             [HiddenInput]
-            public double Longitude { get; set; } = 0;
+            [Required(ErrorMessage = "Please fill in the Address field manually and select an address from the autocomplete list")]
+            public double? Longitude { get; set; }
 
             [HiddenInput]
-            public double Latitude { get; set; } = 0;
+            public double? Latitude { get; set; }
 
             public RegisterAs RegisterAs { get; set; }
 
@@ -127,24 +128,14 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
         {
             ReturnUrl = returnUrl;
-            RegisterAs = Enum.Parse<RegisterAs>(registerAs);
-            ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (RegisterAs == RegisterAs.NGO)
-            {
-                AvailableServices = applicationDbContext.Services.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
-                AvailableCategories = applicationDbContext.Categories.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
-            }
-            else if (RegisterAs == RegisterAs.Volunteer)
-            {
-                AvailableNGOs = applicationDbContext.Ongs.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.Name }).ToList();
-            }
+            await FillRegistrationDataAsync(Enum.Parse<RegisterAs>(registerAs));
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
-            ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 ApplicationUser user = new ApplicationUser
@@ -154,8 +145,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     PhoneNumber = Input.PhoneNumber,
                     DialingCode = Input.DialingCode,
                     Address = Input.Address,
-                    Longitude = Input.Longitude,
-                    Latitude = Input.Latitude,
+                    Longitude = Input.Longitude.Value,
+                    Latitude = Input.Latitude.Value,
                     HasDriverLicence = Input.HasDriverLicence,
                     TransportationMethod = Input.TransportationMethod,
                     OtherTransportationMethod = Input.OtherTransportationMethod,
@@ -225,11 +216,14 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         return LocalRedirect(returnUrl);
                     }
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
+
+            await FillRegistrationDataAsync(Input.RegisterAs);
 
             // If we got this far, something failed, redisplay form
             return Page();
@@ -257,6 +251,23 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             StatusMessage = "Files successfully uploaded";
 
             return RedirectToPage();
+        }
+
+        private async Task FillRegistrationDataAsync(RegisterAs registerAs)
+        {
+            ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            RegisterAs = registerAs;
+
+            if (RegisterAs == RegisterAs.NGO)
+            {
+                AvailableServices = applicationDbContext.Services.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
+                AvailableCategories = applicationDbContext.Categories.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
+            }
+            else if (RegisterAs == RegisterAs.Volunteer)
+            {
+                AvailableNGOs = applicationDbContext.Ongs.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.Name }).ToList();
+            }
         }
     }
 
