@@ -17,6 +17,7 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Voluntariat.Models;
+using Voluntariat.Services;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
 {
@@ -27,6 +28,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> userManager;
         private readonly ILogger<RegisterModel> logger;
         private readonly IEmailSender emailSender;
+        private readonly ISecureCloudFileManager secureCloudFileManager;
 
         private readonly Data.ApplicationDbContext applicationDbContext;
 
@@ -35,12 +37,14 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
+            ISecureCloudFileManager secureCloudFileManager,
             Data.ApplicationDbContext applicationDbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.logger = logger;
             this.emailSender = emailSender;
+            this.secureCloudFileManager = secureCloudFileManager;
 
             this.applicationDbContext = applicationDbContext;
         }
@@ -141,7 +145,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             }
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(List<IFormFile> files, string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -181,6 +185,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
                         ong.CategoryID = Input.NGORegistrationModel.CategoryID;
                         ong.ServiceID = Input.NGORegistrationModel.ServiceID;
+
+                        if (files.Any())
+                        {
+                            ong.FileIDs = await UploadFiles(files);
+                        }    
 
                         applicationDbContext.Add(ong);
                     }
@@ -235,10 +244,11 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             return Page();
         }
 
-        public async Task<IActionResult> OnPostUploadAsync(List<IFormFile> files)
+        public async Task<string> UploadFiles(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
             List<string> filePaths = new List<string>();
+            List<string> fileIDs = new List<string>();
 
             foreach (var formFile in files)
             {
@@ -251,12 +261,25 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     {
                         await formFile.CopyToAsync(stream);
                     }
+
+                    string fileName = await secureCloudFileManager.UploadFileAsync(filePath);
+                    if (!string.IsNullOrWhiteSpace(fileName) && Guid.TryParse(fileName, out var fileID))
+                    {
+                        fileIDs.Add(fileID.ToString());
+                    }
+
+                    try
+                    {
+                        System.IO.File.Delete(filePath);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Team file not found:" + e);
+                    }
                 }
             }
-
-            StatusMessage = "Files successfully uploaded";
-
-            return RedirectToPage();
+            
+            return string.Join<string>(",", fileIDs);
         }
     }
 
