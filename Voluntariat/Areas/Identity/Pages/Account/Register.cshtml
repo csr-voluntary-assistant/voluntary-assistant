@@ -119,6 +119,20 @@
                     <input asp-for="Input.NGORegistrationModel.Website" class="form-control" />
                     <span asp-validation-for="Input.NGORegistrationModel.Website" class="text-danger"></span>
                 </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.CategoryID">Categories</label>
+                    <select asp-for="Input.NGORegistrationModel.CategoryID" asp-items="Model.AvailableCategories" class="col-md-12 form-control">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.NGORegistrationModel.ServiceID">Services</label>
+                    <select asp-for="Input.NGORegistrationModel.ServiceID" asp-items="Model.AvailableServices" class="col-md-12 form-control">
+                        <option value="">-- Select --</option>
+                    </select>
+                </div>
             }
 
             <button type="submit" class="btn btn-primary">Register</button>
