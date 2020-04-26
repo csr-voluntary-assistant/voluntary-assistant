@@ -40,7 +40,7 @@ namespace Voluntariat.Services
             var volunteerUsers = _volunteerRepository.GetVolunteers();
             var volunteers = _volunteerRepository.GetUnaffiliatedVolunteers();
             var availableForNotificationVolunteerIds = volunteers
-                .Where(v => v.UnaffiliationTime.Value.AddMonths(1) < DateTime.UtcNow)
+                .Where(v => v.UnaffiliationStartTime.Value.Date.AddMonths(1) < DateTime.UtcNow.Date)
                 .Select(v => v.ID.ToString())
                 .ToList();
 
@@ -56,7 +56,7 @@ namespace Voluntariat.Services
         {
             var volunteers = _volunteerRepository.GetUnaffiliatedVolunteers();
             var toBeRemovedVolunteerIds = volunteers
-                .Where(v => v.UnaffiliationTime.Value.AddMonths(1).AddDays(2) < DateTime.UtcNow)
+                .Where(v => v.UnaffiliationStartTime.Value.Date.AddMonths(1).AddDays(2) < DateTime.UtcNow.Date)
                 .AsNoTracking()
                 .Select(v => v.ID)
                 .ToArray();

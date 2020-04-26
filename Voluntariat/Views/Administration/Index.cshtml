@@ -1,4 +1,7 @@
 ﻿@model Voluntariat.Models.AdminMetricsModel
+@{
+    ViewData["Title"] = "Home";
+}
 
 <div>
     <div class="row margin-top-25">
@@ -68,10 +71,10 @@
         <div class="col-4 card-block">
             <img src="~/res/beneficiaries.png" class="max-width-100" />
             <h4 class="card-title">Beneficiaries</h4>
-            <a href="" class="btn btn-light btn-outline-primary">
+            <button class="btn btn-light btn-outline-primary">
                 Active
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveBeneficaries)</span>
-            </a>
+            </button>
         </div>
     </div>
 </div>

@@ -20,7 +20,7 @@ namespace Voluntariat.Models
 
         public bool ActivateNotificationsFromOtherOngs { get; set; }
 
-        public DateTime? UnaffiliationTime { get; set; }
+        public DateTime? UnaffiliationStartTime { get; set; }
     }
 
     public enum VolunteerStatus

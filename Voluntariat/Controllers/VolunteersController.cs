@@ -212,6 +212,7 @@ namespace Voluntariat.Controllers
             {
                 try
                 {
+                    volunteer.UnaffiliationStartTime = volunteer.OngID.HasValue ? (DateTime?)null: DateTime.UtcNow;
                     applicationDbContext.Update(volunteer);
                     await applicationDbContext.SaveChangesAsync();
                 }
@@ -275,7 +276,7 @@ namespace Voluntariat.Controllers
 
         }
 
-        private void TestVolunteersInRangeUsingDB() 
+        private void TestVolunteersInRangeUsingDB()
         {
             ApplicationUser beneficiary = new ApplicationUser();
             beneficiary.Latitude = 47.034654; //47.034654, 21.946378
@@ -284,7 +285,7 @@ namespace Voluntariat.Controllers
             var result = _volunteerService.GetVolunteersInRangeForBeneficiary(beneficiary, 8000);
         }
 
-        private void TestBeneficiaresInRange() 
+        private void TestBeneficiaresInRange()
         {
             ApplicationUser beneficiary1 = new ApplicationUser();
             beneficiary1.Latitude = 47.034654; //47.034654, 21.946378
