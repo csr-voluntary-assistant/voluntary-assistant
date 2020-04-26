@@ -18,14 +18,6 @@ namespace Voluntariat.Models
 
         public AddedBy AddedBy { get; set; }
 
-        public int VolunteersCount { get; set; }
-
-        public int BeneficiariesCount { get; set; }
-
-        public int NGOsCount { get; set; }
-
-        public int ProjectsCount { get; set; }
-
         public DateTime CreatedOn { get; set; }
     }
 
@@ -39,8 +31,6 @@ namespace Voluntariat.Models
     public enum AddedBy
     {
         PlatformAdmin = 0,
-        Volunteer = 1,
-        Beneficiary = 2, 
-        NGO = 3
+        NGO = 1
     }
 }

@@ -35,21 +35,11 @@
                         @if (identity == null || identity.Role == IdentityRole.Admin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">
-                                    Ongs
-                                </a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">NGOs</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">
-                                    Categories
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">
-                                    Services
-                                </a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
                             </li>
                         }
 

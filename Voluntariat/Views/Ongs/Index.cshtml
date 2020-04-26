@@ -1,7 +1,10 @@
-﻿@model IEnumerable<Voluntariat.Models.Ong>
+﻿@using Voluntariat.Framework.Identity
+@model IEnumerable<Voluntariat.Models.Ong>
 
 @{
     ViewData["Title"] = "Index";
+
+    Identity identity = Context.GetIdentity();
 }
 
 <h3>Lista Ong-uri inregistrare sau in curs de inregistrare in platforma</h3>
@@ -36,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.CreatedByName)
                 </td>
                 <td>
-                    @if (item.OngStatus == OngStatus.PendingVerification)
+                    @if (identity != null && identity.Role == IdentityRole.Admin && item.OngStatus == OngStatus.PendingVerification)
                     {
                         <a asp-action="Edit" asp-route-id="@item.ID">Verify</a> <span>|</span>
                         <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>

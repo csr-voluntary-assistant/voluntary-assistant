@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
-using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
@@ -10,10 +9,6 @@ namespace Voluntariat.Controllers
     {
         public IActionResult Index()
         {
-            var user = HttpContext.GetIdentity();
-            if (user.Role == IdentityRole.Admin)
-                return Redirect("administration");
-
             return View();
         }
 

@@ -42,6 +42,7 @@ namespace Voluntariat
                 options.Filters.Add<Framework.GuestActionFilterAttribute>();
                 options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
                 options.Filters.Add<Framework.BeneficiaryActionFilterAttribute>();
+                options.Filters.Add<Framework.AdminActionFilterAttribute>();
             });
 
             services.AddRazorPages();
