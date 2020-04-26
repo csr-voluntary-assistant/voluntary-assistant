@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Voluntariat.Data;
 
 namespace Voluntariat.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200425173542_Make_OngID_Nullable_in_Volunteers_table")]
+    partial class Make_OngID_Nullable_in_Volunteers_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,46 +295,6 @@ namespace Voluntariat.Data.Migrations
                     b.ToTable("Beneficiaries");
                 });
 
-            modelBuilder.Entity("Voluntariat.Models.Category", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AddedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BeneficiariesCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CategoryStatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NGOsCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProjectsCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VolunteersCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Categories");
-                });
-
             modelBuilder.Entity("Voluntariat.Models.Ong", b =>
                 {
                     b.Property<Guid>("ID")
@@ -398,54 +360,11 @@ namespace Voluntariat.Data.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("Voluntariat.Models.Service", b =>
-                {
-                    b.Property<Guid>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AddedBy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BeneficiariesCount")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("NGOsCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProjectsCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServiceStatus")
-                        .HasColumnType("int");
-
-                    b.Property<int>("VolunteersCount")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("Services");
-                });
-
             modelBuilder.Entity("Voluntariat.Models.Volunteer", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("ActivateNotificationsFromOtherOngs")
-                        .HasColumnType("bit");
 
                     b.Property<Guid?>("OngID")
                         .HasColumnType("uniqueidentifier");
