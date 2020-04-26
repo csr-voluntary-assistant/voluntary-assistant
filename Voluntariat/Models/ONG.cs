@@ -25,6 +25,12 @@ namespace Voluntariat.Models
         [Required]
         public string Website { get; set; }
 
+        [Required]
+        public Guid CategoryID { get; set; }
+
+        [Required]
+        public Guid ServiceID { get; set; }
+
 
         [NotMapped]
         public string CreatedByName { get; set; }

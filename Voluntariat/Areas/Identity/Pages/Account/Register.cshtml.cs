@@ -56,6 +56,10 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
         public List<SelectListItem> AvailableNGOs { get; set; }
 
+        public List<SelectListItem> AvailableCategories { get; set; }
+
+        public List<SelectListItem> AvailableServices { get; set; }
+
         [TempData]
         public string StatusMessage { get; set; }
 
@@ -126,15 +130,14 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             RegisterAs = Enum.Parse<RegisterAs>(registerAs);
             ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
-            if (RegisterAs == RegisterAs.Volunteer)
+            if (RegisterAs == RegisterAs.NGO)
             {
-                AvailableNGOs = applicationDbContext.Ongs.Select(o =>
-                                                                new SelectListItem
-                                                                {
-                                                                    Value = o.ID.ToString(),
-                                                                    Text = o.Name
-                                                                })
-                                                    .ToList();
+                AvailableServices = applicationDbContext.Services.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
+                AvailableCategories = applicationDbContext.Categories.Select(x => new SelectListItem() { Value = x.ID.ToString(), Text = x.Name }).ToList();
+            }
+            else if (RegisterAs == RegisterAs.Volunteer)
+            {
+                AvailableNGOs = applicationDbContext.Ongs.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.Name }).ToList();
             }
         }
 
@@ -175,6 +178,9 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         ong.Name = Input.NGORegistrationModel.Name;
                         ong.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
                         ong.Website = Input.NGORegistrationModel.Website;
+
+                        ong.CategoryID = Input.NGORegistrationModel.CategoryID;
+                        ong.ServiceID = Input.NGORegistrationModel.ServiceID;
 
                         applicationDbContext.Add(ong);
                     }
@@ -272,6 +278,12 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         [Required]
         [Display(Name = nameof(Website))]
         public string Website { get; set; }
+
+        [Required]
+        public Guid CategoryID { get; set; }
+
+        [Required]
+        public Guid ServiceID { get; set; }
     }
 
     public enum RegisterAs
