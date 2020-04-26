@@ -212,7 +212,7 @@ namespace Voluntariat.Controllers
             {
                 try
                 {
-                    volunteer.UnaffiliationStartTime = volunteer.OngID.HasValue ? (DateTime?)null: DateTime.UtcNow;
+                    volunteer.UnaffiliationStartTime = volunteer.OngID.HasValue ? (DateTime?)null : DateTime.UtcNow;
                     applicationDbContext.Update(volunteer);
                     await applicationDbContext.SaveChangesAsync();
                 }
@@ -230,6 +230,45 @@ namespace Voluntariat.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(volunteer);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> Verify(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            Volunteer volunteer = await applicationDbContext.Volunteers.FindAsync(id);
+            if (volunteer == null)
+            {
+                return NotFound();
+            }
+
+            volunteer.Name = applicationDbContext.Users.Find(id.ToString()).Email;
+
+            return View(volunteer);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Verify(Guid id)
+        {
+            Volunteer volunteer = await applicationDbContext.Volunteers.FindAsync(id);
+            volunteer.VolunteerStatus = VolunteerStatus.Verified;
+
+            ApplicationUser user = await userManager.FindByIdAsync(id.ToString());
+
+            await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
+
+            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.Volunteer);
+
+            await applicationDbContext.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Volunteers));
         }
 
         private bool VolunteerExists(Guid id)
