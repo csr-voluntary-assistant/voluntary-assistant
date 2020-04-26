@@ -134,9 +134,12 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <input class="col-md-9" type="file" name="files" multiple />
-                </div>
+                @if (Model.RegisterAs == RegisterAs.NGO)
+                {
+                    <div class="form-group">
+                        <input class="col-md-9" type="file" name="files" multiple />
+                    </div>
+                }
             }
 
             <button type="submit" class="btn btn-primary">Register</button>
