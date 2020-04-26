@@ -42,6 +42,7 @@
     <Content Update="wwwroot\res\volunteers.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

@@ -15,15 +15,17 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white box-shadow navbar-design">
+            <div class="container-fluid">
                 @if (identity != null && !string.IsNullOrWhiteSpace(identity.OngName))
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">@nameof(Voluntariat) - @identity.OngName</a>
+                    <a class="navbar-brand nav-item-color-white" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">@nameof(Voluntariat) - @identity.OngName</a>
                 }
                 else
                 {
-                    <a class="navbar-brand" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">@nameof(Voluntariat)</a>
+                    <a class="navbar-brand nav-item-color-white logo-header" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Index)">
+                        <img src="~/images/logo.svg">
+                    </a>
                 }
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -32,59 +34,44 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @if (identity == null || identity.Role == IdentityRole.Admin)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">NGOs</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
-                            </li>
-                        }
-
                         @if (identity?.Role == IdentityRole.Admin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)">Categories</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(ServiceController)[0..^10]" asp-action="@nameof(ServiceController.Index)">Services</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">NGO<span class="text-lowercase">s</span></a>
                             </li>
                         }
 
                         @if (identity?.Role == IdentityRole.Guest)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.Index)">Home</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.Index)">Home</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsOng)">Ong</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsOng)">Ong</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsBeneficiary)">Beneficiary</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsBeneficiary)">Beneficiary</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsVolunteer)">Volunteer</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.RegisterAsVolunteer)">Volunteer</a>
                             </li>
                         }
 
                         @if (identity?.Role == IdentityRole.Volunteer || identity?.Role == IdentityRole.NGOAdmin)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Index)">Home</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Index)">Home</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Volunteers)">Voluntari</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Volunteers)">Voluntari</a>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Orders)">Comenzi</a>
+                                <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Orders)">Comenzi</a>
                             </li>
                         }
                     </ul>
@@ -92,15 +79,21 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container-fluid">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - @nameof(Voluntariat) - <a asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
+    <footer class="border-top footer">
+        <div class="footer-left-side">
+            <img src="~/images/logo.svg">
+            <div class="footer-copyright">&copy; 2020 - Copyright Volunteero 2020. All rights reserved.</div>
+        </div>
+        <div class="footer-right-side">
+            <a class="footer-link" href="">Terms</a>
+            <a class="footer-link" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
+            <a class="footer-link" href="">Contact us</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
