@@ -120,12 +120,16 @@ namespace Voluntariat.Controllers
 
             ViewBag.OtherPendingApplication = ong != null || ong != null;
 
+            if (!ViewBag.OtherPendingApplication)
+            {
+                Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.VolunteerStatus == VolunteerStatus.PendingVerification && x.ID == identity.ID);
 
-            Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.VolunteerStatus == VolunteerStatus.PendingVerification && x.ID == identity.ID);
+                volunteer.Name = applicationDbContext.Users.Find(identity.ID.ToString()).Email;
 
-            volunteer.Name = applicationDbContext.Users.Find(identity.ID.ToString()).Email;
+                return View(volunteer);
+            }
 
-            return View(volunteer);
+            return View();
         }
     }
 }
