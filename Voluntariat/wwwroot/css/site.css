@@ -263,3 +263,10 @@ body {
 .logo-header {
     padding: 0;
 }
+
+
+/* Contact page */
+
+.contact-map {
+    margin: 30px 15px; 
+}

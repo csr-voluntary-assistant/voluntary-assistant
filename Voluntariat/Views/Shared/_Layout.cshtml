@@ -101,7 +101,7 @@
         <div class="footer-right-side">
             <a class="footer-link" href="">Terms</a>
             <a class="footer-link" asp-area="" asp-controller="@nameof(HomeController)[0..^10]" asp-action="@nameof(HomeController.Privacy)">Privacy</a>
-            <a class="footer-link" href="">Contact us</a>
+            <a class="footer-link" asp-area="" asp-controller="@nameof(ContactController)[0..^10]" asp-action="@nameof(ContactController.Index)">Contact us</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -12,11 +12,11 @@
                 <img src="~/res/ngos.png" class="max-width-100" />
             </a>
             <h4 class="card-title">NGOs</h4>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(OngStatus.Verified)" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
                 Active
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveOngs)</span>
             </a>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(OngStatus.PendingVerification)" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
                 Pending
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingOngs)</span>
             </a>
@@ -27,11 +27,11 @@
                 <img src="~/res/categories.png" class="max-width-100" />
             </a>
             <h4 class="card-title">Categories</h4>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(CategoryStatus.Approved)" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)" class="btn btn-primary">
                 Active
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveCategories)</span>
             </a>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(CategoryStatus.Pending)" asp-controller="@nameof(CategoryController)[0..^10]" asp-action="@nameof(CategoryController.Index)" class="btn btn-primary">
                 Pending
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingCategories)</span>
             </a>
@@ -42,11 +42,11 @@
                 <img src="~/res/services.png" class="max-width-100" />
             </a>
             <h4 class="card-title">Services</h4>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(ServiceController)[0..^10]" asp-action="@nameof(ServiceController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(ServiceStatus.Approved)" asp-controller="@nameof(ServiceController)[0..^10]" asp-action="@nameof(ServiceController.Index)" class="btn btn-primary">
                 Active
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveServices)</span>
             </a>
-            <a asp-area="" asp-route-status="" asp-controller="@nameof(ServiceController)[0..^10]" asp-action="@nameof(ServiceController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(ServiceStatus.Pending)" asp-controller="@nameof(ServiceController)[0..^10]" asp-action="@nameof(ServiceController.Index)" class="btn btn-primary">
                 Pending
                 <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingServices)</span>
             </a>
