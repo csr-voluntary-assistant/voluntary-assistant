@@ -28,7 +28,7 @@ namespace Voluntariat.Data.Repositories
 
         public IQueryable<Volunteer> GetUnaffiliatedVolunteers()
         {
-            return _applicationDbContext.Volunteers.Where(v => v.OngID == Guid.Empty || v.OngID == null).AsQueryable<Volunteer>();
+            return _applicationDbContext.Volunteers.Where(v => v.NGOID == Guid.Empty || v.NGOID == null).AsQueryable<Volunteer>();
         }
 
         public void RemoveVolunteers(Guid[] ids)

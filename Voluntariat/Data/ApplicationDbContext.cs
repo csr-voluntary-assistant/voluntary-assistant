@@ -8,7 +8,7 @@ namespace Voluntariat.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Ong> Ongs { get; set; }
+        public DbSet<NGO> NGOs { get; set; }
 
         public DbSet<Volunteer> Volunteers { get; set; }
 

@@ -90,16 +90,16 @@
             @if (Model.RegisterAs == RegisterAs.Volunteer)
             {
                 <div class="form-group">
-                    <label asp-for="Input.ONGId">ONG List</label>
-                    <select asp-for="Input.ONGId" asp-items="Model.AvailableNGOs" class="col-md-12 form-control">
+                    <label asp-for="Input.NGOID">ONG List</label>
+                    <select asp-for="Input.NGOID" asp-items="Model.AvailableNGOs" class="col-md-12 form-control">
                         <option value="">-- Select --</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Input.ActivateNotificationsFromOtherOngs"></label>
-                    <input asp-for="Input.ActivateNotificationsFromOtherOngs" class="form-control" />
-                    <span asp-validation-for="Input.ActivateNotificationsFromOtherOngs" class="text-danger"></span>
+                    <label asp-for="Input.ActivateNotificationsFromOtherNGOs"></label>
+                    <input asp-for="Input.ActivateNotificationsFromOtherNGOs" class="form-control" />
+                    <span asp-validation-for="Input.ActivateNotificationsFromOtherNGOs" class="text-danger"></span>
                 </div>
             }
             <br />

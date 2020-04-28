@@ -8,9 +8,9 @@ namespace Voluntariat.Framework.Identity
 
         public string Role { get; set; }
 
-        public Guid OngID { get; set; }
+        public Guid NGOID { get; set; }
 
-        public string OngName { get; set; }
+        public string NGOName { get; set; }
     }
 
     public static class IdentityConstants

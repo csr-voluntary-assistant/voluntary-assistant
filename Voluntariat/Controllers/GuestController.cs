@@ -27,35 +27,35 @@ namespace Voluntariat.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterAsOng()
+        public IActionResult RegisterAsNGO()
         {
             Identity identity = ControllerContext.GetIdentity();
 
-            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.OngStatus == OngStatus.PendingVerification && x.CreatedByID == identity.ID);
+            NGO ngo = applicationDbContext.NGOs.FirstOrDefault(x => x.NGOStatus == NGOStatus.PendingVerification && x.CreatedByID == identity.ID);
 
-            return View(ong);
+            return View(ngo);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsOng([Bind(nameof(Ong.Name))] Ong ong)
+        public async Task<IActionResult> RegisterAsNGO([Bind(nameof(NGO.Name))] NGO ngo)
         {
             if (ModelState.IsValid)
             {
                 Identity identity = ControllerContext.GetIdentity();
 
-                ong.ID = Guid.NewGuid();
-                ong.CreatedByID = identity.ID;
-                ong.OngStatus = OngStatus.PendingVerification;
+                ngo.ID = Guid.NewGuid();
+                ngo.CreatedByID = identity.ID;
+                ngo.NGOStatus = NGOStatus.PendingVerification;
 
-                applicationDbContext.Add(ong);
+                applicationDbContext.Add(ngo);
 
                 await applicationDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(ong);
+            return View(ngo);
         }
 
         [HttpGet]
@@ -72,9 +72,9 @@ namespace Voluntariat.Controllers
                 return View(null);
             }
 
-            List<Ong> ongs = applicationDbContext.Ongs.ToList();
+            List<NGO> ngos = applicationDbContext.NGOs.ToList();
 
-            return View(ongs);
+            return View(ngos);
         }
 
         [HttpPost]
@@ -84,7 +84,7 @@ namespace Voluntariat.Controllers
 
             Beneficiary beneficiary = new Beneficiary();
             beneficiary.ID = identity.ID;
-            beneficiary.OngID = identity.OngID;
+            beneficiary.NGOID = identity.NGOID;
             beneficiary.Status = BeneficiaryStatus.PendingVerification;
 
             ApplicationUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());

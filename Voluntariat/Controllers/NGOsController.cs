@@ -10,33 +10,33 @@ using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
-    public class OngsController : Controller
+    public class NGOsController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        public OngsController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
+        public NGOsController(ApplicationDbContext applicationDbContext, UserManager<ApplicationUser> userManager)
         {
             this.applicationDbContext = applicationDbContext;
             this.userManager = userManager;
         }
 
-        public async Task<IActionResult> Index(OngStatus? status)
+        public async Task<IActionResult> Index(NGOStatus? status)
         {
-            IQueryable<Ong> queryNGOs = applicationDbContext.Ongs;
+            IQueryable<NGO> queryNGOs = applicationDbContext.NGOs;
 
             if (status.HasValue)
-                queryNGOs = queryNGOs.Where(x => x.OngStatus == status);
+                queryNGOs = queryNGOs.Where(x => x.NGOStatus == status);
 
-            List<Ong> ongs = await queryNGOs.OrderBy(x => x.OngStatus).ToListAsync();
+            List<NGO> ngos = await queryNGOs.OrderBy(x => x.NGOStatus).ToListAsync();
 
-            foreach (Ong ong in ongs)
+            foreach (NGO ngo in ngos)
             {
-                ong.CreatedByName = applicationDbContext.Users.Find(ong.CreatedByID.ToString()).Email;
+                ngo.CreatedByName = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email;
             }
 
-            return View(ongs);
+            return View(ngos);
         }
 
         [HttpGet]
@@ -47,37 +47,37 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            Ong ong = await applicationDbContext.Ongs.FindAsync(id);
-            if (ong == null)
+            NGO ngo = await applicationDbContext.NGOs.FindAsync(id);
+            if (ngo == null)
             {
                 return NotFound();
             }
 
-            ong.CreatedByName = applicationDbContext.Users.Find(ong.CreatedByID.ToString()).Email;
-            ViewBag.CategoryName = applicationDbContext.Categories.FirstOrDefault(c => c.ID == ong.CategoryID)?.Name;
-            ViewBag.ServiceName = applicationDbContext.Services.FirstOrDefault(s => s.ID == ong.ServiceID)?.Name;
+            ngo.CreatedByName = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email;
+            ViewBag.CategoryName = applicationDbContext.Categories.FirstOrDefault(c => c.ID == ngo.CategoryID)?.Name;
+            ViewBag.ServiceName = applicationDbContext.Services.FirstOrDefault(s => s.ID == ngo.ServiceID)?.Name;
 
-            return View(ong);
+            return View(ngo);
         }
 
-        // POST: Ongs/Edit/5
+        // POST: NOGs/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id)
         {
-            Ong ong = applicationDbContext.Ongs.Find(id);
-            ong.OngStatus = OngStatus.Verified;
+            NGO ngo = applicationDbContext.NGOs.Find(id);
+            ngo.NGOStatus = NGOStatus.Verified;
 
-            ApplicationUser user = await userManager.FindByIdAsync(ong.CreatedByID.ToString());
+            ApplicationUser user = await userManager.FindByIdAsync(ngo.CreatedByID.ToString());
 
             await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
             await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.NGOAdmin);
 
             Volunteer volunteer = new Volunteer();
-            volunteer.ID = ong.CreatedByID;
-            volunteer.OngID = ong.ID;
+            volunteer.ID = ngo.CreatedByID;
+            volunteer.NGOID = ngo.ID;
             volunteer.VolunteerStatus = VolunteerStatus.Verified;
 
             applicationDbContext.Volunteers.Add(volunteer);
@@ -87,7 +87,7 @@ namespace Voluntariat.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Ongs/Delete/5
+        // GET: NGOs/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -95,28 +95,28 @@ namespace Voluntariat.Controllers
                 return NotFound();
             }
 
-            Ong ong = await applicationDbContext.Ongs.FirstOrDefaultAsync(m => m.ID == id);
-            if (ong == null)
+            NGO ngo = await applicationDbContext.NGOs.FirstOrDefaultAsync(m => m.ID == id);
+            if (ngo == null)
             {
                 return NotFound();
             }
 
-            return View(ong);
+            return View(ngo);
         }
 
-        // POST: Ongs/Delete/5
+        // POST: NGOs/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            var ong = await applicationDbContext.Ongs.FindAsync(id);
-            applicationDbContext.Ongs.Remove(ong);
+            var ngo = await applicationDbContext.NGOs.FindAsync(id);
+            applicationDbContext.NGOs.Remove(ngo);
 
-            // unaffiliate volunteers after ong is deleted
-            var volunteers = await applicationDbContext.Volunteers.Where(v => v.OngID.HasValue && v.OngID.Value == id).ToListAsync();
+            // unaffiliate volunteers after NGO is deleted
+            var volunteers = await applicationDbContext.Volunteers.Where(v => v.NGOID.HasValue && v.NGOID.Value == id).ToListAsync();
             foreach (var volunteer in volunteers)
             {
-                volunteer.OngID = null;
+                volunteer.NGOID = null;
                 volunteer.UnaffiliationStartTime = DateTime.UtcNow;
 
                 applicationDbContext.Volunteers.Update(volunteer);
@@ -126,9 +126,9 @@ namespace Voluntariat.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OngExists(Guid id)
+        private bool NGOExists(Guid id)
         {
-            return applicationDbContext.Ongs.Any(e => e.ID == id);
+            return applicationDbContext.NGOs.Any(e => e.ID == id);
         }
     }
 }
