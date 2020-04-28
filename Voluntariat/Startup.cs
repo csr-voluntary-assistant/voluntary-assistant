@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IO;
 using Voluntariat.Data;
 using Voluntariat.Data.Repositories;
 using Voluntariat.Models;
@@ -84,7 +87,12 @@ namespace Voluntariat
             ApplicationDbInitializer.SeedUsers(userManager);
 
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions()
+            {
+                FileProvider = new PhysicalFileProvider(
+                Path.Combine(env.ContentRootPath, @"ClientApp/dist")),
+                RequestPath = new PathString("/ClientApp/dist")
+            });
 
             app.UseRouting();
 
