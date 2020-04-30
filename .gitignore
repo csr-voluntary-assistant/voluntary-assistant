@@ -339,3 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 /Voluntariat/appsettings.Development.json
+*/wwwroot/dist

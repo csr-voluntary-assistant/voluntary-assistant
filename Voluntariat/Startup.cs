@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
@@ -43,6 +44,8 @@ namespace Voluntariat
                 options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
                 options.Filters.Add<Framework.BeneficiaryActionFilterAttribute>();
                 options.Filters.Add<Framework.AdminActionFilterAttribute>();
+
+                options.EnableEndpointRouting = false;
             });
 
             services.AddRazorPages();
@@ -59,6 +62,11 @@ namespace Voluntariat
             {
                 client.BaseAddress = new Uri("https://api.authy.com/");
                 client.DefaultRequestHeaders.Add("X-Authy-API-Key", Configuration["Twillio:Authy:ApiKey"]);
+            });
+
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "wwwroot/dist";
             });
         }
 
@@ -86,6 +94,8 @@ namespace Voluntariat
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+            app.UseSpaStaticFiles(new StaticFileOptions() { RequestPath = new PathString("/angular") });
+
             app.UseRouting();
 
             app.UseAuthentication();
@@ -98,6 +108,12 @@ namespace Voluntariat
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapRazorPages();
+            });
+
+            app.UseSpa(spa =>
+            {
+                //spa.Options.DefaultPage = new PathString("/angular");
+                spa.Options.SourcePath = "wwwroot";
             });
         }
 
