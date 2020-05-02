@@ -12,7 +12,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AngularMaterialModule } from './shared/angular-material/angular-material.module';
+import { AngularMaterialModule } from './shared/angular-material.module';
 
 
 @NgModule({
