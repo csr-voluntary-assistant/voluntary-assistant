@@ -31,6 +31,11 @@ namespace Voluntariat.Controllers
         {
             Identity identity = ControllerContext.GetIdentity();
 
+            Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.ID == identity.ID && x.VolunteerStatus == VolunteerStatus.PendingVerification);
+            Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.ID == identity.ID && x.Status == BeneficiaryStatus.PendingVerification);
+
+            ViewBag.OtherPendingApplication = volunteer != null || beneficiary != null;
+
             NGO ngo = applicationDbContext.NGOs.FirstOrDefault(x => x.NGOStatus == NGOStatus.PendingVerification && x.CreatedByID == identity.ID);
 
             return View(ngo);
@@ -62,6 +67,11 @@ namespace Voluntariat.Controllers
         public IActionResult RegisterAsBeneficiary()
         {
             Identity identity = ControllerContext.GetIdentity();
+
+            Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.ID == identity.ID && x.VolunteerStatus == VolunteerStatus.PendingVerification);
+            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.OngStatus == OngStatus.PendingVerification);
+
+            ViewBag.OtherPendingApplication = volunteer != null || ong != null;
 
             Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.Status == BeneficiaryStatus.PendingVerification && x.ID == identity.ID);
 
@@ -102,6 +112,22 @@ namespace Voluntariat.Controllers
 
         public IActionResult RegisterAsVolunteer()
         {
+            Identity identity = ControllerContext.GetIdentity();
+
+            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.OngStatus == OngStatus.PendingVerification);
+            Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.ID == identity.ID && x.Status == BeneficiaryStatus.PendingVerification);
+
+            ViewBag.OtherPendingApplication = ong != null || ong != null;
+
+            if (!ViewBag.OtherPendingApplication)
+            {
+                Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.VolunteerStatus == VolunteerStatus.PendingVerification && x.ID == identity.ID);
+
+                volunteer.Name = applicationDbContext.Users.Find(identity.ID.ToString()).Email;
+
+                return View(volunteer);
+            }
+
             return View();
         }
     }
