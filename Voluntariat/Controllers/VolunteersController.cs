@@ -56,7 +56,7 @@ namespace Voluntariat.Controllers
         {
             Identity identity = ControllerContext.GetIdentity();
 
-            List<Volunteer> volunteers = await applicationDbContext.Volunteers.Where(x => x.OngID == identity.OngID).ToListAsync();
+            List<Volunteer> volunteers = await applicationDbContext.Volunteers.Where(x => x.NGOID == identity.NGOID).ToListAsync();
 
             foreach (Volunteer volunteer in volunteers)
             {
@@ -101,7 +101,7 @@ namespace Voluntariat.Controllers
 
                     Volunteer volunteer = new Volunteer();
                     volunteer.ID = Guid.Parse(identityUser.Id);
-                    volunteer.OngID = identity.OngID;
+                    volunteer.NGOID = identity.NGOID;
 
                     applicationDbContext.Volunteers.Add(volunteer);
 
@@ -201,7 +201,7 @@ namespace Voluntariat.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Latitude,Longitude,OngID")] Volunteer volunteer)
+        public async Task<IActionResult> Edit(Guid id, [Bind("ID,Latitude,Longitude,NGOID")] Volunteer volunteer)
         {
             if (id != volunteer.ID)
             {
@@ -212,7 +212,7 @@ namespace Voluntariat.Controllers
             {
                 try
                 {
-                    volunteer.UnaffiliationStartTime = volunteer.OngID.HasValue ? (DateTime?)null : DateTime.UtcNow;
+                    volunteer.UnaffiliationStartTime = volunteer.NGOID.HasValue ? (DateTime?)null : DateTime.UtcNow;
                     applicationDbContext.Update(volunteer);
                     await applicationDbContext.SaveChangesAsync();
                 }

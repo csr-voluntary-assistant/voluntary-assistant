@@ -282,7 +282,7 @@ namespace Voluntariat.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("OngID")
+                    b.Property<Guid>("NGOID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -359,16 +359,39 @@ namespace Voluntariat.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Voluntariat.Models.Ong", b =>
+            modelBuilder.Entity("Voluntariat.Models.NGO", b =>
                 {
                     b.Property<Guid>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CategoryID")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("CreatedByID")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("DialingCode")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FileIDs")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("HeadquartersAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("HeadquartersAddressLatitude")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HeadquartersAddressLongitude")
+                        .HasColumnType("float");
+
+                    b.Property<string>("HeadquartersEmail")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HeadquartersPhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -376,12 +399,15 @@ namespace Voluntariat.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("NGOStatus")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OngStatus")
-                        .HasColumnType("int");
+                    b.Property<Guid>("ServiceID")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Website")
                         .IsRequired()
@@ -389,7 +415,7 @@ namespace Voluntariat.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.ToTable("Ongs");
+                    b.ToTable("NGOs");
                 });
 
             modelBuilder.Entity("Voluntariat.Models.Order", b =>
@@ -410,7 +436,7 @@ namespace Voluntariat.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid>("OngID")
+                    b.Property<Guid>("NGOID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
@@ -487,10 +513,10 @@ namespace Voluntariat.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<bool>("ActivateNotificationsFromOtherOngs")
+                    b.Property<bool>("ActivateNotificationsFromOtherNGOs")
                         .HasColumnType("bit");
 
-                    b.Property<Guid?>("OngID")
+                    b.Property<Guid?>("NGOID")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("UnaffiliationStartTime")

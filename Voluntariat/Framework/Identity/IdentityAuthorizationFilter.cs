@@ -37,12 +37,12 @@ namespace Voluntariat.Framework.Identity
             {
                 Models.Volunteer volunteer = applicationDbContext.Volunteers.Find(identity.ID);
 
-                if (volunteer.OngID.HasValue)
+                if (volunteer.NGOID.HasValue)
                 {
-                    Models.Ong ong = applicationDbContext.Ongs.Find(volunteer.OngID);
+                    Models.NGO ngo = applicationDbContext.NGOs.Find(volunteer.NGOID);
 
-                    identity.OngID = volunteer.OngID.Value;
-                    identity.OngName = ong.Name;
+                    identity.NGOID = volunteer.NGOID.Value;
+                    identity.NGOName = ngo.Name;
                 }
             }
         }

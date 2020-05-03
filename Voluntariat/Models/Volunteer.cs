@@ -10,7 +10,7 @@ namespace Voluntariat.Models
         [Key]
         public Guid ID { get; set; }
 
-        public Guid? OngID { get; set; }
+        public Guid? NGOID { get; set; }
 
         [NotMapped]
         [DisplayName("Nume voluntar")]
@@ -18,7 +18,7 @@ namespace Voluntariat.Models
 
         public VolunteerStatus VolunteerStatus { get; set; }
 
-        public bool ActivateNotificationsFromOtherOngs { get; set; }
+        public bool ActivateNotificationsFromOtherNGOs { get; set; }
 
         public DateTime? UnaffiliationStartTime { get; set; }
     }

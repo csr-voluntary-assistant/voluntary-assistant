@@ -18,17 +18,17 @@ namespace Voluntariat.Controllers
         {
             var model = new AdminMetricsModel();
 
-            model.NoOfActiveOngs = _appContext.Ongs.Count(o => o.OngStatus != OngStatus.PendingVerification);
-            model.NoOfPendingOngs = _appContext.Ongs.Count(o => o.OngStatus == OngStatus.PendingVerification);
+            model.NoOfActiveNGOs = _appContext.NGOs.Count(o => o.NGOStatus != NGOStatus.PendingVerification);
+            model.NoOfActiveNGOs = _appContext.NGOs.Count(o => o.NGOStatus == NGOStatus.PendingVerification);
 
-            model.NoOfActiveVolunteers = _appContext.Volunteers.Count(o => o.OngID != Guid.Empty && o.OngID != null);
-            model.NoOfUnaffiliatedVolunteer = _appContext.Volunteers.Count(o => o.OngID == Guid.Empty && o.OngID == null);
+            model.NoOfActiveVolunteers = _appContext.Volunteers.Count(o => o.NGOID != Guid.Empty && o.NGOID != null);
+            model.NoOfUnaffiliatedVolunteer = _appContext.Volunteers.Count(o => o.NGOID == Guid.Empty && o.NGOID == null);
 
-            //model.NoOfActiveCategories = _appContext.Categories.Count(o => o.OngStatus != OngStatus.PendingVerification);
+            //model.NoOfActiveCategories = _appContext.Categories.Count(o => o.NGO != NGOStatus.PendingVerification);
             //model.NoOfPendingCategories = _appContext.Categories.Count(o => o.Status == BeneficiaryStatus.PendingVerification);
 
-            //model.NoOfActiveServices = _appContext.Services.Count(o => o.OngID != Guid.Empty && o.OngID != null);
-            //model.NoOfPendingServices = _appContext.Services.Count(o => o.OngID == Guid.Empty && o.OngID == null);
+            //model.NoOfActiveServices = _appContext.Services.Count(o => o.NGOID != Guid.Empty && o.NGOID != null);
+            //model.NoOfPendingServices = _appContext.Services.Count(o => o.NGOID == Guid.Empty && o.NGOID == null);
 
             model.NoOfActiveBeneficaries = _appContext.Beneficiaries.Count(o => o.Status == BeneficiaryStatus.Verified);
 
