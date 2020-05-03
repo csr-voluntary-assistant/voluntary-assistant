@@ -8,7 +8,7 @@ namespace Voluntariat.Models
     {
         public Guid ID { get; set; }
 
-        public Guid OngID { get; set; }
+        public Guid NGOID { get; set; }
 
         public Guid BeneficiaryID { get; set; }
 
@@ -38,7 +38,6 @@ namespace Voluntariat.Models
         [DisplayName("Voluntar")]
         public string VolunteerName { get; set; }
     }
-
 
     public enum OrderStatus
     {

@@ -8,17 +8,17 @@
 <div>
     <div class="row margin-top-25">
         <div class="col-4 card-block">
-            <a asp-area="" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)">
+            <a asp-area="" asp-controller="@nameof(NGOsController)[0..^10]" asp-action="@nameof(NGOsController.Index)">
                 <img src="~/res/ngos.png" class="max-width-100" />
             </a>
             <h4 class="card-title">NGOs</h4>
-            <a asp-area="" asp-route-status="@(OngStatus.Verified)" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(NGOStatus.Verified)" asp-controller="@nameof(NGOsController)[0..^10]" asp-action="@nameof(NGOsController.Index)" class="btn btn-primary">
                 Active
-                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveOngs)</span>
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfActiveNGOs)</span>
             </a>
-            <a asp-area="" asp-route-status="@(OngStatus.PendingVerification)" asp-controller="@nameof(OngsController)[0..^10]" asp-action="@nameof(OngsController.Index)" class="btn btn-primary">
+            <a asp-area="" asp-route-status="@(NGOStatus.PendingVerification)" asp-controller="@nameof(NGOsController)[0..^10]" asp-action="@nameof(NGOsController.Index)" class="btn btn-primary">
                 Pending
-                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingOngs)</span>
+                <span class="badge badge-warning">@Html.DisplayFor(model => model.NoOfPendingNGOs)</span>
             </a>
         </div>
 

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Voluntariat.Models
 {
-    public class Ong
+    public class NGO
     {
         [Key]
         public Guid ID { get; set; }
@@ -14,7 +14,7 @@ namespace Voluntariat.Models
         public string Name { get; set; }
 
         [Display(Name = "Status")]
-        public OngStatus OngStatus { get; set; }
+        public NGOStatus NGOStatus { get; set; }
 
         public Guid CreatedByID { get; set; }
 
@@ -58,7 +58,7 @@ namespace Voluntariat.Models
         public string FileIDs { get; set; }
     }
 
-    public enum OngStatus
+    public enum NGOStatus
     {
         PendingVerification = 0,
         Verified = 1

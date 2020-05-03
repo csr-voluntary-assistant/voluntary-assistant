@@ -14,36 +14,36 @@ namespace Voluntariat.Data.Repositories
 
     public class VolunteerRepository : IVolunteerRepository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private readonly ApplicationDbContext applicationDbContext;
 
         public VolunteerRepository(ApplicationDbContext applicationDbContext)
         {
-            _applicationDbContext = applicationDbContext;
+            this.applicationDbContext = applicationDbContext;
         }
 
         public IQueryable<ApplicationUser> GetVolunteers()
         {
-            return _applicationDbContext.Users.AsQueryable<ApplicationUser>();
+            return applicationDbContext.Users.AsQueryable<ApplicationUser>();
         }
 
         public IQueryable<Volunteer> GetUnaffiliatedVolunteers()
         {
-            return _applicationDbContext.Volunteers.Where(v => v.OngID == Guid.Empty || v.OngID == null).AsQueryable<Volunteer>();
+            return applicationDbContext.Volunteers.Where(v => v.NGOID == Guid.Empty || v.NGOID == null).AsQueryable<Volunteer>();
         }
 
         public void RemoveVolunteers(Guid[] ids)
         {
             var stringIds = ids.Select(i => i.ToString()).ToArray();
-            var users = _applicationDbContext.Users.Where(u => stringIds.Contains(u.Id)).ToArray();
-            var volunteers = _applicationDbContext.Volunteers.Where(u => ids.Contains(u.ID)).ToArray();
+            var users = applicationDbContext.Users.Where(u => stringIds.Contains(u.Id)).ToArray();
+            var volunteers = applicationDbContext.Volunteers.Where(u => ids.Contains(u.ID)).ToArray();
 
             for (int i = 0; i < users.Length; i++)
             {
-                _applicationDbContext.Remove(users[i]);
-                _applicationDbContext.Remove(volunteers[i]);
+                applicationDbContext.Remove(users[i]);
+                applicationDbContext.Remove(volunteers[i]);
             }
 
-            _applicationDbContext.SaveChanges();
+            applicationDbContext.SaveChanges();
         }
     }
 }

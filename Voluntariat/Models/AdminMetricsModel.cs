@@ -5,8 +5,8 @@
         public int NoOfActiveVolunteers { get; set; }
         public int NoOfUnaffiliatedVolunteer { get; set; }
 
-        public int NoOfActiveOngs { get; set; }
-        public int NoOfPendingOngs { get; set; }
+        public int NoOfActiveNGOs { get; set; }
+        public int NoOfPendingNGOs { get; set; }
 
         public int NoOfActiveCategories { get; set; }
         public int NoOfPendingCategories { get; set; }

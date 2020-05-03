@@ -8,7 +8,7 @@ namespace Voluntariat.Models
         [Key]
         public Guid ID { get; set; }
 
-        public Guid OngID { get; set; }
+        public Guid NGOID { get; set; }
 
         public BeneficiaryStatus Status { get; set; }
     }

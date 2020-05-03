@@ -1,4 +1,4 @@
-﻿@model Voluntariat.Models.Ong
+﻿@model Voluntariat.Models.NGO
 
 @{
     ViewData["Title"] = "Edit";
@@ -79,15 +79,15 @@
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.OngStatus)
+            @Html.DisplayNameFor(model => model.NGOStatus)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.OngStatus)
+            @Html.DisplayFor(model => model.NGOStatus)
         </dd>
     </dl>
 </div>
 
-@if (Model.OngStatus == OngStatus.PendingVerification)
+@if (Model.NGOStatus == NGOStatus.PendingVerification)
 {
     <div class="row">
         <div class="col-md-4">
