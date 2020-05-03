@@ -27,7 +27,7 @@ namespace Voluntariat.Controllers
         }
 
         [HttpGet]
-        public IActionResult RegisterAsOng()
+        public IActionResult RegisterAsNGO()
         {
             Identity identity = ControllerContext.GetIdentity();
 
@@ -36,31 +36,31 @@ namespace Voluntariat.Controllers
 
             ViewBag.OtherPendingApplication = volunteer != null || beneficiary != null;
 
-            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.OngStatus == OngStatus.PendingVerification && x.CreatedByID == identity.ID);
+            NGO ngo = applicationDbContext.NGOs.FirstOrDefault(x => x.NGOStatus == NGOStatus.PendingVerification && x.CreatedByID == identity.ID);
 
-            return View(ong);
+            return View(ngo);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> RegisterAsOng([Bind(nameof(Ong.Name))] Ong ong)
+        public async Task<IActionResult> RegisterAsNGO([Bind(nameof(NGO.Name))] NGO ngo)
         {
             if (ModelState.IsValid)
             {
                 Identity identity = ControllerContext.GetIdentity();
 
-                ong.ID = Guid.NewGuid();
-                ong.CreatedByID = identity.ID;
-                ong.OngStatus = OngStatus.PendingVerification;
+                ngo.ID = Guid.NewGuid();
+                ngo.CreatedByID = identity.ID;
+                ngo.NGOStatus = NGOStatus.PendingVerification;
 
-                applicationDbContext.Add(ong);
+                applicationDbContext.Add(ngo);
 
                 await applicationDbContext.SaveChangesAsync();
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(ong);
+            return View(ngo);
         }
 
         [HttpGet]
@@ -69,9 +69,9 @@ namespace Voluntariat.Controllers
             Identity identity = ControllerContext.GetIdentity();
 
             Volunteer volunteer = applicationDbContext.Volunteers.FirstOrDefault(x => x.ID == identity.ID && x.VolunteerStatus == VolunteerStatus.PendingVerification);
-            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.OngStatus == OngStatus.PendingVerification);
+            NGO ngo = applicationDbContext.NGOs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.NGOStatus == NGOStatus.PendingVerification);
 
-            ViewBag.OtherPendingApplication = volunteer != null || ong != null;
+            ViewBag.OtherPendingApplication = volunteer != null || ngo != null;
 
             Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.Status == BeneficiaryStatus.PendingVerification && x.ID == identity.ID);
 
@@ -82,9 +82,9 @@ namespace Voluntariat.Controllers
                 return View(null);
             }
 
-            List<Ong> ongs = applicationDbContext.Ongs.ToList();
+            List<NGO> ngos = applicationDbContext.NGOs.ToList();
 
-            return View(ongs);
+            return View(ngos);
         }
 
         [HttpPost]
@@ -94,7 +94,7 @@ namespace Voluntariat.Controllers
 
             Beneficiary beneficiary = new Beneficiary();
             beneficiary.ID = identity.ID;
-            beneficiary.OngID = identity.OngID;
+            beneficiary.NGOID = identity.NGOID;
             beneficiary.Status = BeneficiaryStatus.PendingVerification;
 
             ApplicationUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());
@@ -110,15 +110,14 @@ namespace Voluntariat.Controllers
             return RedirectToAction(nameof(RegisterAsBeneficiary));
         }
 
-
         public IActionResult RegisterAsVolunteer()
         {
             Identity identity = ControllerContext.GetIdentity();
 
-            Ong ong = applicationDbContext.Ongs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.OngStatus == OngStatus.PendingVerification);
+            NGO ngo = applicationDbContext.NGOs.FirstOrDefault(x => x.CreatedByID == identity.ID && x.NGOStatus == NGOStatus.PendingVerification);
             Beneficiary beneficiary = applicationDbContext.Beneficiaries.FirstOrDefault(x => x.ID == identity.ID && x.Status == BeneficiaryStatus.PendingVerification);
 
-            ViewBag.OtherPendingApplication = ong != null || ong != null;
+            ViewBag.OtherPendingApplication = ngo != null || ngo != null;
 
             if (!ViewBag.OtherPendingApplication)
             {

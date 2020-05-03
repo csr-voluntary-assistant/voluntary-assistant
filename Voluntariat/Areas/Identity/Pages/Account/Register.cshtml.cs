@@ -121,12 +121,12 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             [Display(Name = "Other")]
             public string OtherTransportationMethod { get; set; }
 
-            public Guid? ONGId { get; set; }
+            public Guid? NGOID { get; set; }
 
             public NGORegistrationModel NGORegistrationModel { get; set; }
 
-            [Display(Name = "Activate notifications from other ongs")]
-            public bool ActivateNotificationsFromOtherOngs { get; set; }
+            [Display(Name = "Activate notifications from other NGOs")]
+            public bool ActivateNotificationsFromOtherNGOs { get; set; }
         }
 
         public async Task OnGetAsync(string registerAs, string returnUrl = null)
@@ -164,40 +164,40 @@ namespace Voluntariat.Areas.Identity.Pages.Account
 
                     if (Input.RegisterAs == RegisterAs.NGO)
                     {
-                        Ong ong = new Ong();
-                        ong.ID = Guid.NewGuid();
-                        ong.CreatedByID = Guid.Parse(user.Id);
-                        ong.OngStatus = OngStatus.PendingVerification;
+                        NGO ngo = new NGO();
+                        ngo.ID = Guid.NewGuid();
+                        ngo.CreatedByID = Guid.Parse(user.Id);
+                        ngo.NGOStatus = NGOStatus.PendingVerification;
 
-                        ong.IdentificationNumber = Input.NGORegistrationModel.IdentificationNumber;
-                        ong.Name = Input.NGORegistrationModel.Name;
-                        ong.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
-                        ong.HeadquartersAddressLatitude = Input.NGORegistrationModel.HeadquartersAddressLatitude;
-                        ong.HeadquartersAddressLongitude = Input.NGORegistrationModel.HeadquartersAddressLongitude;
-                        ong.HeadquartersEmail = Input.NGORegistrationModel.HeadquartersEmail;
-                        ong.HeadquartersPhoneNumber = Input.NGORegistrationModel.HeadquartersPhoneNumber;
-                        ong.DialingCode = Input.NGORegistrationModel.DialingCode;
-                        ong.Website = Input.NGORegistrationModel.Website;
+                        ngo.IdentificationNumber = Input.NGORegistrationModel.IdentificationNumber;
+                        ngo.Name = Input.NGORegistrationModel.Name;
+                        ngo.HeadquartersAddress = Input.NGORegistrationModel.HeadquartersAddress;
+                        ngo.HeadquartersAddressLatitude = Input.NGORegistrationModel.HeadquartersAddressLatitude;
+                        ngo.HeadquartersAddressLongitude = Input.NGORegistrationModel.HeadquartersAddressLongitude;
+                        ngo.HeadquartersEmail = Input.NGORegistrationModel.HeadquartersEmail;
+                        ngo.HeadquartersPhoneNumber = Input.NGORegistrationModel.HeadquartersPhoneNumber;
+                        ngo.DialingCode = Input.NGORegistrationModel.DialingCode;
+                        ngo.Website = Input.NGORegistrationModel.Website;
 
-                        ong.CategoryID = Input.NGORegistrationModel.CategoryID;
-                        ong.ServiceID = Input.NGORegistrationModel.ServiceID;
+                        ngo.CategoryID = Input.NGORegistrationModel.CategoryID;
+                        ngo.ServiceID = Input.NGORegistrationModel.ServiceID;
 
                         if (files.Any())
                         {
-                            ong.FileIDs = await UploadFiles(files);
+                            ngo.FileIDs = await UploadFiles(files);
                         }    
 
-                        applicationDbContext.Add(ong);
+                        applicationDbContext.Add(ngo);
                     }
                     else if (Input.RegisterAs == RegisterAs.Volunteer)
                     {
                         Volunteer volunteer = new Volunteer();
                         volunteer.ID = Guid.Parse(user.Id);
-                        volunteer.OngID = Input.ONGId;
+                        volunteer.NGOID = Input.NGOID;
                         volunteer.Name = user.Email;
                         volunteer.VolunteerStatus = VolunteerStatus.PendingVerification;
-                        volunteer.ActivateNotificationsFromOtherOngs = Input.ActivateNotificationsFromOtherOngs;
-                        if (!volunteer.OngID.HasValue)
+                        volunteer.ActivateNotificationsFromOtherNGOs = Input.ActivateNotificationsFromOtherNGOs;
+                        if (!volunteer.NGOID.HasValue)
                             volunteer.UnaffiliationStartTime = DateTime.UtcNow;
 
                         applicationDbContext.Add(volunteer);
@@ -294,7 +294,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
             }
             else if (RegisterAs == RegisterAs.Volunteer)
             {
-                AvailableNGOs = applicationDbContext.Ongs.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.Name }).ToList();
+                AvailableNGOs = applicationDbContext.NGOs.Select(o => new SelectListItem { Value = o.ID.ToString(), Text = o.Name }).ToList();
             }
         }
     }
