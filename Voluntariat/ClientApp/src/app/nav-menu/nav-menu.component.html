@@ -1,9 +1,11 @@
 <header>
-  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">
-        <img src="images/logo.svg">
-        WebApplication2</a>
+  
+
+
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm bg-white box-shadow navbar-design">
+  <div class="container-fluid">
+      <a class="navbar-brand nav-item-color-white logo-header" [routerLink]="['/']">
+        <img src="images/logo.svg"></a>
       <button class="navbar-toggler"
               type="button"
               data-toggle="collapse"
@@ -13,27 +15,28 @@
               (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
            [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['ngo-tab']">NGOs</a>
+        <ul class="navbar-nav">
+          <li class="nav-item nav-item-margin" [routerLinkActive]="['link-active']">
+            <a class="nav-link nav-item-color-white" [routerLink]="['ngo-tab']">NGOs</a>
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['ngo-tab']">NGOs</a>
+          <li class="nav-item nav-item-margin" [routerLinkActive]="['link-active']">
+            <a class="nav-link nav-item-color-white" [routerLink]="['ngo-tab']">VOLUNTEERS</a>
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['ngo-tab']">NGOs</a>
+          <li class="nav-item nav-item-margin" [routerLinkActive]="['link-active']">
+            <a class="nav-link nav-item-color-white" [routerLink]="['ngo-tab']">WHY US?</a>
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['ngo-tab']">NGOs</a>
+          <li class="nav-item nav-item-margin" [routerLinkActive]="['link-active']">
+            <a class="nav-link nav-item-color-yellow" [routerLink]="['ngo-tab']">SUBMIT NGO</a>
           </li>
 
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['ngo-tab']">NGOs</a>
+          <li class="nav-item nav-item-margin" [routerLinkActive]="['link-active']">
+            <a class="nav-link nav-item-color-yellow nav-item-border" [routerLink]="['ngo-tab']">SIGN IN</a>
           </li>
 
         </ul>
