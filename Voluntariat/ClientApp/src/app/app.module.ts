@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -11,8 +12,9 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularMaterialModule } from './shared/angular-material.module';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
 
 
 @NgModule({
@@ -22,7 +24,9 @@ import { AngularMaterialModule } from './shared/angular-material.module';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    NgoTabComponent
+    NgoTabComponent,
+    SignInComponent,
+    RegisterNgoComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -34,6 +38,8 @@ import { AngularMaterialModule } from './shared/angular-material.module';
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'ngo-tab', component: NgoTabComponent },
+      { path: 'sign-in', component: SignInComponent },
+      { path: 'register', component: RegisterNgoComponent }
     ]),
     BrowserAnimationsModule,
   ],
