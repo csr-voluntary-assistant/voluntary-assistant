@@ -1,0 +1,226 @@
+<div class="container-fluid">
+    <main role="main" class="pb-3">
+        
+<h1>Register</h1>
+
+
+
+<div class="row">
+<div class="col-md-4">
+    <form method="post" enctype="multipart/form-data" action="/Identity/Account/Register" novalidate="novalidate">
+        <input type="hidden" value="NGO" data-val="true" data-val-required="The RegisterAs field is required." id="Input_RegisterAs" name="Input.RegisterAs">
+
+        <h4>Create a new account.</h4>
+        <hr>
+        <div class="text-danger validation-summary-valid" data-valmsg-summary="true"><ul><li style="display:none"></li>
+</ul></div>
+        <div class="form-group">
+            <label for="Input_Email">Email</label>
+            <input class="form-control" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." id="Input_Email" name="Input.Email" value="">
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.Email" data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Input_Password">Password</label>
+            <input class="form-control" type="password" data-val="true" data-val-length="The Password must be at least 6 and at max 100 characters long." data-val-length-max="100" data-val-length-min="6" data-val-required="The Password field is required." id="Input_Password" maxlength="100" name="Input.Password">
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.Password" data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="Input_ConfirmPassword">Confirm password</label>
+            <input class="form-control" type="password" data-val="true" data-val-equalto="The password and confirmation password do not match." data-val-equalto-other="*.Password" id="Input_ConfirmPassword" name="Input.ConfirmPassword">
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.ConfirmPassword" data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="Input_DialingCode">Country Code</label>
+                <input class="form-control" type="number" data-val="true" data-val-required="The Country Code field is required." id="Input_DialingCode" name="Input.DialingCode" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.DialingCode" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group col-md-8">
+                <label for="Input_PhoneNumber">Phone number</label>
+                <input class="form-control" type="tel" data-val="true" data-val-phone="The Phone number field is not a valid phone number." data-val-required="The Phone number field is required." id="Input_PhoneNumber" name="Input.PhoneNumber" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.PhoneNumber" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Input_Address">Address</label>
+            <input type="text" id="user_address" class="form-control pac-target-input" placeholder="Enter a location" data-val="true" data-val-required="The Address field is required." name="Input.Address" value="" autocomplete="off">
+            <input id="user_address_lat" class="form-control" type="hidden" data-val="true" data-val-number="The field Latitude must be a number." name="Input.Latitude" value="">
+            <input id="user_address_lng" class="form-control" type="hidden" data-val="true" data-val-number="The field Longitude must be a number." data-val-required="Please fill in the Address field manually and select an address from the autocomplete list" name="Input.Longitude" value="">
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.Address" data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="Input_RangeInKm">Action limit (km)</label>
+                <input class="form-control" placeholder="0.00" type="text" data-val="true" data-val-number="The field Action limit (km) must be a number." data-val-required="The Action limit (km) field is required." id="Input_RangeInKm" name="Input.RangeInKm" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.RangeInKm" data-valmsg-replace="true"></span>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="Input_HasDriverLicence">Driver licence</label>
+                <input class="form-control" type="checkbox" data-val="true" data-val-required="The Driver licence field is required." id="Input_HasDriverLicence" name="Input.HasDriverLicence" value="true">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.HasDriverLicence" data-valmsg-replace="true"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="Input_TransportationMethod">Transportation method</label>
+            <select class="col-md-12 form-control" onclick="DisplayHiddenSection()" data-val="true" data-val-required="The Transportation method field is required." id="Input_TransportationMethod" name="Input.TransportationMethod">
+                <option value="">-- Select --</option>
+            <option value="0">None</option>
+<option value="1">Bicycle</option>
+<option value="2">Walk</option>
+<option value="3">Car</option>
+<option value="4">PublicTransportation</option>
+<option value="5">Scooter</option>
+<option value="6">Motorbike</option>
+<option value="7">Other</option>
+</select>
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.TransportationMethod" data-valmsg-replace="true"></span>
+        </div>
+
+        <div class="form-group" id="other-transportation" hidden="">
+            <label for="Input_OtherTransportationMethod">Other</label>
+            <input class="form-control" type="text" id="Input_OtherTransportationMethod" name="Input.OtherTransportationMethod" value="">
+            <span class="text-danger field-validation-valid" data-valmsg-for="Input.OtherTransportationMethod" data-valmsg-replace="true"></span>
+        </div>
+
+        <br>
+
+            <h5>NGO's details:</h5>
+            <hr>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_Name">NGO name</label>
+                <input class="form-control" type="text" data-val="true" data-val-required="The NGO name field is required." id="Input_NGORegistrationModel_Name" name="Input.NGORegistrationModel.Name" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.Name" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_IdentificationNumber">Identification number</label>
+                <input class="form-control" type="text" data-val="true" data-val-required="The Identification number field is required." id="Input_NGORegistrationModel_IdentificationNumber" name="Input.NGORegistrationModel.IdentificationNumber" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.IdentificationNumber" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_HeadquartersAddress">Headquarters address</label>
+                <input type="text" id="headquerters_address" class="form-control pac-target-input" placeholder="Enter a location" data-val="true" data-val-required="The Headquarters address field is required." name="Input.NGORegistrationModel.HeadquartersAddress" value="" autocomplete="off">
+                <input id="headquerters_address_lat" class="form-control" type="hidden" data-val="true" data-val-number="The field HeadquartersAddressLatitude must be a number." data-val-required="The HeadquartersAddressLatitude field is required." name="Input.NGORegistrationModel.HeadquartersAddressLatitude" value="">
+                <input id="headquerters_address_lng" class="form-control" type="hidden" data-val="true" data-val-number="The field HeadquartersAddressLongitude must be a number." data-val-required="The HeadquartersAddressLongitude field is required." name="Input.NGORegistrationModel.HeadquartersAddressLongitude" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.HeadquartersAddress" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-4">
+                    <label for="Input_NGORegistrationModel_DialingCode">Country code</label>
+                    <input class="form-control" type="number" data-val="true" data-val-required="The Country code field is required." id="Input_NGORegistrationModel_DialingCode" name="Input.NGORegistrationModel.DialingCode" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.DialingCode" data-valmsg-replace="true"></span>
+                </div>
+
+                <div class="form-group col-md-8">
+                    <label for="Input_NGORegistrationModel_HeadquartersPhoneNumber">Headquarters phone number</label>
+                    <input class="form-control" type="text" data-val="true" data-val-required="The Headquarters phone number field is required." id="Input_NGORegistrationModel_HeadquartersPhoneNumber" name="Input.NGORegistrationModel.HeadquartersPhoneNumber" value="">
+                    <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.HeadquartersPhoneNumber" data-valmsg-replace="true"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_HeadquartersEmail">Headquarters email</label>
+                <input class="form-control" type="text" data-val="true" data-val-required="The Headquarters email field is required." id="Input_NGORegistrationModel_HeadquartersEmail" name="Input.NGORegistrationModel.HeadquartersEmail" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.HeadquartersEmail" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_Website">Website</label>
+                <input class="form-control" type="text" data-val="true" data-val-required="The Website field is required." id="Input_NGORegistrationModel_Website" name="Input.NGORegistrationModel.Website" value="">
+                <span class="text-danger field-validation-valid" data-valmsg-for="Input.NGORegistrationModel.Website" data-valmsg-replace="true"></span>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_CategoryID">Categories</label>
+                <select class="col-md-12 form-control" data-val="true" data-val-required="The CategoryID field is required." id="Input_NGORegistrationModel_CategoryID" name="Input.NGORegistrationModel.CategoryID">
+                    <option value="">-- Select --</option>
+                <option value="4817EE60-A647-400F-BF3A-265FE184FE81">Seniori 65+</option>
+<option value="887E9957-4F9B-4B13-878D-643C5040C19E">Persoane autoizolate</option>
+<option value="B285DBBC-6696-4DBD-80FF-795C83C13C42">Cazuri sociale</option>
+<option value="B6619B80-4FB7-48A8-8A2E-9383AFBDFF93">Persoane cu dizabilitați</option>
+</select>
+            </div>
+            <div class="form-group">
+                <label for="Input_NGORegistrationModel_ServiceID">Services</label>
+                <select class="col-md-12 form-control" data-val="true" data-val-required="The ServiceID field is required." id="Input_NGORegistrationModel_ServiceID" name="Input.NGORegistrationModel.ServiceID">
+                    <option value="">-- Select --</option>
+                <option value="1261EE94-293E-4A4D-99F6-5E4F42451093">Hrana si stricta necesitate</option>
+<option value="E71AF559-176D-43FF-821E-760290D62DD6">Plata facturi</option>
+<option value="B7FCA1BA-0899-41F0-950A-9BFE2673C931">Medicamente</option>
+</select>
+            </div>
+                <label>Upload your documents</label>
+                <div class="form-group">
+                    <input class="upload-style" type="file" name="files" multiple="">
+                </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+    <input name="__RequestVerificationToken" type="hidden" value="CfDJ8JI61KmnByRKtHELbVRs3HNzvs_W9cMey02Q1lNbNMM8-QwhflB2arSfMJ_xRZQZtg8spkmrxCbwrZP6W1wkdbhKTpxnBYK9oCLppmH3Zti-oBm6i_mPObhY4zMv5cgHhpFx93k6CvusD6kD4gfjSkM"><input name="Input.HasDriverLicence" type="hidden" value="false"></form>
+</div>
+<div class="col-md-6 col-md-offset-2">
+    <section>
+        <h4>Use another service to register.</h4>
+        <hr>
+                <div>
+                    <p>
+                        There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                        for details on setting up this ASP.NET application to support logging in via external services.
+                    </p>
+                </div>
+    </section>
+</div>
+</div>
+
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDkyIRAoYTQV6QUILDH3Nfa0taJFeLEQSk&amp;libraries=places"></script>
+
+<script type="text/javascript">
+google.maps.event.addDomListener(window, 'load', function () {
+    var userAddress = new google.maps.places.Autocomplete(document.getElementById('user_address'));
+    google.maps.event.addListener(userAddress, 'place_changed', function () {
+        var place = userAddress.getPlace();
+        var address = place.formatted_address;
+        var latitude = place.geometry.location.lat();
+        var longitude = place.geometry.location.lng();
+        $('#user_address').val(address);
+        $('#user_address_lat').val(latitude);
+        $('#user_address_lng').val(longitude);
+    });
+});
+
+google.maps.event.addDomListener(window, 'load', function () {
+    var ngoAddress = new google.maps.places.Autocomplete(document.getElementById('headquerters_address'));
+    google.maps.event.addListener(ngoAddress, 'place_changed', function () {
+        var place = ngoAddress.getPlace();
+        var address = place.formatted_address;
+        var latitude = place.geometry.location.lat();
+        var longitude = place.geometry.location.lng();
+        $('#headquerters_address').val(address);
+        $('#headquerters_address_lat').val(latitude);
+        $('#headquerters_address_lng').val(longitude);
+    });
+});
+
+function DisplayHiddenSection() {
+    var selection = $("#Input_TransportationMethod :selected").text();
+
+    if (selection == 'Other') {
+        $("#other-transportation").attr('hidden', false);
+    } else {
+        $("#other-transportation").attr('hidden', true);
+    }
+}
+</script>
+
+<style>
+.upload-style {
+    padding-left: 0;
+}
+</style>
+
+
+    </main>
+</div>
