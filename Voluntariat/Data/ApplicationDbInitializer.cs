@@ -21,7 +21,7 @@ namespace Voluntariat.Data
 
                 IdentityResult result = userManager.CreateAsync(user, password).Result;
 
-                userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.Admin).Wait();
+                userManager.AddToRoleAsync(user, Framework.Identity.CustomIdentityRole.Admin).Wait();
             }
         }
     }

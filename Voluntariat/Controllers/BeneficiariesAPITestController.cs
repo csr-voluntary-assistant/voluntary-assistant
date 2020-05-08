@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Voluntariat.Data;
+using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = CustomIdentityRole.Volunteer)]
     public class BeneficiariesAPITestController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -25,7 +28,8 @@ namespace Voluntariat.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Beneficiary>>> GetBeneficiaries()
         {
-            return await _context.Beneficiaries.ToListAsync();
+            var result = await _context.Beneficiaries.ToListAsync();
+            return result;
         }
 
         // GET: api/BeneficiariesAPITest/5

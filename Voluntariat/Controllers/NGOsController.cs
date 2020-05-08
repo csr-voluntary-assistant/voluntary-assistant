@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -6,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Voluntariat.Data;
+using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
+    [Authorize(Roles = CustomIdentityRole.Admin)]
     public class NGOsController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
@@ -72,8 +75,8 @@ namespace Voluntariat.Controllers
 
             ApplicationUser user = await userManager.FindByIdAsync(ngo.CreatedByID.ToString());
 
-            await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
-            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.NGOAdmin);
+            await userManager.RemoveFromRoleAsync(user, Framework.Identity.CustomIdentityRole.Guest);
+            await userManager.AddToRoleAsync(user, Framework.Identity.CustomIdentityRole.NGOAdmin);
 
             Volunteer volunteer = new Volunteer();
             volunteer.ID = ngo.CreatedByID;

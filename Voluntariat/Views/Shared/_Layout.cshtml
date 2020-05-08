@@ -34,7 +34,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
                     <ul class="navbar-nav flex-grow-1">
-                        @if (identity?.Role == IdentityRole.Admin)
+                        @if (identity?.Role == CustomIdentityRole.Admin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(NGOsController)[0..^10]" asp-action="@nameof(NGOsController.Index)">NGO<span class="text-lowercase">s</span></a>
@@ -49,7 +49,7 @@
                             </li>
                         }
 
-                        @if (identity?.Role == IdentityRole.Guest)
+                        @if (identity?.Role == CustomIdentityRole.Guest)
                         {
                             <li class="nav-item">
                                 <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(GuestController)[0..^10]" asp-action="@nameof(GuestController.Index)">Home</a>
@@ -68,7 +68,7 @@
                             </li>
                         }
 
-                        @if (identity?.Role == IdentityRole.Volunteer || identity?.Role == IdentityRole.NGOAdmin)
+                        @if (identity?.Role == CustomIdentityRole.Volunteer || identity?.Role == CustomIdentityRole.NGOAdmin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link nav-item-color-white" asp-area="" asp-controller="@nameof(VolunteersController)[0..^10]" asp-action="@nameof(VolunteersController.Index)">Home</a>

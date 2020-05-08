@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
+    [Authorize(Roles = CustomIdentityRole.Guest)]
     public class GuestController : Controller
     {
         private readonly Data.ApplicationDbContext applicationDbContext;
@@ -99,9 +101,9 @@ namespace Voluntariat.Controllers
 
             ApplicationUser identityUser = await userManager.FindByIdAsync(identity.ID.ToString());
 
-            await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
+            await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Guest);
 
-            await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Beneficiary);
+            await userManager.AddToRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Beneficiary);
 
             applicationDbContext.Beneficiaries.Add(beneficiary);
 

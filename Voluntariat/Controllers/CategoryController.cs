@@ -1,14 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Voluntariat.Data;
+using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
+    [Authorize(Roles = CustomIdentityRole.Admin)]
     public class CategoryController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
