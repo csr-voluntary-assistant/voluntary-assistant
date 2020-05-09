@@ -338,7 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/Voluntariat/appsettings.Development.json
-*/wwwroot/dist
 /.vscode
-*package-lock.json
+*\package-lock.json
+*\dist
+*\appsettings.*.json
