@@ -5,6 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminNgosModule } from './admin/admin-ngos/admin-ngos.module';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -15,8 +16,6 @@ import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
-import { AdminNgosModule } from './admin/admin-ngos/admin-ngos.module';
-
 
 @NgModule({
   declarations: [
