@@ -16,12 +16,12 @@ https://dev.azure.com/csr-voluntary-assistant/csr-voluntary-assistant/_build?def
 ## Installation steps
 
 #### Angular installation steps
-Open the `cmd` inside `/Voluntariat/ClientApp` then run the following commands:
+Open the `cmd` inside `src/Voluntariat/ClientApp` then run the following commands:
 * `npm install`
 * `ng build`
 
 #### Web app installation steps
-Open the `cmd` inside `/Voluntariat` then run the following commands:
+Open the `cmd` inside `src/Voluntariat` then run the following commands:
  * `dotnet build`
 
 #### Setup database
@@ -32,11 +32,11 @@ Open the `cmd` inside `/Voluntariat` then run the following commands:
 ## Starting the app
 
 #### Start angular
-Open the `cmd` inside `/Voluntariat/ClientApp` then run the following command:
+Open the `cmd` inside `src/Voluntariat/ClientApp` then run the following command:
 * `npm build`
 
 #### Start web app
-Open the `cmd` inside `/Voluntariat` then run the following command:
+Open the `cmd` inside `src/Voluntariat` then run the following command:
 * `dotnet run`
 
 
