@@ -15,4 +15,8 @@ export class AdminNgosService {
   public getAll(): Observable<NGO> {
     return this.http.get<NGO>(`${this.API_PATH}`);
   }
+
+  //public getByID(): Observable<NGO> {
+  //  return this.http.get<NGO>(`${this.API_PATH}`);
+  //}
 }

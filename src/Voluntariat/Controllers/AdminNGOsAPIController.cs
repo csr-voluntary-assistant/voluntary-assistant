@@ -51,7 +51,7 @@ namespace Voluntariat.Controllers
 
         // GET: api/AdminNGOsAPI/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<NGO>> GetNGO(Guid id)
+        public async Task<ActionResult<NGO>> GetByID(Guid id)
         {
             var ngo = await applicationDbContext.NGOs.FindAsync(id);
             if (ngo == null)

@@ -44,7 +44,6 @@
         <Content Update="wwwroot\res\volunteers.png">
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
-        <Folder Include="ClientApp\src\app\admin\admin-ngos\admin-ngos-verify\" />
         <Folder Include="wwwroot\images\" />
     </ItemGroup>
 
