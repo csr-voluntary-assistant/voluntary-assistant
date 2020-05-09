@@ -1,33 +1,39 @@
 ﻿using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
-namespace Voluntariat.Services
+namespace Voluntariat.Services.CloudFileServices
 {
-    public class SecureCloudFileManager : ISecureCloudFileManager
+    public abstract class CloudFileManager : ICloudFileManager
     {
         private readonly string storageConnectionString;
-        private readonly IWebHostEnvironment environment;
-        private const string containerName = "all-files";
 
-        public SecureCloudFileManager(IConfiguration configuration, IWebHostEnvironment environment)
+        private readonly IWebHostEnvironment environment;
+
+        protected abstract string ContainerName { get; }
+        protected BlobServiceClient BlobServiceClient;
+
+        public CloudFileManager(IConfiguration configuration, IWebHostEnvironment environment)
         {
             this.storageConnectionString = configuration["ConnectionStrings:StorageAccount"];
             this.environment = environment;
+            BlobServiceClient = new BlobServiceClient(storageConnectionString);
         }
 
-        public async Task<string> UploadFileAsync(string localPath)
+        public virtual async Task<string> UploadFileAsync(string localPath)
         {
-            var path = Path.Combine(environment.WebRootPath, localPath);
-
-            BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+            var path = Path.Combine(environment.WebRootPath, localPath);            
+            
+            BlobContainerClient container = BlobServiceClient.GetBlobContainerClient(ContainerName);
             using FileStream uploadFileStream = File.OpenRead(path);
-            var cloudFileName = Guid.NewGuid().ToString();
+            var cloudFileName = $"{Guid.NewGuid()}{Path.GetExtension(localPath)}";
             Azure.Response<BlobContentInfo> result = await container.UploadBlobAsync(cloudFileName, uploadFileStream);
             uploadFileStream.Close();
             return cloudFileName;
@@ -36,7 +42,7 @@ namespace Voluntariat.Services
         public async Task<Stream> GetBlobStream(string cloudIdentifier)
         {
             BlobServiceClient blobServiceClient = new BlobServiceClient(storageConnectionString);
-            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(containerName);
+            BlobContainerClient container = blobServiceClient.GetBlobContainerClient(ContainerName);
             var blobClient = container.GetBlobClient(cloudIdentifier);
             var result = await blobClient.DownloadAsync();
             return result.Value.Content;

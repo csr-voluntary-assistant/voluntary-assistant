@@ -11,12 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Voluntariat.Data;
 using Voluntariat.Data.Repositories;
 using Voluntariat.Models;
 using Voluntariat.Services;
+using Voluntariat.Services.CloudFileServices;
 
 namespace Voluntariat
 {
@@ -71,6 +71,7 @@ namespace Voluntariat
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<IVolunteerService, VolunteerService>();
             services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
+            services.AddSingleton<IPublicCloudFileManager, PublicCloudFileManager>();
             services.AddScoped<IScheduledTask, ScheduledTask>();
             services.AddScoped<ITaskScheduler, TaskScheduler>();
 

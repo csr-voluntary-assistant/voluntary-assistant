@@ -342,3 +342,4 @@ healthchecksdb
 *\package-lock.json
 *\dist
 *\appsettings.*.json
+/src/Voluntariat/libman.json

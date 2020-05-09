@@ -18,6 +18,7 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Voluntariat.Models;
 using Voluntariat.Services;
+using Voluntariat.Services.CloudFileServices;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
 {
