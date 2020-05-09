@@ -23,10 +23,24 @@ Open the `cmd` inside `/Voluntariat/ClientApp` then run the following commands:
 #### Web app installation steps
 Open the `cmd` inside `/Voluntariat` then run the following commands:
  * `dotnet build`
- * `dotnet ef database update`
- * `dotnet run`
 
-#### Technology stack
+#### Setup database
+* Create `appsettings.Development.json` file by copying `appsettings.json` and leave in it only `DefaultConnection`
+* Change `DefaultConnection` to your connection string
+* Open `Package Manager Console` and run `update-database`
+
+## Starting the app
+
+#### Start angular
+Open the `cmd` inside `/Voluntariat/ClientApp` then run the following command:
+* `npm build`
+
+#### Start web app
+Open the `cmd` inside `/Voluntariat` then run the following command:
+* `dotnet run`
+
+
+## Technology stack
  * ASP.NET Core
  * MsSql Server
  * Entity Framework Core
