@@ -59,11 +59,6 @@ namespace Voluntariat
             {
                 options.Filters.Add<Framework.Identity.IdentityAuthorizationFilter>();
 
-                options.Filters.Add<Framework.GuestActionFilterAttribute>();
-                options.Filters.Add<Framework.VolunteerActionFilterAttribute>();
-                options.Filters.Add<Framework.BeneficiaryActionFilterAttribute>();
-                options.Filters.Add<Framework.AdminActionFilterAttribute>();
-
                 options.EnableEndpointRouting = false;
             })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, opts => { opts.ResourcesPath = "Resources"; })

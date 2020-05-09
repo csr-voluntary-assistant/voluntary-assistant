@@ -11,7 +11,7 @@ namespace Voluntariat.Framework
         {
             Identity.Identity identity = context.HttpContext.GetIdentity();
 
-            if (identity != null && identity.Role == IdentityRole.Guest && !(context.Controller is GuestController controller))
+            if (identity != null && identity.Role == CustomIdentityRole.Guest && !(context.Controller is GuestController controller))
             {
                 context.Result = new RedirectToActionResult(nameof(GuestController.Index), nameof(GuestController)[0..^10], null);
             }

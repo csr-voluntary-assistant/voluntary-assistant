@@ -23,7 +23,7 @@ namespace Voluntariat.Framework.Identity
                 Claim nameIdentifierClaim = claimsIdentity.Claims.Last(x => x.Type == ClaimTypes.NameIdentifier);
                 Claim roleClaim = claimsIdentity.Claims.LastOrDefault(x => x.Type == ClaimTypes.Role);
 
-                Identity identity = new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), Role = roleClaim?.Value ?? IdentityRole.Guest };
+                Identity identity = new Identity() { ID = Guid.Parse(nameIdentifierClaim.Value), Role = roleClaim?.Value ?? CustomIdentityRole.Guest };
 
                 ApplyVolunteerData(identity);
 
@@ -33,7 +33,7 @@ namespace Voluntariat.Framework.Identity
 
         private void ApplyVolunteerData(Identity identity)
         {
-            if (identity.Role == IdentityRole.Volunteer || identity.Role == IdentityRole.NGOAdmin)
+            if (identity.Role == CustomIdentityRole.Volunteer || identity.Role == CustomIdentityRole.NGOAdmin)
             {
                 Models.Volunteer volunteer = applicationDbContext.Volunteers.Find(identity.ID);
 

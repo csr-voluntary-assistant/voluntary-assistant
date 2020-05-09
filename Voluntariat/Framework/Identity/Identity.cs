@@ -18,7 +18,7 @@ namespace Voluntariat.Framework.Identity
         public const string IdentityKey = "Voluntariat_IdentityClaim_Key";
     }
 
-    public static class IdentityRole
+    public static class CustomIdentityRole
     {
         public const string Admin = "Admin"; // TODO - Security - Rename to PlatformAdmin
 

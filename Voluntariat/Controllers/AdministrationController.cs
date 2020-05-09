@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using Voluntariat.Data;
+using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 
 namespace Voluntariat.Controllers
 {
+    [Authorize(Roles = CustomIdentityRole.Admin)]
     public class AdministrationController : Controller
     {
         private readonly ApplicationDbContext _appContext;

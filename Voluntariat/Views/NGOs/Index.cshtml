@@ -39,7 +39,7 @@
                     @Html.DisplayFor(modelItem => item.CreatedByName)
                 </td>
                 <td>
-                    @if (identity != null && identity.Role == IdentityRole.Admin)
+                    @if (identity != null && identity.Role == CustomIdentityRole.Admin)
                     {
                         if (item.NGOStatus == NGOStatus.PendingVerification)
                         {

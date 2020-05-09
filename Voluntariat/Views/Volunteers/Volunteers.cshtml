@@ -10,7 +10,7 @@
 <h1>Lista voluntari</h1>
 
 <p>
-    @if (identity != null && identity.Role == IdentityRole.NGOAdmin)
+    @if (identity != null && identity.Role == CustomIdentityRole.NGOAdmin)
     {
         <a asp-action="Create">Invita un voluntar</a>
     }
@@ -38,13 +38,13 @@
                     @Html.DisplayFor(modelItem => item.VolunteerStatus)
                 </td>
                 <td>
-                    @if (identity != null && identity.Role == IdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.PendingVerification)
+                    @if (identity != null && identity.Role == CustomIdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.PendingVerification)
                     {
                         <a asp-action="@nameof(VolunteersController.Verify)" asp-route-id="@item.ID">Verify</a> <span>|</span>
                         <a asp-action="@nameof(VolunteersController.Delete)" asp-route-id="@item.ID">Delete</a>
                     }
 
-                    @if (identity != null && identity.Role == IdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.Verified)
+                    @if (identity != null && identity.Role == CustomIdentityRole.NGOAdmin && item.VolunteerStatus == VolunteerStatus.Verified)
                     {
                         <a asp-action="@nameof(VolunteersController.Delete)" asp-route-id="@item.ID">Delete</a>
                     }

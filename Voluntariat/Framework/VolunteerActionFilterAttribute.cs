@@ -11,7 +11,7 @@ namespace Voluntariat.Framework
         {
             Identity.Identity identity = context.HttpContext.GetIdentity();
 
-            if (identity != null && (identity.Role == IdentityRole.Volunteer || identity.Role == IdentityRole.NGOAdmin) && !(context.Controller is VolunteersController controller))
+            if (identity != null && (identity.Role == CustomIdentityRole.Volunteer || identity.Role == CustomIdentityRole.NGOAdmin) && !(context.Controller is VolunteersController controller))
             {
                 context.Result = new RedirectToActionResult(nameof(VolunteersController.Index), nameof(VolunteersController)[0..^10], null);
             }

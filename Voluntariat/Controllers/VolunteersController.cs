@@ -10,9 +10,11 @@ using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
 using Microsoft.AspNetCore.Identity;
 using Voluntariat.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Voluntariat.Controllers
 {
+    [Authorize(Roles = CustomIdentityRole.NGOAdmin + "," + CustomIdentityRole.Volunteer)]
     public class VolunteersController : Controller
     {
         private readonly ApplicationDbContext applicationDbContext;
@@ -90,13 +92,13 @@ namespace Voluntariat.Controllers
 
                         await userManager.CreateAsync(identityUser, "Test.123");
 
-                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Volunteer);
                     }
                     else
                     {
-                        await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
+                        await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Guest);
 
-                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+                        await userManager.AddToRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Volunteer);
                     }
 
                     Volunteer volunteer = new Volunteer();
@@ -151,9 +153,9 @@ namespace Voluntariat.Controllers
 
             ApplicationUser identityUser = await applicationDbContext.Users.FindAsync(volunteer.ID.ToString());
 
-            await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.IdentityRole.Volunteer);
+            await userManager.RemoveFromRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Volunteer);
 
-            await userManager.AddToRoleAsync(identityUser, Framework.Identity.IdentityRole.Guest);
+            await userManager.AddToRoleAsync(identityUser, Framework.Identity.CustomIdentityRole.Guest);
 
             applicationDbContext.Volunteers.Remove(volunteer);
 
@@ -262,9 +264,9 @@ namespace Voluntariat.Controllers
 
             ApplicationUser user = await userManager.FindByIdAsync(id.ToString());
 
-            await userManager.RemoveFromRoleAsync(user, Framework.Identity.IdentityRole.Guest);
+            await userManager.RemoveFromRoleAsync(user, Framework.Identity.CustomIdentityRole.Guest);
 
-            await userManager.AddToRoleAsync(user, Framework.Identity.IdentityRole.Volunteer);
+            await userManager.AddToRoleAsync(user, Framework.Identity.CustomIdentityRole.Volunteer);
 
             await applicationDbContext.SaveChangesAsync();
 
