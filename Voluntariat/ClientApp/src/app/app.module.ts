@@ -15,6 +15,7 @@ import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
+import { AdminNgosListComponent } from './admin/admin-ngos/admin-ngos-list/admin-ngos-list.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
     FetchDataComponent,
     NgoTabComponent,
     SignInComponent,
-    RegisterNgoComponent
+    RegisterNgoComponent,
+    AdminNgosListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -39,7 +41,8 @@ import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'ngo-tab', component: NgoTabComponent },
       { path: 'sign-in', component: SignInComponent },
-      { path: 'register', component: RegisterNgoComponent }
+      { path: 'register', component: RegisterNgoComponent },
+      { path: 'admin-ngos-list', component: AdminNgosListComponent },
     ]),
     BrowserAnimationsModule,
   ],
