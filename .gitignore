@@ -341,4 +341,4 @@ healthchecksdb
 /Voluntariat/appsettings.Development.json
 */wwwroot/dist
 /.vscode
-/package-lock.json
+*package-lock.json
