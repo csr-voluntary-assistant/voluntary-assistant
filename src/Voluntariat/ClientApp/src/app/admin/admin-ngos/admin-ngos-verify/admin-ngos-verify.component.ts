@@ -3,12 +3,12 @@ import { NGO } from '../admin-ngos.models';
 import { AdminNgosService } from '../admin-ngos.service'
 
 @Component({
-  selector: 'admin-ngos-list',
-  templateUrl: './admin-ngos-list.component.html',
+  selector: 'admin-ngos-verify',
+  templateUrl: './admin-ngos-verify.component.html',
 })
 
-export class AdminNgosListComponent implements OnInit {
-  displayedColumns: string[] = ['nrCrt', 'name', 'status', 'createdBy', 'verify'];
+export class AdminNgosVerifyComponent implements OnInit {
+  displayedColumns: string[] = ['nrCrt', 'name', 'status', 'createdBy'];
   dataSource = this.service.getAll();;
   constructor(private service: AdminNgosService) { }
 

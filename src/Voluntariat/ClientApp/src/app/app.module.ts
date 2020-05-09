@@ -16,6 +16,7 @@ import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
 import { AdminNgosListComponent } from './admin/admin-ngos/admin-ngos-list/admin-ngos-list.component';
+import { AdminNgosVerifyComponent } from './admin/admin-ngos/admin-ngos-verify/admin-ngos-verify.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { AdminNgosListComponent } from './admin/admin-ngos/admin-ngos-list/admin
     NgoTabComponent,
     SignInComponent,
     RegisterNgoComponent,
-    AdminNgosListComponent
+    AdminNgosListComponent,
+    AdminNgosVerifyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -43,6 +45,7 @@ import { AdminNgosListComponent } from './admin/admin-ngos/admin-ngos-list/admin
       { path: 'sign-in', component: SignInComponent },
       { path: 'register', component: RegisterNgoComponent },
       { path: 'admin-ngos-list', component: AdminNgosListComponent },
+      { path: 'admin-ngos-verify', component: AdminNgosVerifyComponent },
     ]),
     BrowserAnimationsModule,
   ],
