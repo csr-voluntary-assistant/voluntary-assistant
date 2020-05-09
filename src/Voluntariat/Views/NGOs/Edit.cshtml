@@ -1,0 +1,106 @@
+﻿@model Voluntariat.Models.NGO
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@{
+    string categoryName = ViewBag.CategoryName != null ? ViewBag.CategoryName : "-";
+    string serviceName = ViewBag.ServiceName != null ? ViewBag.ServiceName : "-";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>NGO</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HeadquartersAddress)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HeadquartersAddress)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HeadquartersPhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HeadquartersPhoneNumber)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HeadquartersEmail)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.HeadquartersEmail)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.IdentificationNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdentificationNumber)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Website)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Website)
+        </dd>
+
+        <dt class="col-sm-2">
+            Category Name
+        </dt>
+        <dd class="col-sm-10">
+            @categoryName
+        </dd>
+
+        <dt class="col-sm-2">
+            Service Name
+        </dt>
+        <dd class="col-sm-10">
+            @serviceName
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedByName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CreatedByName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NGOStatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NGOStatus)
+        </dd>
+    </dl>
+</div>
+
+@if (Model.NGOStatus == NGOStatus.PendingVerification)
+{
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Edit">
+                <input type="hidden" asp-for="ID" />
+                <div class="form-group">
+                    <input type="submit" value="Verify" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>

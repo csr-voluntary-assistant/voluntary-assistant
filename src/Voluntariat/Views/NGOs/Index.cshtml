@@ -1,0 +1,58 @@
+﻿@using Voluntariat.Framework.Identity
+@model IEnumerable<Voluntariat.Models.NGO>
+
+@{
+    ViewData["Title"] = "Index";
+
+    Identity identity = Context.GetIdentity();
+}
+
+<h3>Lista NGO-uri inregistrare sau in curs de inregistrare in platforma</h3>
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NGOStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedByName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NGOStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedByName)
+                </td>
+                <td>
+                    @if (identity != null && identity.Role == CustomIdentityRole.Admin)
+                    {
+                        if (item.NGOStatus == NGOStatus.PendingVerification)
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">Verify</a> <span>|</span>
+                            <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+                        }
+                        else
+                        {
+                            <a asp-action="Edit" asp-route-id="@item.ID">View</a> <span></span>
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

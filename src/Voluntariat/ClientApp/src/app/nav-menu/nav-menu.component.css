@@ -1,0 +1,74 @@
+
+
+.nav-item-color-yellow, .nav-item-color-yellow:hover {
+  color: #FFEE00;
+}
+
+.nav-link {
+  display: block;
+  padding: .5rem 1rem;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+
+
+li {
+  text-align: -webkit-match-parent;
+}
+
+
+
+
+.navbar {
+  background-color: #2E8FC1 !important;
+  color: #FFFFFF;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+
+.navbar-design {
+  background-color: #2E8FC1 !important;
+  color: #FFFFFF;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-item-color-white,
+.nav-item-color-white:hover {
+    color: #FFFFFF;
+}
+
+.nav-item-color-yellow,
+.nav-item-color-yellow:hover {
+    color: #FFEE00;
+}
+
+.nav-item-border {
+    padding: 5px 20px;
+    border: 2px solid #FFEE00;
+    border-radius: 5px;
+}
+
+.nav-item-margin {
+    margin: 0 15px;
+}
+
+

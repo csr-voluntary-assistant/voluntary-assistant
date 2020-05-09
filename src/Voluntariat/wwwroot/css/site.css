@@ -1,0 +1,287 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 128px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #042637;
+    height: 128px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 40px;
+    align-items: center;
+}
+
+.footer-link,
+.footer-link:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    margin: 0 15px;
+}
+
+.footer-left-side {
+    display: flex;
+}
+
+.footer-copyright {
+    padding-top: 1rem;
+    margin-left: 0.5rem;
+}
+
+.margin-top-25 {
+    margin-top: 25px;
+}
+
+.max-width-100 {
+    max-width: 100%;
+}
+
+
+/* Landing page  */
+
+.navbar-design {
+    background-color: #2E8FC1 !important;
+    color: #FFFFFF;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+.nav-item-color-white,
+.nav-item-color-white:hover {
+    color: #FFFFFF;
+}
+
+.nav-item-color-yellow,
+.nav-item-color-yellow:hover {
+    color: #FFEE00;
+}
+
+.nav-item-border {
+    padding: 5px 20px;
+    border: 2px solid #FFEE00;
+    border-radius: 5px;
+}
+
+.nav-item-margin {
+    margin: 0 15px;
+}
+
+.text-lowercase {
+    text-transform: lowercase;
+}
+
+.landing-image-container {
+    width: 100%;
+    display: block;
+    height: calc(100vh - 56px);
+}
+
+.landing-image {
+    background-image: url('/images/group-417.png');
+    height: 100%;
+    background-size: cover;
+    background-position: center 34%;
+}
+
+
+.landing-image-left-content {
+    top: 56px;
+    left: 0px;
+    width: 44.25rem;
+    height: calc(100vh - 56px);
+    z-index: 50;
+    position: absolute;
+    background: linear-gradient(110deg, rgba(4, 38, 55, 0.9) 518px, transparent 20px);
+    padding-left: 15px;
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
+
+.hero-title {
+    color: #FFEE00;
+    font-size: 38px;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-top: 4rem;
+    width: 32rem;
+}
+
+.hero-content {
+    color: #FFFFFF;
+    margin: 3rem 0 4rem 0;
+    width: 25rem;
+}
+
+.hero-button,
+.hero-button:hover {
+    color: #042637;
+    background-color: #FFEE00;
+    padding: 10px 20px;
+    border: 2px solid #FFFFFF;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+.landing-learn-more-link,
+.landing-learn-more-link:hover {
+    text-decoration: none;
+}
+
+.landing-learn-more {
+    display: flex;
+    color: #FFFFFF;
+    flex-direction: column;
+    width: 7rem;
+    align-items: center;
+    margin-left: 3.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    bottom: 0;
+    position: absolute;
+}
+
+
+.landing-thumbnail-list {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 48px 0 72px 0;
+}
+
+.landing-thumbnail {
+    margin: 16px;
+    width: 400px;
+    border: 2px solid #FFEE00;
+    border-radius: 5px;
+    color: #042637;
+    display: flex;
+    flex-direction: column;
+}
+
+.landing-thumbnail-image {
+    width: 100%;
+}
+
+.landing-thumbnail-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 16px;
+}
+
+.landing-thumbnail-content {
+    margin: 8px 16px;
+}
+
+.landing-thumbnail-button,
+.landing-thumbnail-button:hover {
+    border-radius: 5px;
+    background-color: #2E8FC1;
+    color: #FFFFFF;
+    text-decoration: none;
+    padding: 7px 20px;
+    text-transform: uppercase;
+    display: block;
+    width: 160px;
+    text-align: center;
+    margin: auto 16px 16px 16px;
+}
+
+.landing-thumbnail-last-content {
+    margin-bottom: 25px;
+}
+
+.logo-header {
+    padding: 0;
+}
+
+
+/* Contact page */
+
+.contact-page-container {
+    max-width: 992px;
+    margin: 0 auto;
+    padding-top: 30px;
+}
+
+.contact-map {
+    margin: 30px 0;
+}
+
+.contact-map-col {
+    padding-right: 0;
+    padding-left: 0;
+}
+
+.contact-map-iframe {
+    width: 100%;
+}
