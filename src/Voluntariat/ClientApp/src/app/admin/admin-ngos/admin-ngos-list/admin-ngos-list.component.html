@@ -33,7 +33,7 @@
     <tr matColumnDef="verify">
       <th mat-header-cell *matHeaderCellDef> Verify NGO </th>
       <td mat-cell *matCellDef="let element">
-        <a routerLink="/admin-ngos-verify" class="btn btn-danger"> Verify </a>
+        <a [routerLink]="['/admin-ngos-verify/', element.id]" class="btn btn-danger"> Verify </a>
       </td>
     </tr>
 

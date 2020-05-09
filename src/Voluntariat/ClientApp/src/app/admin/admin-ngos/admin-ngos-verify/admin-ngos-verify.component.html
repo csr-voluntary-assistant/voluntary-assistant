@@ -1,5 +1,18 @@
 <div>
-
-
-  <a routerLink="/admin-ngos-list"> Back to list </a>
+  <div>
+    <h2>{{ngo.name}}</h2>
+    <div><span><strong>Name: </strong></span>{{ngo.name}}</div>
+    <div><span><strong>Identification Number: </strong></span>{{ngo.identificationNumber}}</div>
+    <div><span><strong>Headquarters Address: </strong></span>{{ngo.headquartersAddress}}</div>
+    <div><span><strong>Headquarters Phone Number: </strong></span>{{ngo.headquartersPhoneNumber}}</div>
+    <div><span><strong>Headquarters Email: </strong></span>{{ngo.headquartersEmail}}</div>
+    <div><span><strong>Website: </strong></span>{{ngo.website}}</div>
+    <div><span><strong>Category Name: </strong></span>{{ngo.categoryName}}</div>
+    <div><span><strong>Service Name: </strong></span>{{ngo.serviceName}}</div>
+    <div><span><strong>Created by: </strong></span>{{ngo.createdBy}}</div>
+    <div><span><strong>Status: </strong></span>{{ngo.status}}</div>
+  </div>
+  <div>
+    <a routerLink="/admin-ngos-list"> Back to list </a>
+  </div>
 </div>

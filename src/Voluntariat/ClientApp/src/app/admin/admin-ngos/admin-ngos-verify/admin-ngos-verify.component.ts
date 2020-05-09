@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NGO } from '../admin-ngos.models';
 import { AdminNgosService } from '../admin-ngos.service'
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'admin-ngos-verify',
@@ -8,11 +9,18 @@ import { AdminNgosService } from '../admin-ngos.service'
 })
 
 export class AdminNgosVerifyComponent implements OnInit {
-  displayedColumns: string[] = ['nrCrt', 'name', 'status', 'createdBy'];
-  dataSource = this.service.getAll();;
-  constructor(private service: AdminNgosService) { }
+  id: string;
+  ngo: NGO;
+
+  constructor(private service: AdminNgosService, private actRoute: ActivatedRoute) {  }
 
   ngOnInit() {
-  }
+    this.actRoute.paramMap.subscribe(params => {
+      this.id = params.get('id');
+    });
 
+    this.service.getByID(this.id).subscribe((data: NGO) => {
+      this.ngo = data;
+    });
+  }
 }
