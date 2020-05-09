@@ -56,6 +56,8 @@ namespace Voluntariat.Models
         public string CreatedByName { get; set; }
 
         public string FileIDs { get; set; }
+
+        public string Description { get; set; }
     }
 
     public enum NGOStatus
