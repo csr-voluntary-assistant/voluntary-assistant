@@ -1,4 +1,4 @@
-export interface NGO {
+export class NGO {
   id: string;
   name: string;
   status: string;

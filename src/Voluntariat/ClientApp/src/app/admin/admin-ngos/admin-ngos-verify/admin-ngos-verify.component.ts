@@ -10,7 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class AdminNgosVerifyComponent implements OnInit {
   id: string;
-  ngo: NGO;
+  ngo: NGO = new NGO();
 
   constructor(private service: AdminNgosService, private actRoute: ActivatedRoute) {  }
 
