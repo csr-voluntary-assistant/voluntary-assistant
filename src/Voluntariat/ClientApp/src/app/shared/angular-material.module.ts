@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [],
@@ -13,7 +13,8 @@ import { MatTableModule } from '@angular/material/table';
   ],
   exports: [
     MatSliderModule,
-    MatTableModule
+    MatTableModule,
+    MatCardModule
   ]
 })
 
