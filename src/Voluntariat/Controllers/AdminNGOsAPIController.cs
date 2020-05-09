@@ -27,39 +27,54 @@ namespace Voluntariat.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NGOModel>>> GetNGOs()
         {
-            List<NGOModel> ngos = new List<NGOModel>();
-            List<NGO> result = await applicationDbContext.NGOs.ToListAsync();
+            List<NGOModel> ngoModels = new List<NGOModel>();
+            List<NGO> ngos = await applicationDbContext.NGOs.ToListAsync();
 
-            if (result.Any())
+            if (ngos.Any())
             {
-                foreach (NGO item in result)
+                foreach (NGO ngo in ngos)
                 {
-                    NGOModel ngo = new NGOModel
+                    NGOModel ngoModel = new NGOModel
                     {
-                        Id = item.ID,
-                        Name = item.Name,
-                        Status = item.NGOStatus.ToString(),
-                        CreatedBy = applicationDbContext.Users.Find(item.CreatedByID.ToString()).Email
+                        Id = ngo.ID,
+                        Name = ngo.Name,
+                        Status = ngo.NGOStatus.ToString(),
+                        CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email
                     };
 
-                    ngos.Add(ngo);
+                    ngoModels.Add(ngoModel);
                 }
             }
 
-            return ngos;
+            return ngoModels;
         }
 
         // GET: api/AdminNGOsAPI/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<NGO>> GetByID(Guid id)
+        public async Task<ActionResult<NGOModel>> GetByID(Guid id)
         {
-            var ngo = await applicationDbContext.NGOs.FindAsync(id);
+            NGO ngo = await applicationDbContext.NGOs.FindAsync(id);
             if (ngo == null)
             {
                 return NotFound();
             }
 
-            return ngo;
+            NGOModel ngoModel = new NGOModel
+            {
+                Id = ngo.ID,
+                Name = ngo.Name,
+                Status = ngo.NGOStatus.ToString(),
+                CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email,
+                HeadquartersAddress = ngo.HeadquartersAddress,
+                HeadquartersPhoneNumber = ngo.HeadquartersPhoneNumber,
+                HeadquartersEmail = ngo.HeadquartersEmail,
+                IdentificationNumber = ngo.IdentificationNumber,
+                Website = ngo.Website,
+                CategoryName = applicationDbContext.Categories.FirstOrDefault(c => c.ID == ngo.CategoryID)?.Name,
+                ServiceName = applicationDbContext.Services.FirstOrDefault(c => c.ID == ngo.ServiceID)?.Name
+            };
+
+            return ngoModel;
         }
 
         // PUT: api/AdminNGOsAPI/5
@@ -106,6 +121,20 @@ namespace Voluntariat.Controllers
             public string Status { get; set; }
 
             public string CreatedBy { get; set; }
+
+            public string HeadquartersAddress { get; set; }
+
+            public string HeadquartersPhoneNumber { get; set; }
+
+            public string HeadquartersEmail { get; set; }
+
+            public string IdentificationNumber { get; set; }
+
+            public string Website { get; set; }
+
+            public string CategoryName { get; set; }
+
+            public string ServiceName { get; set; }
         }
     }
 }

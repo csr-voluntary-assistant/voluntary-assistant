@@ -15,8 +15,7 @@ import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
-import { AdminNgosListComponent } from './admin/admin-ngos/admin-ngos-list/admin-ngos-list.component';
-import { AdminNgosVerifyComponent } from './admin/admin-ngos/admin-ngos-verify/admin-ngos-verify.component';
+import { AdminNgosModule } from './admin/admin-ngos/admin-ngos.module';
 
 
 @NgModule({
@@ -29,8 +28,6 @@ import { AdminNgosVerifyComponent } from './admin/admin-ngos/admin-ngos-verify/a
     NgoTabComponent,
     SignInComponent,
     RegisterNgoComponent,
-    AdminNgosListComponent,
-    AdminNgosVerifyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -44,9 +41,8 @@ import { AdminNgosVerifyComponent } from './admin/admin-ngos/admin-ngos-verify/a
       { path: 'ngo-tab', component: NgoTabComponent },
       { path: 'sign-in', component: SignInComponent },
       { path: 'register', component: RegisterNgoComponent },
-      { path: 'admin-ngos-list', component: AdminNgosListComponent },
-      { path: 'admin-ngos-verify', component: AdminNgosVerifyComponent },
     ]),
+    AdminNgosModule,
     BrowserAnimationsModule,
   ],
   providers: [],

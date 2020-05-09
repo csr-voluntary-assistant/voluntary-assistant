@@ -9,7 +9,7 @@ import { AdminNgosService } from '../admin-ngos.service'
 
 export class AdminNgosListComponent implements OnInit {
   displayedColumns: string[] = ['nrCrt', 'name', 'status', 'createdBy', 'verify'];
-  dataSource = this.service.getAll();;
+  dataSource = this.service.getAll();
   constructor(private service: AdminNgosService) { }
 
   ngOnInit() {

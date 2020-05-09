@@ -7,8 +7,6 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class AdminNgosService {
   private API_PATH = '/api/AdminNGOsAPI';
-  //formData: NGO;
-  //list: NGO[];
 
   constructor(private http: HttpClient) { }
 
@@ -16,7 +14,7 @@ export class AdminNgosService {
     return this.http.get<NGO>(`${this.API_PATH}`);
   }
 
-  //public getByID(): Observable<NGO> {
-  //  return this.http.get<NGO>(`${this.API_PATH}`);
-  //}
+  public getByID(id: string) {
+    return this.http.get(`${this.API_PATH}/${id}`);
+  }
 }
