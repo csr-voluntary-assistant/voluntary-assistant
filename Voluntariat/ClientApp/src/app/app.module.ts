@@ -47,6 +47,3 @@ import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-platformBrowserDynamic().bootstrapModule(AppModule)
-  .catch(err => console.error(err));
