@@ -29,14 +29,19 @@ namespace Voluntariat.Services.CloudFileServices
 
         public virtual async Task<string> UploadFileAsync(string localPath)
         {
-            var path = Path.Combine(environment.WebRootPath, localPath);            
-            
+            string path = GetPath(localPath);
+
             BlobContainerClient container = BlobServiceClient.GetBlobContainerClient(ContainerName);
             using FileStream uploadFileStream = File.OpenRead(path);
             var cloudFileName = $"{Guid.NewGuid()}{Path.GetExtension(localPath)}";
             Azure.Response<BlobContentInfo> result = await container.UploadBlobAsync(cloudFileName, uploadFileStream);
             uploadFileStream.Close();
             return cloudFileName;
+        }
+
+        private string GetPath(string localPath)
+        {
+            return Path.Combine(environment.WebRootPath, localPath);
         }
 
         public async Task<Stream> GetBlobStream(string cloudIdentifier)

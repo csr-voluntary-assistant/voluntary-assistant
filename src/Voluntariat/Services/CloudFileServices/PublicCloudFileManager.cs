@@ -23,8 +23,7 @@ namespace Voluntariat.Services.CloudFileServices
         {
             var result = await base.UploadFileAsync(localPath);
 
-            return $"https://{StorageAccount}.blob.core.windows.net/{ContainerName}/{result}";
-            
+            return $"https://{StorageAccount}.blob.core.windows.net/{ContainerName}/{result}";            
         }
     }
 }

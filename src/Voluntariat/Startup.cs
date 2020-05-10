@@ -66,20 +66,14 @@ namespace Voluntariat
 
             services.AddRazorPages();
 
-            services.AddSingleton<IEmailSender, EmailSender>();
+
             services.AddScoped<IVolunteerMatchingService, VolunteerMatchingService>();
             services.AddScoped<IVolunteerRepository, VolunteerRepository>();
             services.AddScoped<IVolunteerService, VolunteerService>();
-            services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
-            services.AddSingleton<IPublicCloudFileManager, PublicCloudFileManager>();
+
             services.AddScoped<IScheduledTask, ScheduledTask>();
             services.AddScoped<ITaskScheduler, TaskScheduler>();
-
-            services.AddHttpClient<TwilioVerifyClient>(client =>
-            {
-                client.BaseAddress = new Uri("https://api.authy.com/");
-                client.DefaultRequestHeaders.Add("X-Authy-API-Key", Configuration["Twillio:Authy:ApiKey"]);
-            });
+            InjectSecretRelatedServices(services);
 
             services.AddSpaStaticFiles(configuration =>
             {
@@ -87,7 +81,30 @@ namespace Voluntariat
             });
 
             AddSwaggerGen(services);
-        }        
+        }
+
+        private void InjectSecretRelatedServices(IServiceCollection services)
+        {
+            bool noUserSecrets = bool.Parse(Configuration["NoUserSecrets"]);
+            if (!noUserSecrets)
+            {
+                services.AddSingleton<IEmailSender, EmailSender>();
+                services.AddSingleton<ISecureCloudFileManager, SecureCloudFileManager>();
+                services.AddSingleton<IPublicCloudFileManager, PublicCloudFileManager>();
+
+                services.AddHttpClient<TwilioVerifyClient>(client =>
+                {
+                    client.BaseAddress = new Uri("https://api.authy.com/");
+                    client.DefaultRequestHeaders.Add("X-Authy-API-Key", Configuration["Twillio:Authy:ApiKey"]);
+                });
+            }
+            else
+            {
+                services.AddSingleton<ISecureCloudFileManager, FakeCloudFileManager>();
+                services.AddSingleton<IPublicCloudFileManager, FakeCloudFileManager>();
+                Configuration["RequireConfirmedAccount"] = "false";
+            }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
