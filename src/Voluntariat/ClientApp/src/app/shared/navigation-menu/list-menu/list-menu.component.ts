@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { NavigationMenuModel, NavigationMenuType } from '../navigation-menu/navigation-menu.model';
 import { Router } from '@angular/router';
 
@@ -10,8 +10,11 @@ import { Router } from '@angular/router';
 export class ListMenuComponent implements OnInit {
 
     @Input() menuList: NavigationMenuModel[] = [];
-    navigationMenuType = NavigationMenuType;
     @Input() isExpanded: boolean = false;
+
+    @Output() isMenuItemClicked: EventEmitter<void> = new EventEmitter<void>();
+
+    navigationMenuType = NavigationMenuType;
 
     constructor(private router: Router) { }
 
@@ -24,6 +27,12 @@ export class ListMenuComponent implements OnInit {
     }
 
     navigateToUrl(url: string[]) {
+        this.onMenuItemClicked();
+
         this.router.navigate(url);
+    }
+
+    onMenuItemClicked() {
+        this.isMenuItemClicked.emit();
     }
 }
