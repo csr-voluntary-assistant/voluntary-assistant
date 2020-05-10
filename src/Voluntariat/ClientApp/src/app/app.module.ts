@@ -2,10 +2,11 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AdminNgosModule } from './admin/admin-ngos/admin-ngos.module';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -17,34 +18,42 @@ import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
 
+
+const routes: Routes = [
+    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: 'counter', component: CounterComponent },
+    { path: 'fetch-data', component: FetchDataComponent },
+    { path: 'ngo-tab', component: NgoTabComponent },
+    { path: 'sign-in', component: SignInComponent },
+    { path: 'register', component: RegisterNgoComponent },
+
+    { path: 'admin', loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule) },
+];
+
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    NgoTabComponent,
-    SignInComponent,
-    RegisterNgoComponent,
-  ],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
-    HttpClientModule,
-    FormsModule,
-    AngularMaterialModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'ngo-tab', component: NgoTabComponent },
-      { path: 'sign-in', component: SignInComponent },
-      { path: 'register', component: RegisterNgoComponent },
-    ]),
-    AdminNgosModule,
-    BrowserAnimationsModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavMenuComponent,
+        HomeComponent,
+        CounterComponent,
+        FetchDataComponent,
+        NgoTabComponent,
+        SignInComponent,
+        RegisterNgoComponent,
+    ],
+    imports: [
+        BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+        HttpClientModule,
+        FormsModule,
+        AngularMaterialModule,
+        RouterModule.forRoot(routes),
+        BrowserAnimationsModule,
+    ],
+    exports: [
+        AngularMaterialModule
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -16,8 +16,8 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
-using Voluntariat.Services;
 using Voluntariat.Services.CloudFileServices;
 
 namespace Voluntariat.Areas.Identity.Pages.Account
@@ -186,7 +186,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                         if (files.Any())
                         {
                             ngo.FileIDs = await UploadFiles(files);
-                        }    
+                        }
 
                         applicationDbContext.Add(ngo);
                     }
@@ -207,6 +207,8 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     {
                         // pentru inregistrarea de Beneficiar
                     }
+
+                    await userManager.AddToRoleAsync(user, CustomIdentityRole.Guest);
 
                     await applicationDbContext.SaveChangesAsync();
 
@@ -278,7 +280,7 @@ namespace Voluntariat.Areas.Identity.Pages.Account
                     }
                 }
             }
-            
+
             return string.Join<string>(",", fileIDs);
         }
 
