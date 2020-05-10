@@ -59,8 +59,6 @@ namespace Voluntariat
             {
                 options.Filters.Add<Framework.Identity.IdentityAuthorizationFilter>();
 
-
-
                 options.EnableEndpointRouting = false;
             })
                 .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix, opts => { opts.ResourcesPath = "Resources"; })
