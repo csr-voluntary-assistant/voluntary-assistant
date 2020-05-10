@@ -11,7 +11,7 @@ export class AdminNavMenuComponent implements OnInit {
   menu: NavigationMenuModel[] = [
     {
       name: 'NGOs',
-      url: ['admin-ngos/list'],
+      url: ['../admin'],
       order: 1,
       position: NavigationPosition.Left
     }
