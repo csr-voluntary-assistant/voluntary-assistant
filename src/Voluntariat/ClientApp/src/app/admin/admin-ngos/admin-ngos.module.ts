@@ -1,22 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminNgosListComponent } from './admin-ngos-list/admin-ngos-list.component';
-import { AdminNgosVerifyComponent } from './admin-ngos-verify/admin-ngos-verify.component';
-import { RouterModule } from '@angular/router';
+
 import { AngularMaterialModule } from '../../shared/angular-material.module';
 import { AdminNavMenuModule } from '../admin-nav-menu/admin-nav-menu.module';
 
+import { AdminNgosRoutingModule } from './admin-ngos-routing.module';
+import { AdminNgosService } from './admin-ngos.service';
+
 @NgModule({
-  declarations: [AdminNgosListComponent, AdminNgosVerifyComponent],
-  imports: [
-    CommonModule,
-    AngularMaterialModule,
-    AdminNavMenuModule,
-    RouterModule.forRoot([
-      { path: 'admin-ngos-list', component: AdminNgosListComponent },
-      { path: 'admin-ngos-verify/:id', component: AdminNgosVerifyComponent },
-    ]),
-  ]
+    declarations: [AdminNgosRoutingModule.routedComponents],
+    imports: [
+        CommonModule,
+        AngularMaterialModule,
+        AdminNgosRoutingModule,
+        AdminNavMenuModule
+    ],
+    providers: [AdminNgosService]
 })
 
-export class AdminNgosModule{ }
+export class AdminNgosModule { }

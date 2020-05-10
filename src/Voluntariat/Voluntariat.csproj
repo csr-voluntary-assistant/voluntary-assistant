@@ -8,7 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <None Remove="ClientApp\src\app\shared\navigation-menu\navigation-menu\navigation-menu.model.ts" />
+      <Compile Remove="ClientApp\dist\**" />
+      <Content Remove="ClientApp\dist\**" />
+      <EmbeddedResource Remove="ClientApp\dist\**" />
+      <None Remove="ClientApp\dist\**" />
     </ItemGroup>
 
     <ItemGroup>
