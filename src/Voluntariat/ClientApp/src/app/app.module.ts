@@ -16,6 +16,7 @@ import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
+import { NavigationMenuModule } from './shared/navigation-menu/navigation-menu.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
     ]),
     AdminNgosModule,
     BrowserAnimationsModule,
+    NavigationMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

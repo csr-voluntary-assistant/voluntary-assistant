@@ -8,6 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <None Remove="ClientApp\src\app\shared\navigation-menu\navigation-menu\navigation-menu.model.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Geolocation" Version="1.2.1" />
         <PackageReference Include="Azure.Storage.Blobs" Version="12.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
@@ -45,6 +49,10 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </Content>
         <Folder Include="wwwroot\images\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\shared\navigation-menu\navigation-menu\navigation-menu.model.ts" />
     </ItemGroup>
 
 </Project>
