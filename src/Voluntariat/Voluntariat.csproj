@@ -54,4 +54,8 @@
         <Folder Include="wwwroot\images\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <TypeScriptCompile Include="ClientApp\src\app\shared\navigation-menu\navigation-menu\navigation-menu.model.ts" />
+    </ItemGroup>
+
 </Project>

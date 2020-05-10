@@ -17,6 +17,7 @@ import { NgoTabComponent } from './ngo-tab/ngo-tab.component';
 import { AngularMaterialModule } from './shared/angular-material.module';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { RegisterNgoComponent } from './register-ngo/register-ngo.component';
+import { NavigationMenuModule } from './shared/navigation-menu/navigation-menu.module';
 
 
 const routes: Routes = [
@@ -49,6 +50,7 @@ const routes: Routes = [
         AngularMaterialModule,
         RouterModule.forRoot(routes),
         BrowserAnimationsModule,
+        NavigationMenuModule
     ],
     exports: [
         AngularMaterialModule
