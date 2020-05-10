@@ -1,6 +1,6 @@
 <ul class="url-list" [ngClass]="{'expanded-list': isExpanded}">
   <li *ngFor="let menu of menuList">
-    <a [routerLink]="menu.url"
+    <a (click)="navigateToUrl(menu.url)"
        [ngClass]="{'normal-link': menu.type == navigationMenuType.Normal, 'highlighted-link': menu.type != navigationMenuType.Normal, 'highlighted-border': menu.type == navigationMenuType.HighlightedWithBorder}"
        class="base-link">
       {{ menu.name }}
