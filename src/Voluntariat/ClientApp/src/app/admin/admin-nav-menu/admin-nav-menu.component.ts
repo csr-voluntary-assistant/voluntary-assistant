@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationPosition, NavigationMenuModel } from '../../../shared/navigation-menu/navigation-menu/navigation-menu.model';
+import { NavigationPosition, NavigationMenuModel } from '../../shared/navigation-menu/navigation-menu/navigation-menu.model';
 
 @Component({
   selector: 'admin-nav-menu',

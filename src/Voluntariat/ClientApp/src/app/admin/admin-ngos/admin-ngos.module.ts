@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AngularMaterialModule } from '../../shared/angular-material.module';
-import { AdminNavMenuModule } from '../admin-nav-menu/admin-nav-menu.module';
-
 import { AdminNgosRoutingModule } from './admin-ngos-routing.module';
 import { AdminNgosService } from './admin-ngos.service';
 
@@ -13,7 +11,6 @@ import { AdminNgosService } from './admin-ngos.service';
         CommonModule,
         AngularMaterialModule,
         AdminNgosRoutingModule,
-        AdminNavMenuModule
     ],
     providers: [AdminNgosService]
 })
