@@ -1,40 +1,42 @@
-<div>
-    <h2>Details page for: {{ngo.name}}</h2>
-    <mat-card class="mat-elevation-z8">
-        <mat-card-content>
-            <dl>
-                <dt>Name</dt>
-                <dd>{{ngo.name}}</dd>
-                <dt>Identification Number</dt>
-                <dd>{{ngo.identificationNumber}}</dd>
-                <dt>Headquarters Address</dt>
-                <dd>{{ngo.headquartersAddress}}</dd>
-                <dt>Headquarters Phone Number</dt>
-                <dd>{{ngo.headquartersPhoneNumber}}</dd>
-                <dt>Headquarters Email</dt>
-                <dd>{{ngo.headquartersEmail}}</dd>
-                <dt>Website</dt>
-                <dd>{{ngo.website}}</dd>
-                <dt>Category Name</dt>
-                <dd>{{ngo.categoryName}}</dd>
-                <dt>Service Name</dt>
-                <dd>{{ngo.serviceName}}</dd>
-                <dt>Created by</dt>
-                <dd>{{ngo.createdBy}}</dd>
-                <dt>Status</dt>
-                <dd>{{ngo.status}}</dd>
-            </dl>
-        </mat-card-content>
-        <mat-card-actions>
-            <span class="padding-right-10">
-                <a class="btn btn-warning"> Verify </a>
-            </span>
-            <span>
-                <a class="btn btn-danger"> Delete </a>
-            </span>
-        </mat-card-actions>
-        <mat-card-actions>
-            <a routerLink="/admin-ngos-list"> Back to list </a>
-        </mat-card-actions>
-    </mat-card>
+<div class="row">
+    <div class="col-8 center-using-margin">
+        <h2>Details page for: {{ngo.name}}</h2>
+        <mat-card class="mat-elevation-z8">
+            <mat-card-content>
+                <dl>
+                    <dt>Name</dt>
+                    <dd>{{ngo.name}}</dd>
+                    <dt>Identification Number</dt>
+                    <dd>{{ngo.identificationNumber}}</dd>
+                    <dt>Headquarters Address</dt>
+                    <dd>{{ngo.headquartersAddress}}</dd>
+                    <dt>Headquarters Phone Number</dt>
+                    <dd>{{ngo.headquartersPhoneNumber}}</dd>
+                    <dt>Headquarters Email</dt>
+                    <dd>{{ngo.headquartersEmail}}</dd>
+                    <dt>Website</dt>
+                    <dd>{{ngo.website}}</dd>
+                    <dt>Category Name</dt>
+                    <dd>{{ngo.categoryName}}</dd>
+                    <dt>Service Name</dt>
+                    <dd>{{ngo.serviceName}}</dd>
+                    <dt>Created by</dt>
+                    <dd>{{ngo.createdBy}}</dd>
+                    <dt>Status</dt>
+                    <dd>{{ngo.status}}</dd>
+                </dl>
+            </mat-card-content>
+            <mat-card-actions>
+                <span class="padding-right-10">
+                    <a class="btn btn-warning"> Verify </a>
+                </span>
+                <span>
+                    <a class="btn btn-danger"> Delete </a>
+                </span>
+            </mat-card-actions>
+            <mat-card-actions>
+                <a routerLink="/admin"> Back to list </a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

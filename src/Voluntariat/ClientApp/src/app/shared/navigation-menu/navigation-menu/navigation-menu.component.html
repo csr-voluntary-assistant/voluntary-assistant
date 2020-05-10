@@ -1,0 +1,10 @@
+<mat-card class="nav-container">
+    <div class="nav-logo-menu-icon">
+        <img src="images/logo.svg" class="nav-logo" [routerLink]="['/']" (click)="hideMenu()">
+        <mat-icon class="menu-icon" (click)="toggleMenu()">menu</mat-icon>
+    </div>
+    <div class="nav-menu">
+        <list-menu [menuList]="leftMenu" [isExpanded]="isExpanded" class="menu-list nav-left-side" [ngClass]="{'expanded-menu': isExpanded}" (isMenuItemClicked)="hideMenu()"></list-menu>
+        <list-menu [menuList]="rightMenu" [isExpanded]="isExpanded" class="menu-list nav-right-side" [ngClass]="{'expanded-menu': isExpanded}" (isMenuItemClicked)="hideMenu()"></list-menu>
+    </div>
+</mat-card>
