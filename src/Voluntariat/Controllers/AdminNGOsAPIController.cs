@@ -45,7 +45,7 @@ namespace Voluntariat.Controllers
                 }
             }
 
-            return ngoModels;
+            return ngoModels.OrderBy(n => n.Name).ToList();
         }
 
         [HttpGet("{id}")]
