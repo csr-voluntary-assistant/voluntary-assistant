@@ -12,11 +12,19 @@ export class AdminNgosService {
 
     constructor(private http: HttpClient) { }
 
-    public getAll(): Observable<NGO> {
-        return this.http.get<NGO>(`${this.API_PATH}`);
+    public getAll(): Observable<NGO[]> {
+        return this.http.get<NGO[]>(`${this.API_PATH}`);
     }
 
     public getByID(id: string) {
         return this.http.get(`${this.API_PATH}/${id}`);
+    }
+
+    public verifyByID(ngo: NGO): Observable<NGO> {
+        return this.http.post<NGO>(this.API_PATH, ngo);
+    }
+
+    public deleteByID(id: string) {
+        return this.http.delete(`${this.API_PATH}/${id}`);
     }
 }

@@ -23,7 +23,6 @@ namespace Voluntariat.Controllers
             this.applicationDbContext = applicationDbContext;
         }
 
-        // GET: api/AdminNGOsAPI
         [HttpGet]
         public async Task<ActionResult<IEnumerable<NGOModel>>> GetNGOs()
         {
@@ -38,7 +37,7 @@ namespace Voluntariat.Controllers
                     {
                         Id = ngo.ID,
                         Name = ngo.Name,
-                        Status = ngo.NGOStatus.ToString(),
+                        Status = ngo.NGOStatus,
                         CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email
                     };
 
@@ -49,7 +48,6 @@ namespace Voluntariat.Controllers
             return ngoModels;
         }
 
-        // GET: api/AdminNGOsAPI/5
         [HttpGet("{id}")]
         public async Task<ActionResult<NGOModel>> GetByID(Guid id)
         {
@@ -63,7 +61,7 @@ namespace Voluntariat.Controllers
             {
                 Id = ngo.ID,
                 Name = ngo.Name,
-                Status = ngo.NGOStatus.ToString(),
+                Status = ngo.NGOStatus,
                 CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email,
                 HeadquartersAddress = ngo.HeadquartersAddress,
                 HeadquartersPhoneNumber = ngo.HeadquartersPhoneNumber,
@@ -77,39 +75,41 @@ namespace Voluntariat.Controllers
             return ngoModel;
         }
 
-        // PUT: api/AdminNGOsAPI/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutNGO(Guid id, NGO ngo)
+        [HttpPost]
+        public async Task<ActionResult<NGOModel>> VerifyByID(NGOModel ngoModel)
         {
-            if (id != ngo.ID)
+            NGO ngo = await applicationDbContext.NGOs.FindAsync(ngoModel.Id);
+            if (ngo != null)
             {
-                return BadRequest();
-            }
-
-            applicationDbContext.Entry(ngo).State = EntityState.Modified;
-
-            try
-            {
+                ngo.NGOStatus = NGOStatus.Verified;
+                ngoModel.Status = ngo.NGOStatus;
                 await applicationDbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!NGOExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return NoContent();
+            return ngoModel;
         }
 
-        private bool NGOExists(Guid id)
+        [HttpDelete("{id}")]
+        public async Task<bool> DeleteByID(Guid id)
         {
-            return applicationDbContext.NGOs.Any(e => e.ID == id);
+            var ngo = await applicationDbContext.NGOs.FindAsync(id);
+            if (ngo != null)
+            {
+                applicationDbContext.NGOs.Remove(ngo);
+
+                var volunteers = await applicationDbContext.Volunteers.Where(v => v.NGOID.HasValue && v.NGOID.Value == id).ToListAsync();
+                foreach (var volunteer in volunteers)
+                {
+                    volunteer.NGOID = null;
+                    volunteer.UnaffiliationStartTime = DateTime.UtcNow;
+
+                    applicationDbContext.Volunteers.Update(volunteer);
+                }
+
+                await applicationDbContext.SaveChangesAsync();
+            }
+
+            return true;
         }
 
         public class NGOModel
@@ -118,7 +118,7 @@ namespace Voluntariat.Controllers
 
             public string Name { get; set; }
 
-            public string Status { get; set; }
+            public NGOStatus Status { get; set; }
 
             public string CreatedBy { get; set; }
 
