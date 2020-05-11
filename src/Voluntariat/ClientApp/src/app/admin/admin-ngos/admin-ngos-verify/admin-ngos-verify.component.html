@@ -23,7 +23,10 @@
                     <dt>Created by</dt>
                     <dd>{{ngo.createdBy}}</dd>
                     <dt>Status</dt>
-                    <dd>{{ngo.status}}</dd>
+                    <dd>
+                        <span *ngIf="ngo.status === NGOStatus.PendingVerification"> Pending Verification </span>
+                        <span *ngIf="ngo.status === NGOStatus.Verified"> Verified </span>
+                    </dd>
                 </dl>
             </mat-card-content>
             <mat-card-actions>

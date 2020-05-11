@@ -37,7 +37,7 @@ namespace Voluntariat.Controllers
                     {
                         Id = ngo.ID,
                         Name = ngo.Name,
-                        Status = ngo.NGOStatus.ToString(),
+                        Status = ngo.NGOStatus,
                         CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email
                     };
 
@@ -61,7 +61,7 @@ namespace Voluntariat.Controllers
             {
                 Id = ngo.ID,
                 Name = ngo.Name,
-                Status = ngo.NGOStatus.ToString(),
+                Status = ngo.NGOStatus,
                 CreatedBy = applicationDbContext.Users.Find(ngo.CreatedByID.ToString()).Email,
                 HeadquartersAddress = ngo.HeadquartersAddress,
                 HeadquartersPhoneNumber = ngo.HeadquartersPhoneNumber,
@@ -82,7 +82,7 @@ namespace Voluntariat.Controllers
             if (ngo != null)
             {
                 ngo.NGOStatus = NGOStatus.Verified;
-                ngoModel.Status = ngo.NGOStatus.ToString();
+                ngoModel.Status = ngo.NGOStatus;
                 await applicationDbContext.SaveChangesAsync();
             }
 
@@ -118,7 +118,7 @@ namespace Voluntariat.Controllers
 
             public string Name { get; set; }
 
-            public string Status { get; set; }
+            public NGOStatus Status { get; set; }
 
             public string CreatedBy { get; set; }
 
