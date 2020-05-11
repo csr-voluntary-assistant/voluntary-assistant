@@ -31,6 +31,7 @@ export class AdminNgosVerifyComponent implements OnInit {
     verifyNGO(ngo) {
         this.service.verifyByID(ngo).subscribe((data: NGO) => {
             this.ngo = data;
+            this.ngoIsVerified = true;
         },
             error => console.error(error)
         );
