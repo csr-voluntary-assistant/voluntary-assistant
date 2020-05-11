@@ -249,39 +249,39 @@ namespace Voluntariat.Areas.Identity.Pages.Account
         public async Task<string> UploadFiles(List<IFormFile> files)
         {
             long size = files.Sum(f => f.Length);
-            List<string> filePaths = new List<string>();
             List<string> fileIDs = new List<string>();
 
             foreach (var formFile in files)
             {
                 if (formFile.Length > 0)
                 {
-                    var filePath = Path.GetTempFileName();
-                    filePaths.Add(filePath);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await formFile.CopyToAsync(stream);
-                    }
-
-                    string fileName = await secureCloudFileManager.UploadFileAsync(filePath);
-                    if (!string.IsNullOrWhiteSpace(fileName) && Guid.TryParse(fileName, out var fileID))
-                    {
-                        fileIDs.Add(fileID.ToString());
-                    }
-
-                    try
-                    {
-                        System.IO.File.Delete(filePath);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception("Team file not found:" + e);
-                    }
+                    fileIDs.Add(await UploadFile(formFile));
                 }
             }
 
             return string.Join<string>(",", fileIDs);
+        }
+
+        private async Task<string> UploadFile(IFormFile formFile)
+        {
+            var filePath = Path.GetTempFileName();
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await formFile.CopyToAsync(stream);
+            }
+
+            string cloudFileId = await secureCloudFileManager.UploadFileAsync(filePath);
+
+            try
+            {
+                System.IO.File.Delete(filePath);
+            }
+            catch (Exception)
+            {                
+            }
+
+            return cloudFileId;
         }
 
         private async Task FillRegistrationDataAsync(RegisterAs registerAs)

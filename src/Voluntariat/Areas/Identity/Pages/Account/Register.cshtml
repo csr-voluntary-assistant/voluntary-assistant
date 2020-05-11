@@ -11,9 +11,10 @@
 <h1>@ViewData["Title"]</h1>
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
+<input type="hidden" id="googleApiKey" value="@apikey"/>
 <div class="row">
     <div class="col-md-4">
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
+        <form id="RegisterForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
             <input asp-for="Input.RegisterAs" type="hidden" value="@Model.RegisterAs" />
 
             <h4>Create a new account.</h4>
@@ -214,6 +215,21 @@
 </div>
 
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apikey&libraries=places"></script>
+<script type="text/javascript">
+    document.getElementById("RegisterForm").addEventListener("submit", onRegisterFormSubmited);
+    var geocoder = new google.maps.Geocoder;
+    function onRegisterFormSubmited() {        
+        var apiKey = $("#googleApiKey").val();
+        if (apiKey) {
+            //TODO: use geocoder to get gps coordinates
+        } else {
+            $('#user_address_lat').val(0);
+            $('#user_address_lng').val(0);
+            $('#headquerters_address_lat').val(0);
+            $('#headquerters_address_lng').val(0);
+        }
+    }
+</script>
 
 <script type="text/javascript">
     google.maps.event.addDomListener(window, 'load', function () {
