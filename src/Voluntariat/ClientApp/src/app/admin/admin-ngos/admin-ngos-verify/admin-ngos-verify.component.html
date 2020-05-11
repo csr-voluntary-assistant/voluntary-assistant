@@ -28,10 +28,10 @@
             </mat-card-content>
             <mat-card-actions>
                 <span class="padding-right-10">
-                    <a class="btn btn-warning"> Verify </a>
+                    <button [disabled]="ngoIsVerified" class="btn btn-warning" (click)="verifyNGO(ngo)"> Verify </button>
                 </span>
                 <span>
-                    <a class="btn btn-danger"> Delete </a>
+                    <button class="btn btn-danger" (click)="deleteNGO(ngo.id)"> Delete </button>
                 </span>
             </mat-card-actions>
             <mat-card-actions>

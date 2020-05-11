@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { AdminNgosService } from '../admin-ngos.service'
+import { NGO } from '../admin-ngos.models';
 
 @Component({
     selector: 'admin-ngos-list',
@@ -10,11 +11,13 @@ import { AdminNgosService } from '../admin-ngos.service'
 export class AdminNgosListComponent implements OnInit {
 
     displayedColumns: string[] = ['nrCrt', 'name', 'status', 'createdBy', 'verify'];
-
-    dataSource = this.service.getAll();
+    dataSource: NGO[] = [];
 
     constructor(private service: AdminNgosService) { }
 
     ngOnInit() {
+        this.service.getAll().subscribe((data: NGO[]) => {
+            this.dataSource = data;
+        });
     }
 }
