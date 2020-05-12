@@ -11,7 +11,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <partial name="_StatusMessage" model="Model.StatusMessage" />
-<input type="hidden" id="googleApiKey" value="@apikey"/>
+<input type="hidden" id="googleApiKey" value="@apikey" />
 <div class="row">
     <div class="col-md-4">
         <form id="RegisterForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" enctype="multipart/form-data">
@@ -214,24 +214,69 @@
     </div>
 </div>
 
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apikey&libraries=places"></script>
-<script type="text/javascript">
-    document.getElementById("RegisterForm").addEventListener("submit", onRegisterFormSubmited);
-    var geocoder = new google.maps.Geocoder;
-    function onRegisterFormSubmited() {        
-        var apiKey = $("#googleApiKey").val();
-        if (apiKey) {
-            //TODO: use geocoder to get gps coordinates
-        } else {
-            $('#user_address_lat').val(0);
-            $('#user_address_lng').val(0);
-            $('#headquerters_address_lat').val(0);
-            $('#headquerters_address_lng').val(0);
-        }
+<style>
+    .upload-style {
+        padding-left: 0;
     }
-</script>
+</style>
 
-<script type="text/javascript">
+@section Scripts {
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@apikey&libraries=places"></script>
+    <script type="text/javascript">
+        //document.getElementById("RegisterForm").addEventListener("submit", onRegisterFormSubmited);
+        var geocoder = new google.maps.Geocoder;
+
+        function findLatLang(address) {
+            return new Promise(function (resolve, reject) {
+                geocoder.geocode({ 'address': address }, function (results, status) {
+                    if (status === 'OK') {
+                        console.log(results);
+                        resolve([results[0].geometry.location.lat(), results[0].geometry.location.lng()]);
+                    } else {
+                        reject(new Error('Couldnt\'t find the location ' + address));
+                    }
+                })
+            })
+        }
+
+        $('#RegisterForm').on('submit', function (e) {
+            e.preventDefault();
+            onRegisterFormSubmited();
+        });
+
+        function onRegisterFormSubmited() {
+            var apiKey = $("#googleApiKey").val();
+            if (apiKey) {
+                var headquerters_address = $('#headquerters_address').val();
+                var user_address = $('#user_address').val();
+                var promises = [];
+                if (!$('#user_address_lat').val()) {
+                    promises.push(findLatLang(user_address).then(function (latLong) {
+                        $('#user_address_lat').val(latLong[0]);
+                        $('#user_address_lng').val(latLong[1]);
+                    }));
+                }                
+
+                if (headquerters_address && !$('#headquerters_address_lat').val()) {
+                    promises.push(findLatLang(headquerters_address).then(function (latLong) {
+                        $('#headquerters_address_lat').val(latLong[0]);
+                        $('#headquerters_address_lng').val(latLong[1]);
+                    }));
+                }
+
+                Promise.all(promises).then(function (results) {
+                    document.getElementById("RegisterForm").submit();
+                });
+            } else {
+                $('#user_address_lat').val(0);
+                $('#user_address_lng').val(0);
+                $('#headquerters_address_lat').val(0);
+                $('#headquerters_address_lng').val(0);
+            }
+        }
+    </script>
+
+    <script type="text/javascript">
     google.maps.event.addDomListener(window, 'load', function () {
         var userAddress = new google.maps.places.Autocomplete(document.getElementById('user_address'));
         google.maps.event.addListener(userAddress, 'place_changed', function () {
@@ -267,14 +312,6 @@
             $("#other-transportation").attr('hidden', true);
         }
     }
-</script>
-
-<style>
-    .upload-style {
-        padding-left: 0;
-    }
-</style>
-
-@section Scripts {
+    </script>
     <partial name="_ValidationScriptsPartial" />
 }
