@@ -134,6 +134,8 @@ namespace Voluntariat
                 app.UseHsts();
             }
 
+            // some more changes
+
             StartScheduleTasks(app);
 
             ApplicationDbInitializer.SeedUsers(userManager);
