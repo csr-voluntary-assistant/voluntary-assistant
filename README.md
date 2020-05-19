@@ -2,8 +2,9 @@
 
 https://docs.google.com/document/d/1RznbHfKTjlAOrSwaLGCCqWOgkG-zW6eJp07IbI-E5uA/edit
 
-
 https://euvsvirus.org
+
+Board: https://github.com/orgs/csr-voluntary-assistant/projects/1
 
 ## Adobe Xd Design mockup
 
