@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Voluntariat.Data;
 using Voluntariat.Models;
 using Voluntariat.Models.Public;
@@ -27,10 +26,25 @@ namespace Voluntariat.Controllers
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PublicNgo>>> GetPublicNGOs()
         {
-            return await _context.NGOs
-                .Where(ngo => ngo.NGOStatus == NGOStatus.Verified)
-                .Select(ngo => new PublicNgo { ID = ngo.ID, Name = ngo.Name, Description = ngo.Description})
-                .ToListAsync();
+            List<PublicNgo> publicNgos = new List<PublicNgo>();
+            List<NGO> ngos = await _context.NGOs
+                            .Where(ngo => ngo.NGOStatus == NGOStatus.Verified)
+                            .ToListAsync();
+
+            foreach (NGO ngo in ngos)
+            {
+                publicNgos.Add(new PublicNgo
+                {
+                    ID = ngo.ID,
+                    Name = ngo.Name,
+                    Description = ngo.Description,
+                    Website = ngo.Website,
+                    CategoryName = _context.Categories.FirstOrDefault(c => c.ID == ngo.CategoryID)?.Name,
+                    ServiceName = _context.Services.FirstOrDefault(s => s.ID == ngo.ServiceID)?.Name
+                });
+            }
+
+            return publicNgos;
         }
 
         // GET: api/ApiNgo/5
