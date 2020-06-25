@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Voluntariat.Data;
@@ -14,27 +15,27 @@ namespace Voluntariat.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = CustomIdentityRole.Admin)]
-    public class AdminCategoriesAPIController : ControllerBase
+    public class ApiAdminCategoriesController : ControllerBase
     {
-        private readonly ApplicationDbContext applicationDbContext;
+        private readonly ApplicationDbContext _context;
 
-        public AdminCategoriesAPIController(ApplicationDbContext applicationDbContext)
+        public ApiAdminCategoriesController(ApplicationDbContext context)
         {
-            this.applicationDbContext = applicationDbContext;
+            _context = context;
         }
 
-
+        // GET: api/ApiAdminCategories
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> GetCategories()
         {
-            return await applicationDbContext.Categories.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Categories.ToListAsync();
         }
 
-
+        // GET: api/ApiAdminCategories/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Category>> GetCategory(Guid id)
         {
-            var category = await applicationDbContext.Categories.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
 
             if (category == null)
             {
@@ -44,7 +45,9 @@ namespace Voluntariat.Controllers
             return category;
         }
 
-
+        // PUT: api/ApiAdminCategories/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCategory(Guid id, Category category)
         {
@@ -53,11 +56,11 @@ namespace Voluntariat.Controllers
                 return BadRequest();
             }
 
-            applicationDbContext.Entry(category).State = EntityState.Modified;
+            _context.Entry(category).State = EntityState.Modified;
 
             try
             {
-                await applicationDbContext.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -74,35 +77,37 @@ namespace Voluntariat.Controllers
             return NoContent();
         }
 
-
+        // POST: api/ApiAdminCategories
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for
+        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<Category>> PostCategory(Category category)
         {
-            applicationDbContext.Categories.Add(category);
-            await applicationDbContext.SaveChangesAsync();
+            _context.Categories.Add(category);
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCategory", new { id = category.ID }, category);
         }
 
-
+        // DELETE: api/ApiAdminCategories/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Category>> DeleteCategory(Guid id)
         {
-            var category = await applicationDbContext.Categories.FindAsync(id);
+            var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
                 return NotFound();
             }
 
-            applicationDbContext.Categories.Remove(category);
-            await applicationDbContext.SaveChangesAsync();
+            _context.Categories.Remove(category);
+            await _context.SaveChangesAsync();
 
             return category;
         }
 
         private bool CategoryExists(Guid id)
         {
-            return applicationDbContext.Categories.Any(e => e.ID == id);
+            return _context.Categories.Any(e => e.ID == id);
         }
     }
 }

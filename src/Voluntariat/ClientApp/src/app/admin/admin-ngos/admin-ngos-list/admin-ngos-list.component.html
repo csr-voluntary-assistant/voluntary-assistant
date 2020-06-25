@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-8 center-using-margin">
-        <h4 class="mt-2">NGOs List</h4>
+        <h2>NGO list</h2>
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <tr>
                 <ng-container matColumnDef="nrCrt">
@@ -32,7 +32,7 @@
             <tr matColumnDef="verify">
                 <th mat-header-cell *matHeaderCellDef> Verify NGO </th>
                 <td mat-cell *matCellDef="let element">
-                    <a [routerLink]="['../verify', element.id]" class="btn btn-warning"> Verify </a>
+                    <a [routerLink] ="['../verify', element.id]" class="btn btn-warning"> Verify </a>
                 </td>
             </tr>
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

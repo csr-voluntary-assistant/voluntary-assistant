@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Voluntariat.Data;
 using Voluntariat.Framework.Identity;
 using Voluntariat.Models;
+using Microsoft.AspNetCore.Identity;
 using Voluntariat.Services;
 using Microsoft.AspNetCore.Authorization;
 
