@@ -1,0 +1,27 @@
+<div class="row">
+    <div class="col-6 center-using-margin">
+        <h4 class="mt-2">Create Category</h4>
+        <form (ngSubmit)="onSubmit()">
+            <div>
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="category.name" name="name" #name="ngModel" required>
+                    <mat-error *ngIf="!name.valid && name.touched">Please enter a name for this category</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field>
+                    <mat-label>Description</mat-label>
+                    <input matInput [(ngModel)]="category.description" name="description" #description="ngModel" required>
+                    <mat-error *ngIf="!description.valid && description.touched">Please enter a description</mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="mt-2">
+                <button mat-raised-button color="primary" class="mr-2" type="submit">Create</button>
+                <button mat-raised-button type="button" routerLink="../list">Back to List</button>
+            </div>
+        </form>
+    </div>
+</div>

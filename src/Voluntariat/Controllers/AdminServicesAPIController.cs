@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Voluntariat.Data;
@@ -15,27 +14,27 @@ namespace Voluntariat.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = CustomIdentityRole.Admin)]
-    public class ApiAdminServicesController : ControllerBase
+    public class AdminServicesAPIController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext applicationDbContext;
 
-        public ApiAdminServicesController(ApplicationDbContext context)
+        public AdminServicesAPIController(ApplicationDbContext applicationDbContext)
         {
-            _context = context;
+            this.applicationDbContext = applicationDbContext;
         }
 
         // GET: api/ApiAdminServices
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Service>>> GetServices()
         {
-            return await _context.Services.ToListAsync();
+            return await applicationDbContext.Services.OrderBy(x => x.Name).ToListAsync();
         }
 
         // GET: api/ApiAdminServices/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Service>> GetService(Guid id)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = await applicationDbContext.Services.FindAsync(id);
 
             if (service == null)
             {
@@ -45,9 +44,7 @@ namespace Voluntariat.Controllers
             return service;
         }
 
-        // PUT: api/ApiAdminServices/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutService(Guid id, Service service)
         {
@@ -56,11 +53,11 @@ namespace Voluntariat.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(service).State = EntityState.Modified;
+            applicationDbContext.Entry(service).State = EntityState.Modified;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await applicationDbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -77,14 +74,12 @@ namespace Voluntariat.Controllers
             return NoContent();
         }
 
-        // POST: api/ApiAdminServices
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPost]
         public async Task<ActionResult<Service>> PostService(Service service)
         {
-            _context.Services.Add(service);
-            await _context.SaveChangesAsync();
+            applicationDbContext.Services.Add(service);
+            await applicationDbContext.SaveChangesAsync();
 
             return CreatedAtAction("GetService", new { id = service.ID }, service);
         }
@@ -93,21 +88,21 @@ namespace Voluntariat.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Service>> DeleteService(Guid id)
         {
-            var service = await _context.Services.FindAsync(id);
+            var service = await applicationDbContext.Services.FindAsync(id);
             if (service == null)
             {
                 return NotFound();
             }
 
-            _context.Services.Remove(service);
-            await _context.SaveChangesAsync();
+            applicationDbContext.Services.Remove(service);
+            await applicationDbContext.SaveChangesAsync();
 
             return service;
         }
 
         private bool ServiceExists(Guid id)
         {
-            return _context.Services.Any(e => e.ID == id);
+            return applicationDbContext.Services.Any(e => e.ID == id);
         }
     }
 }
