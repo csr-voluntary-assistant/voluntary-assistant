@@ -29,7 +29,31 @@ export class ListMenuComponent implements OnInit {
     navigateToUrl(url: string[]) {
         this.onMenuItemClicked();
 
-        this.router.navigate(url);
+        const host = window.location.origin;
+        let temp_url = '';
+        switch (url[0]) {
+            case "sign-in": {
+                temp_url = '/Identity/Account/Login';
+                break;
+            }
+            case "register": {
+                temp_url = '/Identity/Account/Register?registerAs=NGO';
+                break;
+            }
+            case "ngo-tab": {
+                temp_url = '/Identity/Account/Login?ReturnUrl=%2FNGOs';
+                break;
+            }
+        }
+
+        if (temp_url === '') {
+            this.router.navigate(url);
+        }
+        else {
+            window.location.assign(host + temp_url);
+        }
+        
+        //this.router.navigate(url);
     }
 
     onMenuItemClicked() {
